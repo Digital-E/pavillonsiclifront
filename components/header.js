@@ -5,7 +5,13 @@ import styled from "styled-components"
 import Link from './link'
 
 const Container = styled.header`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
   display: flex;
+  z-index: 999;
+  background: white;
   border-bottom: 1px solid black;
 `
 

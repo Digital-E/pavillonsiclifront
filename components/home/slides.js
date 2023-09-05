@@ -10,17 +10,33 @@ if(typeof window !== 'undefined') {
 }
 
 const Container = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
     z-index: -1;
+    border-bottom: 1px solid black;
+
+    .flickity-page-dots {
+        right: var(--margin);
+        bottom: var(--margin);
+        width: fit-content;
+    }
+
+    .flickity-page-dots .dot {
+        border: 1px solid black;
+        background: black;
+        opacity: 1;
+        width: 6px;
+        height: 6px;
+        margin: 0 3px;
+    }
+
+    .flickity-page-dots .dot.is-selected {
+        border: 1px solid black;
+        background: white;
+    }
 `
 
 const Carousel = styled.div`
-    height: 100%;
-    width: 100%;
+    // height: 100%;
+    // width: 100%;
     outline: none !important;
 
     .flickity-viewport {
@@ -28,15 +44,28 @@ const Carousel = styled.div`
 `
 
 const Slide = styled.div`
-    height: 100%;
-    width: 100%;
+    display: flex;
+    // height: 100vh;
+    width: 100vw;
 
     div, img {
-        height: 100% !important;
-        width: 100% !important;
-        object-fit: cover;
+        // height: 100% !important;
+        // width: 100% !important;
+        // object-fit: cover;
     }
 `
+
+const ColLeft = styled.div`
+    flex-basis: 50%;
+    padding: var(--margin);
+`
+
+const ColRight = styled.div`
+    flex-basis: 50%;
+`
+
+
+const Text = styled.h1``
 
 
 export default function Component ({ data }) {
@@ -48,13 +77,13 @@ export default function Component ({ data }) {
 
         flickity = new Flickity(gallery.current, {
             prevNextButtons: false,
-            pageDots: false,
+            pageDots: true,
             selectedAttraction: 0.07,
             friction: 0.42,
             cellAlign: "center",
             percentPosition: true,
             wrapAround: true,
-            setGallerySize: false
+            // setGallerySize: false
         })
 
         // flickity.on('change', (cellIndex) => {
@@ -77,7 +106,12 @@ export default function Component ({ data }) {
                                 aria-label={`${index + 1} of ${data.length}`}
                                 // aria-current={selectedIndex === index ? true : false}
                             >
-                                <Image data={item} />
+                                <ColLeft>
+                                    <Image data={item.image} />
+                                </ColLeft>
+                                <ColRight>
+                                    <Text>{item.text}</Text>
+                                </ColRight>
                             </Slide>
                         )
                 }
