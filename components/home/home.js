@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
-import Slides from './slides-liquify'
+import Slides from './slides'
 
 const Container = styled.div``
 

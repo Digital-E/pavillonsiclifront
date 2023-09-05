@@ -1,30 +1,30 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { legalSlugsQuery, legalBySlugQuery, menuQuery, footerQuery } from '../../lib/queries'
-import { getClient, sanityClient } from '../../lib/sanity.server'
+import { projectSlugsQuery, projectBySlugQuery, menuQuery, footerQuery } from '../../../lib/queries'
+import { getClient, sanityClient } from '../../../lib/sanity.server'
 
-import Legal from '../../components/legal/legal'
-const PreviewLegal = lazy(() => import("../../components/legal/preview-legal"));
+import Project from '../../../components/project/project'
+const PreviewProject = lazy(() => import("../../../components/project/preview-project"));
 
 export default function Index ({ data = {}, footerData, preview = false }) {
 
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewLegal data={data.legalData} query={legalBySlugQuery} footerData={data.footerData} />    
+      <PreviewProject data={data.projectData} query={projectBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
   (
-    <Legal data={data.legalData} footerData={data.footerData} />
+    <Project data={data.projectData} footerData={data.footerData} />
   )
 }
 
 
 export async function getStaticProps({ preview = false, params }) {
 
-  const legalData = await getClient(preview).fetch(legalBySlugQuery, {
+  const projectData = await getClient(preview).fetch(projectBySlugQuery, {
     slug: params.slug
   })
 
@@ -38,7 +38,7 @@ export async function getStaticProps({ preview = false, params }) {
     props: {
       preview,
       data: {
-        legalData,
+        projectData,
         menuData,
         footerData
       }
@@ -47,7 +47,7 @@ export async function getStaticProps({ preview = false, params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = await sanityClient.fetch(legalSlugsQuery)
+    const paths = await sanityClient.fetch(projectSlugsQuery)
 
     return {
       paths: paths.map((slug) => ({ params: { slug } })),

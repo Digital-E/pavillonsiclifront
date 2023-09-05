@@ -70,7 +70,7 @@ export default function Component ({ data }) {
         <Container>
             <Carousel ref={gallery} aria-live="polite" aria-label="carousel">
                 {
-                    data.map((item, index) => 
+                    data?.map((item, index) => 
                             <Slide
                                 role="group"
                                 aria-roledescription="slide"

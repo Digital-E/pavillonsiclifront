@@ -5,6 +5,20 @@
     ;
 }
 
+@font-face {
+  font-family: "ES Dokument Sicli Standard Medium";
+  src: url("/fonts/ESDokument-StandardMedium Sicli.woff2") format("woff2"),
+  url("/fonts/ESDokument-StandardMedium Sicli.woff") format("woff")
+  ;
+}
+
+@font-face {
+  font-family: "ES Dokument Sicli Standard Medium Italic";
+  src: url("/fonts/ESDokumentSicli-StandardMediumItalic.woff2") format("woff2"),
+  url("/fonts/ESDokumentSicli-StandardMediumItalic.woff") format("woff")
+  ;
+}
+
 /* @font-face {
     font-family: "Standard";
     src: url("/fonts/NeueHaasGrotText-65Medium-Web.woff2") format("woff2"),
@@ -31,24 +45,17 @@
     /* overflow: hidden; */
 }
 
-#__next > div:nth-child(2) {
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; */
-}
-
 html {
     line-height: 1;
     -webkit-tap-highlight-color: transparent;
-    background-color: black;
+    background-color: white;
 }
 
 body {
-    background: black;
+    background: white;
     margin: 0;
-    font-family: Standard;
-    color: white;
+    font-family: 'ES Dokument Sicli Standard Medium';
+    color: black;
 }
 
 .lock-scroll {
@@ -59,10 +66,9 @@ body {
 :root {
     --transition-in: 0.2s;
     --transition-out: 0.3s;
-    --lateral-padding: 0 20px;
     --secondary-color: #E7E7E7;
     --ternary-color: #999999;
-    --header-width: 0;
+    --margin: 10px;
 }
 
 .active-link {
@@ -77,6 +83,7 @@ a {
     color: inherit;
     width: 100%;
     opacity: 1;
+    font-size: 1.2rem;
 }
 
 @media(min-width: 990px) {

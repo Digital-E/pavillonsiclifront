@@ -66,15 +66,9 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <StateProvider>
       <Header data={pageProps.data?.menuData} />
-      <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/libs/TweenMax.min.js' strategy='beforeInteractive' />
-      <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/libs/imagesLoaded.pkgd.min.js' strategy='beforeInteractive'/>
-      <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/libs/pixi.min.js' strategy='beforeInteractive'/>
-      <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/libs/pixi-filters.min.js' strategy='beforeInteractive'/>
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <Script src="https://apis.google.com/js/api.js" strategy='beforeInteractive' />
       <Script src="https://accounts.google.com/gsi/client" strategy='beforeInteractive' />
       {/* <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/rgbKineticSlider.js' strategy='beforeInteractive'/> */}
-      <Script src='scripts/rgbKineticSlider.js' strategy='beforeInteractive'/>
       {/* <CookieConsent
         buttonText={pageProps.data?.menuData.cookieaccept}
         declineButtonText={pageProps.data?.menuData.cookierefuse}

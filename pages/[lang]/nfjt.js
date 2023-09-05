@@ -1,30 +1,30 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { aboutQuery, menuQuery, footerQuery } from '../lib/queries'
-import { getClient } from '../lib/sanity.server'
+import { nfjtQuery, menuQuery, footerQuery } from '../../lib/queries'
+import { getClient } from '../../lib/sanity.server'
 
-import About from '../components/about/about'
-const PreviewAbout = lazy(() => import("../components/about/preview-about"));
+import NFJT from '../../components/nfjt/nfjt'
+const PreviewNFJT = lazy(() => import("../../components/nfjt/preview-nfjt"));
 
-export default function Index ({ data = {}, preview = false }) {
+export default function Component ({ data = {}, preview = false }) {
 
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewAbout data={data.data} query={aboutQuery} footerData={data.footerData}/>    
+      <PreviewNFJT data={data.data} query={nfjtQuery} footerData={data.footerData}/>    
     </PreviewSuspense>
   )
   :
   (
-    <About data={data.data} footerData={data.footerData}/>
+    <NFJT data={data.data} footerData={data.footerData}/>
   )
 }
 
 
 export async function getStaticProps({ preview = false, params }) {
 
-  const data = await getClient(preview).fetch(aboutQuery)
+  const data = await getClient(preview).fetch(nfjtQuery)
 
   // Get Menu And Footer
 

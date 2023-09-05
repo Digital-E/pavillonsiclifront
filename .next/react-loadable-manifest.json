@@ -17,8 +17,8 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "index.js -> ../components/home/preview-home": {
-    "id": "index.js -> ../components/home/preview-home",
+  "[lang]/index.js -> ../../components/home/preview-home": {
+    "id": "[lang]/index.js -> ../../components/home/preview-home",
     "files": [
       "static/chunks/components_home_preview-home_js.js"
     ]
