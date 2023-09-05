@@ -1,0 +1,487 @@
+@font-face {
+    font-family: "Standard";
+    src: url("/fonts/standard-book-webfont.woff2") format("woff2"),
+    url("/fonts/standard-book-webfont.woff") format("woff")
+    ;
+}
+
+/* @font-face {
+    font-family: "Standard";
+    src: url("/fonts/NeueHaasGrotText-65Medium-Web.woff2") format("woff2"),
+    url("/fonts/NeueHaasGrotText-65Medium-Web.woff") format("woff")
+    ;
+} */
+
+*::-webkit-scrollbar {
+    display: none;
+  }
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   Global                                   */
+/* -------------------------------------------------------------------------- */
+
+#__next {
+    opacity: 0;
+    transition: opacity 1s;
+    /* overflow: hidden; */
+}
+
+#__next > div:nth-child(2) {
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; */
+}
+
+html {
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+    background-color: black;
+}
+
+body {
+    background: black;
+    margin: 0;
+    font-family: Standard;
+    color: white;
+}
+
+.lock-scroll {
+    height: 100%;
+    overflow: hidden;
+}
+
+:root {
+    --transition-in: 0.2s;
+    --transition-out: 0.3s;
+    --lateral-padding: 0 20px;
+    --secondary-color: #E7E7E7;
+    --ternary-color: #999999;
+    --header-width: 0;
+}
+
+.active-link {
+    /* color: var(--secondary-color); */
+    opacity: 0.5;
+}
+
+a {
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    opacity: 1;
+}
+
+@media(min-width: 990px) {
+    a:hover, a:hover * {
+        color: var(--secondary-color);
+        /* text-decoration: underline; */
+    }
+}
+
+.button {
+    position: relative;
+    font-family: 'Standard';
+    font-weight: 100;
+    display: inline-block;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: white;
+}
+
+button {
+    font-weight: 100;
+    box-sizing: border-box;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: white;
+}
+
+.button *, button * {
+    text-decoration: none !important;
+}
+
+.button a, button a {
+    position: relative;
+    top: -1px;
+}
+
+/* Autofill Color */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  /* border: 1px solid green; */
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input {
+  border-radius: 0;
+}
+
+.CookieConsent {
+    background-color: #ffffff !important;
+    border-top: 1px solid black !important;
+  }
+  
+  .CookieConsent p {
+    margin: 0;
+    color: black;
+  }
+
+  
+  .CookieConsent > div:nth-child(1) {
+    margin: 10px !important;
+  }
+  
+  @media (max-width: 989px) {
+    .CookieConsent > div:nth-child(2) {
+      margin-left: auto;
+    }
+  }
+  
+  .CookieConsent #rcc-decline-button,
+  .CookieConsent #rcc-confirm-button {
+    color: black !important;
+    background: transparent !important;
+    margin: 10px !important;
+  }
+  
+  .CookieConsent #rcc-confirm-button {
+    border: 1px solid black !important;
+  }
+
+  @media(min-width: 1800px) {
+      html {
+          max-width: 1800px;
+          margin: 0 auto;
+      }
+  }
+
+  .layout {
+      margin-top: 55px;
+  }
+
+  .padding {
+    padding: 0 15px;
+  }
+
+  .bg-color {
+    background-color: #E7E7E7;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  .color-shift * {
+    color: var(--ternary-color)
+  }
+
+  .color-shift * , .sticky * {
+    transition: color 0.2s
+  }
+
+  .d-logo {
+    margin: 0 10px;
+  }
+
+  .d-logo:after {
+    mask: url("data:image/svg+xml,%3Csvg width='121' height='161' viewBox='0 0 121 161' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M120.137 19.1037L102.612 121L85.2424 19.0841C84.4691 8.78771 92.5016 0 102.69 0C112.887 0 120.93 8.8073 120.137 19.1135V19.1037ZM102.381 160.498C112.046 160.498 119.881 152.663 119.881 142.998C119.881 133.333 112.046 125.498 102.381 125.498C92.7159 125.498 84.8809 133.333 84.8809 142.998C84.8809 152.663 92.7159 160.498 102.381 160.498ZM0 160.738H41.6255C64.0076 160.738 73.9918 149.466 74 124.206V36.0113C74 11.6156 64.0158 0.738281 41.6255 0.738281H0V160.738ZM35.3154 130.929H31.7402L31.7319 29.2891H36.1556C39.1459 29.2891 41.6255 29.9391 41.6255 37.9038V121.894C41.6255 129.67 39.7638 130.929 35.3154 130.929Z' fill='%23E7E7E7'/%3E%3C/svg%3E");
+    mask-size: cover;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 62px;
+    height: 83px;
+    content: "";
+    background-color: #E7E7E7;
+    transition: 0.3s;
+  }
+
+  @media(max-width: 989px) {
+    .d-logo:after {
+        width: 39px;
+        height: 52px;
+    }
+  }
+
+  .color-shift .d-logo:after {
+    background-color: var(--ternary-color) !important;
+  }
+
+  .d-logo-menu {
+    margin: 0;
+  }
+
+  .d-logo-menu:after {
+    mask: url("data:image/svg+xml,%3Csvg width='121' height='161' viewBox='0 0 121 161' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M120.137 19.1037L102.612 121L85.2424 19.0841C84.4691 8.78771 92.5016 0 102.69 0C112.887 0 120.93 8.8073 120.137 19.1135V19.1037ZM102.381 160.498C112.046 160.498 119.881 152.663 119.881 142.998C119.881 133.333 112.046 125.498 102.381 125.498C92.7159 125.498 84.8809 133.333 84.8809 142.998C84.8809 152.663 92.7159 160.498 102.381 160.498ZM0 160.738H41.6255C64.0076 160.738 73.9918 149.466 74 124.206V36.0113C74 11.6156 64.0158 0.738281 41.6255 0.738281H0V160.738ZM35.3154 130.929H31.7402L31.7319 29.2891H36.1556C39.1459 29.2891 41.6255 29.9391 41.6255 37.9038V121.894C41.6255 129.67 39.7638 130.929 35.3154 130.929Z' fill='%23999999'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    mask-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 28px;
+    height: 37px;
+    content: "";
+    background-color: black;
+    transition: 0.2s;
+  }
+
+  @media(max-width: 989px) {
+    .d-logo-menu:after {
+        width: 20px;
+        height: 27px;
+    }
+  }
+
+  .nav-list-item a {
+    transition: 0.2s;
+  }
+
+  .nav-list-item:hover a {
+    transition: 0s;
+  }
+  
+  .nav-list-item > a:hover .d-logo-menu:after {
+    transition: 0s;
+  }
+
+  .nav-list-item.is-active .d-logo-menu:after {
+    background-color: var(--ternary-color);
+  }
+
+  @media(min-width: 990px) {
+    .nav-list-item > a:hover .d-logo-menu:after {
+        background-color: var(--ternary-color);
+    }
+  }
+
+  *::selection {
+    background: var(--secondary-color);
+    color: black;
+  }
+
+
+/* -------------------------------------------------------------------------- */
+/*                                    Fonts                                   */
+/* -------------------------------------------------------------------------- */
+
+h1, .h1 {
+    font-family: "Standard";
+    font-size: 110px;
+    /* line-height: 95px; */
+    line-height: 0.86;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: #E7E7E7;
+    font-weight: normal;
+}
+
+h2, .h2 {
+    font-family: "Standard";
+    font-size: 50px;
+    letter-spacing: 0.03em;
+    margin: 0 0 15px 0;
+    line-height: 0.86;
+    color: #E7E7E7;
+    font-weight: normal;
+}
+
+h3, .h3 {
+    font-family: "Standard";
+    font-size: 36px;
+    margin: 0 0 30px 0;
+    letter-spacing: normal;
+    line-height: 1.3;
+    color: #999999;
+    font-weight: normal;
+}
+
+h4, .h4 {
+    font-family: "Standard";
+    font-size: 24px;
+    letter-spacing: normal;
+    margin: 0;
+    line-height: 1.3;
+    color: #999999;
+    font-weight: normal;
+}
+
+h5, .h5 {
+    font-family: "Standard";
+    /* font-size: 1.6rem; */
+    /* font-size: 1.12rem; */
+    /* font-size: 1.3rem; */
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.3;
+    font-weight: normal;
+}
+
+h6, .h6 {
+    font-family: "Standard";
+    font-size: 0.875rem;
+    margin: 0 0 15px 0;
+    line-height: 1;
+    font-weight: normal;
+}
+
+
+/* p, .p, li {
+    font-family: "Standard";
+    font-size: 1.5rem;
+    margin: 0 0 30px 0;
+    line-height: 1;
+    color: white;
+} */
+
+p, .p, li {
+    font-family: "Standard";
+    font-size: 1.125rem;
+    margin: 0 0 30px 0;
+    line-height: 1.2;
+    color: white;
+    font-weight: normal;
+}
+
+.body-x-small {
+  font-size: 0.75rem;
+}
+
+.body-small {
+  font-size: 0.875rem;
+}
+
+.body-large {
+    font-family: "Standard";
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.body-medium {
+    font-family: "Standard";
+    font-size: 1.125rem;
+    line-height: 1.2;
+}
+
+input, input::placeholder, .error-label, label, textarea, select {
+    font-family: 'Standard';
+    font-size: 24px;
+}
+
+time {
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.caption {
+    font-family: "Standard";
+    display: inline-block;
+    font-size: 1.125rem;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin: 0 0 15px 0;
+}
+
+@media(max-width: 989px) {
+    h1, .h1 {
+        font-family: "Standard";
+        font-size: 70px;
+        line-height: 0.86;
+        letter-spacing: 0.01em;
+        margin: 0;
+        line-height: 0.9;
+    }
+    
+    h2, .h2 {
+        font-family: "Standard";
+        font-size: 40px;
+        letter-spacing: 0.02em;
+        font-weight: 100;
+        margin: 0 0 10px 0;
+        line-height: 1.3;
+    }
+    
+    h3, .h3 {
+        font-family: "Standard";
+        font-size: 24px;
+    }
+    
+    h4, .h4 {
+        font-family: "Standard";
+        font-size: 20px;
+    }
+    
+    h5, .h5 {
+        font-family: "Standard";
+        font-size: 1rem;
+        letter-spacing: 1;
+        font-weight: 100;
+        margin: 0;
+        line-height: 1.3;
+    }
+    
+    h6, .h6 {
+        font-family: "Standard";
+        font-size: 0.75rem;
+    }
+    
+    p, .p, li {
+        font-size: 1rem;
+    }
+    
+    .body-large {
+        font-family: "Standard";
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+    
+    .body-medium {
+        font-family: "Standard";
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    input, input::placeholder, .error-label, label, textarea, select {
+        font-family: 'Standard';
+        font-size: 16px;
+    }
+
+    time {
+        font-size: 1rem;
+        letter-spacing: -0.02em;
+    }
+
+    ul {
+        padding-left: 15px;
+    }
+
+    li {
+        font-size: 20px;
+        margin: 0 0 15px 0; 
+    }
+}
