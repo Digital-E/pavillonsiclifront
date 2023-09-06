@@ -24,25 +24,11 @@ const ImageWrapper = styled.div`
     }
 `
 
-const Gradient = styled.div`
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 200px;
-    background: linear-gradient(0deg, black 0%, transparent 100%);
-`
-
-
 const Caption = styled.div`
-    position: absolute;
-    color: white;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 100%;
     text-align: center;
-    padding: 0 15px;
     box-sizing: border-box;
+    margin: var(--margin) 0;
 `
 
 
@@ -76,7 +62,6 @@ const Image = ({ data }) => {
             {
                 (data.caption) && 
                 <>
-                    <Gradient />
                     <Caption className="caption">{data.caption}</Caption>
                 </>
             }

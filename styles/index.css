@@ -74,6 +74,24 @@ main {
     --secondary-color: #E7E7E7;
     --ternary-color: #999999;
     --margin: 10px;
+
+    --plyr-range-thumb-background: transparent;
+    /* --plyr-video-progress-buffered-background: transparent; */
+    --plyr-color-main: transparent;
+    --plyr-range-thumb-shadow: transparent;
+    --plyr-range-fill-background: white;
+    --plyr-range-track-height: 2px;
+    --plyr-tooltip-radius: 0;
+    --plyr-tooltip-background: transparent;
+    --plyr-tooltip-shadow: transparent;
+    --plyr-tooltip-color: white;
+    --plyr-font-family: "JJannon Book";
+    --plyr-video-controls-background: transparent;
+    --plyr-video-background: #b2b2b2;
+}
+
+.plyr__tooltip {
+  backdrop-filter: blur(20px);
 }
 
 .active-link {
@@ -98,37 +116,28 @@ a {
     }
 }
 
-.button {
-    position: relative;
-    font-family: 'Standard';
-    font-weight: 100;
-    display: inline-block;
-    line-height: 1;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    box-sizing: border-box;
-    overflow: hidden;
-    color: white;
-}
 
 button {
-    font-weight: 100;
+    font-family: 'ES Dokument Sicli Standard Medium';
     box-sizing: border-box;
-    border: none;
-    padding: 0;
-    margin: 0;
-    background: transparent;
-    color: white;
+    border-radius: 999px;
+    background: white;
+    padding: calc(var(--margin) / 2) var(--margin);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--black);
+    font-size: 1.3rem;
+    cursor: pointer;
+    user-select: none;
 }
 
 .button *, button * {
     text-decoration: none !important;
 }
-
+/* 
 .button a, button a {
     position: relative;
     top: -1px;
-}
+} */
 
 /* Autofill Color */
 
@@ -299,7 +308,7 @@ input {
 h1, .h1 {
     font-family: "ES Dokument Sicli Standard Medium";
     font-size: 4.5rem;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.03em;
     margin: 0;
     font-weight: bold;
 }
@@ -307,17 +316,18 @@ h1, .h1 {
 h2, .h2 {
     font-family: "ES Dokument Sicli Standard Medium";
     font-size: 2.5rem;
-    letter-spacing: -0.05em;
-    margin: 0 0 15px 0;
+    letter-spacing: -0.03em;
+    margin: 0 0 var(--margin) 0;
+    line-height: 1.2;
     font-weight: bold;
 }
 
 h3, .h3 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 36px;
-    margin: 0 0 30px 0;
+    font-size: 1.3rem;
+    margin: 0 0 var(--margin) 0;
     letter-spacing: normal;
-    line-height: 1;
+    line-height: 1.2;
     font-weight: normal;
 }
 
@@ -350,8 +360,8 @@ h6, .h6 {
 p, .p, li {
     font-family: "ES Dokument Sicli Standard Medium";
     font-size: 1.125rem;
-    margin: 0 0 30px 0;
-    line-height: 1;
+    margin: 0 0 calc(var(--margin) * 2) 0;
+    line-height: 1.2;
     font-weight: normal;
 }
 
@@ -366,7 +376,7 @@ time {
 }
 
 .caption {
-    font-family: "Standard";
+    font-family: "ES Dokument Sicli Standard Medium";
     display: inline-block;
     font-size: 1.125rem;
 }

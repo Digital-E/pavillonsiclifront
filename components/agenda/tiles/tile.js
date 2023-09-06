@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import styled from 'styled-components'
 import Body from '../../body'
 import Image from '../../image'
@@ -12,30 +14,38 @@ const Container = styled.div`
         height: 100%;
     }
 
-    :hover {
-        background: var(--black) !important;
-    }
-
-    > a:hover * {
-        color: white !important;
+    :hover .agenda-vignette {
+        display: block;
     }
 `
 
 const InformationTop = styled.div`
     display: flex;
-    margin-bottom: 60px;
+
+    > p {
+        margin: 0;
+    }
 
     > p:not(:last-child) {
         margin-right: 40px
     }
 `
 
+const InformationBottom = styled.div`
+    margin-top: auto;
+
+    > p {
+        margin: 0 !important;
+    }
+`
+
+
 const Info = styled.p`
     color: ${props => props.grey ? 'grey' : 'inherit'};
 `
 
 const Title = styled.div`
-    margin: auto 0 0 0;
+    margin-bottom: calc(var(--margin) * 2);
 
     * {
         font-family: inherit;
@@ -48,10 +58,13 @@ const Title = styled.div`
 `
 
 const ImageWrapper = styled.div`
-    position: relative;
-    height: 300px;
-    overflow: hidden;
-    margin-top: var(--margin);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: none;
 
     > div, img {
         position: absolute;
@@ -63,20 +76,24 @@ const ImageWrapper = styled.div`
 
 
 export default function Component ({ data }) {
+    let router = useRouter();
 
     return (
         <Container>
-            <Link href={data.link}>
+            <Link href={`${router.query.language}/evenement/${data.slug}`}>
                 <InformationTop>
                     <Info>{data.info1}</Info>
                     <Info>{data.info2}</Info>
-                    <Info grey={data.grey}>{data.info3}</Info>
+                    <Info>{data.info3}</Info>
                 </InformationTop>
-                <Title className='h2' grey={data.grey}>
+                <Title className='h1' grey={data.grey}>
                     <Body content={data.title} />
                 </Title>
-                <ImageWrapper>
-                    <Image data={data.image} />
+                <InformationBottom>
+                    <Info grey={data.grey}>{data.info4}</Info>
+                </InformationBottom>
+                <ImageWrapper className='agenda-vignette'>
+                    <Image data={data.vignette} />
                 </ImageWrapper>
             </Link>
         </Container>

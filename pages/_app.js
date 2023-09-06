@@ -1,5 +1,6 @@
 import '../styles/normalize.css'
 import '../styles/index.css'
+import 'plyr/dist/plyr.css'
 import '../styles/flickity.css'
 import '../styles/flickity-fade.css'
 
