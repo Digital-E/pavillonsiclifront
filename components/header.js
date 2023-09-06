@@ -78,6 +78,7 @@ const SubMenu = styled.div`
   flex-direction: column;
   border: 1px solid black;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+  background: white;
 
   &.sub-menu--open {
     display: flex;
@@ -103,14 +104,14 @@ export default function Header({ data }) {
     <Container>
       <ColLeft>
         <Logo>
-          <img src='./logo/pavillonsicli_logo.jpg'/>
+          <img src='/logo/pavillonsicli_logo.jpg'/>
         </Logo>
         <Text>
           Architecture et <br/> Arts du Bâti
         </Text>
       </ColLeft>
       <Menu>
-        {data.links.map(item => 
+        {data?.links.map(item => 
           <MenuElement onMouseEnter={(e) => toggleSubMenu(e, 'open')} onMouseLeave={(e) => toggleSubMenu(e, 'close')}>
             <Link>{item.linkLabel}</Link>
             {item.subLinks?.length > 0 ?

@@ -12,6 +12,10 @@ import Slices from '../slices/index'
 
 const Container = styled.div``
 
+const ColLeft = styled.div``
+
+const ColRight = styled.div``
+
 
 export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
@@ -24,11 +28,13 @@ export default function Component ({ data = {}, footerData, preview = false }) {
 
     return (
         <>
-            <Layout preview={preview} title={`${data?.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
+            <Layout preview={preview} title={`${data?.referenceTitle} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
-                    <Hero data={data} />
-                    <AnchorMenu data={data} />
-                    <Slices data={data?.slices} />
+                    <ColLeft></ColLeft>
+                    <ColRight>
+                        <Hero data={data} />
+                    </ColRight>
+                    {/* <Slices data={data?.slices} /> */}
                 </Container>
             </Layout>
         </>

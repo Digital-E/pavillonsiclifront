@@ -31,8 +31,8 @@
   }
 
 * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; */
 }
 
 /* -------------------------------------------------------------------------- */
@@ -55,7 +55,7 @@ body {
     background: white;
     margin: 0;
     font-family: 'ES Dokument Sicli Standard Medium';
-    color: black;
+    color: var(--black);
 }
 
 main {
@@ -70,6 +70,7 @@ main {
 :root {
     --transition-in: 0.2s;
     --transition-out: 0.3s;
+    --black: rgb(26, 25, 25);
     --secondary-color: #E7E7E7;
     --ternary-color: #999999;
     --margin: 10px;
@@ -298,100 +299,60 @@ input {
 h1, .h1 {
     font-family: "ES Dokument Sicli Standard Medium";
     font-size: 4.5rem;
-    /* line-height: 95px; */
-    /* line-height: 0.86; */
     letter-spacing: -0.05em;
     margin: 0;
-    /* color: #E7E7E7; */
-    font-weight: normal;
+    font-weight: bold;
 }
 
 h2, .h2 {
-    font-family: "Standard";
-    font-size: 50px;
-    letter-spacing: 0.03em;
+    font-family: "ES Dokument Sicli Standard Medium";
+    font-size: 2.5rem;
+    letter-spacing: -0.05em;
     margin: 0 0 15px 0;
-    line-height: 0.86;
-    color: #E7E7E7;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 h3, .h3 {
-    font-family: "Standard";
+    font-family: "ES Dokument Sicli Standard Medium";
     font-size: 36px;
     margin: 0 0 30px 0;
     letter-spacing: normal;
-    line-height: 1.3;
-    color: #999999;
+    line-height: 1;
     font-weight: normal;
 }
 
 h4, .h4 {
-    font-family: "Standard";
+    font-family: "ES Dokument Sicli Standard Medium";
     font-size: 24px;
     letter-spacing: normal;
     margin: 0;
-    line-height: 1.3;
-    color: #999999;
+    line-height: 1;
     font-weight: normal;
 }
 
 h5, .h5 {
-    font-family: "Standard";
-    /* font-size: 1.6rem; */
-    /* font-size: 1.12rem; */
-    /* font-size: 1.3rem; */
+    font-family: "ES Dokument Sicli Standard Medium";
     font-size: 1rem;
     letter-spacing: -0.02em;
     margin: 0;
-    line-height: 1.3;
+    line-height: 1;
     font-weight: normal;
 }
 
 h6, .h6 {
-    font-family: "Standard";
+    font-family: "ES Dokument Sicli Standard Medium";
     font-size: 0.875rem;
     margin: 0 0 15px 0;
     line-height: 1;
     font-weight: normal;
 }
 
-
-/* p, .p, li {
-    font-family: "Standard";
-    font-size: 1.5rem;
-    margin: 0 0 30px 0;
-    line-height: 1;
-    color: white;
-} */
-
 p, .p, li {
-    font-family: "Standard";
+    font-family: "ES Dokument Sicli Standard Medium";
     font-size: 1.125rem;
     margin: 0 0 30px 0;
-    line-height: 1.2;
-    color: white;
-    font-weight: normal;
-}
-
-.body-x-small {
-  font-size: 0.75rem;
-}
-
-.body-small {
-  font-size: 0.875rem;
-}
-
-.body-large {
-    font-family: "Standard";
-    font-size: 1.5rem;
     line-height: 1;
-}
-
-.body-medium {
-    font-family: "Standard";
-    font-size: 1.125rem;
-    line-height: 1.2;
+    font-weight: normal;
 }
 
 input, input::placeholder, .error-label, label, textarea, select {
@@ -419,80 +380,5 @@ li {
 }
 
 @media(max-width: 989px) {
-    h1, .h1 {
-        font-family: "Standard";
-        font-size: 70px;
-        line-height: 0.86;
-        letter-spacing: 0.01em;
-        margin: 0;
-        line-height: 0.9;
-    }
-    
-    h2, .h2 {
-        font-family: "Standard";
-        font-size: 40px;
-        letter-spacing: 0.02em;
-        font-weight: 100;
-        margin: 0 0 10px 0;
-        line-height: 1.3;
-    }
-    
-    h3, .h3 {
-        font-family: "Standard";
-        font-size: 24px;
-    }
-    
-    h4, .h4 {
-        font-family: "Standard";
-        font-size: 20px;
-    }
-    
-    h5, .h5 {
-        font-family: "Standard";
-        font-size: 1rem;
-        letter-spacing: 1;
-        font-weight: 100;
-        margin: 0;
-        line-height: 1.3;
-    }
-    
-    h6, .h6 {
-        font-family: "Standard";
-        font-size: 0.75rem;
-    }
-    
-    p, .p, li {
-        font-size: 1rem;
-    }
-    
-    .body-large {
-        font-family: "Standard";
-        font-size: 1.25rem;
-        line-height: 1;
-    }
-    
-    .body-medium {
-        font-family: "Standard";
-        font-size: 1rem;
-        line-height: 1.2;
-    }
 
-    input, input::placeholder, .error-label, label, textarea, select {
-        font-family: 'Standard';
-        font-size: 16px;
-    }
-
-    time {
-        font-size: 1rem;
-        letter-spacing: -0.02em;
-    }
-
-    ul {
-        padding-left: 15px;
-    }
-
-    li {
-        font-size: 20px;
-        margin: 0 0 15px 0; 
-    }
 }

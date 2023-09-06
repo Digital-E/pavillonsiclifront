@@ -17,10 +17,10 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[lang]/index.js -> ../../components/home/preview-home": {
-    "id": "[lang]/index.js -> ../../components/home/preview-home",
+  "[language]/events/[slug].js -> ../../../components/event/preview-event": {
+    "id": "[language]/events/[slug].js -> ../../../components/event/preview-event",
     "files": [
-      "static/chunks/components_home_preview-home_js.js"
+      "static/chunks/components_event_preview-event_js.js"
     ]
   }
 }

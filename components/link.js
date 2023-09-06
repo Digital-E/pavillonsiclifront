@@ -9,6 +9,10 @@ const LinkComponent = ({href, children, isMenu, isSubSubPage, isLast}) => {
     var regex = new RegExp(expression);
     let isURL = href?.match(regex) !== null ? true : false
 
+    if(isURL) {
+        return <a target="_blank" href={href}>{children}</a>
+    }
+
     let isHash = href?.match('#');
 
     let router = useRouter()
@@ -63,5 +67,3 @@ const LinkComponent = ({href, children, isMenu, isSubSubPage, isLast}) => {
 }
 
 export default LinkComponent
-
-// <a target={isURL ? "_blank" : undefined} className={router.asPath === newUrl ? 'active-link': ''}>{children}</a>

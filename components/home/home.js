@@ -7,6 +7,7 @@ import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
 import Slides from './slides'
+import Tiles from './tiles'
 
 const Container = styled.div``
 
@@ -20,12 +21,12 @@ export default function Component ({ data = {}, preview = false }) {
         return <ErrorPage statusCode={404} />
     }
 
-
     return (
         <>
             <Layout preview={preview} title={`${data.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage}>
                 <Container>
                     <Slides data={data?.slides} />
+                    <Tiles data={data?.tiles} />
                 </Container>
             </Layout>
         </>

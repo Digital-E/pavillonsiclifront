@@ -9,8 +9,6 @@ const PreviewHome = lazy(() => import("../../components/home/preview-home"));
 
 export default function Index ({ data = {}, preview = false }) {
 
-  console.log(data)
-
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
@@ -27,17 +25,17 @@ export default function Index ({ data = {}, preview = false }) {
 export async function getStaticProps({ preview = false, params }) {
 
   const homeData = await getClient(preview).fetch(homeQuery, {
-    language: params.lang
+    language: params.language
   })
 
   // Get Menu And Footer
 
   const menuData = await getClient(preview).fetch(menuQuery, {
-    language: params.lang
+    language: params.language
   });
 
   const footerData = await getClient(preview).fetch(footerQuery, {
-    language: params.lang
+    language: params.language
   });
 
   return {
@@ -56,7 +54,7 @@ export async function getStaticPaths() {
   const paths = ['en', 'fr'];
 
   return {
-    paths: paths.map((lang) => ({ params: { lang } })),
+    paths: paths.map((language) => ({ params: { language } })),
     fallback: false,
   }
 }
