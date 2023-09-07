@@ -10,8 +10,7 @@ import sanitizeTag from '../../lib/sanitizeTag'
 import Layout from '../layout'
 import Filters from './filters'
 import Hero from './hero'
-import Tiles from './tiles'
-import Link from '../link'
+import Tiles from '../home/tiles'
 
 const Container = styled.div`
 `
@@ -20,8 +19,12 @@ const Container = styled.div`
 
 export default function Component ({ data = {}, filters, footerData, preview = false }) {
     const router = useRouter()
-    // let [filtersArray, setFiltersArray] = useState([]);
-    // let [eventsArray, setEventsArray] = useState(data.events);
+    let [filtersArray, setFiltersArray] = useState([]);
+    let [mediaArray, setMediaArray] = useState(data.media);
+
+    useEffect(() => {
+        setMediaArray(data.media)
+    }, [data])
 
     const slug = data?.slug
 
@@ -29,101 +32,95 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         return <ErrorPage statusCode={404} />
     }
 
-    // useEffect(() => {
-    //     // Reorganise Filters
+    useEffect(() => {
+        // Reorganise Filters
 
-    //     let filtersArray = [
-    //         {
-    //             category: filters.filterCategoryOne,
-    //             filters: filters.filterListOne
-    //         },
-    //         {
-    //             category: filters.filterCategoryTwo,
-    //             filters: filters.filterListTwo
-    //         },
-    //         {
-    //             category: filters.filterCategoryThree,
-    //             filters: filters.filterListThree
-    //         }
-    //     ];
+        let filtersArray = [
+            {
+                category: 'Catégories',
+                filters: ['Image','Video']
+            }
+        ];
 
-    //     let mapFiltersArray = filtersArray.map(itemOne => {
-    //         itemOne.filters.unshift('Tout')
+        let mapFiltersArray = filtersArray.map(itemOne => {
+            itemOne.filters.unshift('Tout')
 
-    //         let newFilters = itemOne.filters.map(itemTwo => {
-    //             let obj = {
-    //                 label: itemTwo,
-    //                 selected: false
-    //             }
-    //             return obj
-    //         })
+            let newFilters = itemOne.filters.map(itemTwo => {
+                let obj = {
+                    label: itemTwo,
+                    selected: false
+                }
+                return obj
+            })
 
-    //         let newItem = {
-    //             category: itemOne.category,
-    //             filters: newFilters
-    //         }
+            let newItem = {
+                category: itemOne.category,
+                filters: newFilters
+            }
 
-    //         newItem.filters[0].selected = true
+            newItem.filters[0].selected = true
 
-    //         return newItem
-    //     })
+            return newItem
+        })
 
 
-    //     setFiltersArray(mapFiltersArray)
-    // }, [])
+        setFiltersArray(mapFiltersArray)
+    }, [])
 
-    // let toggleFilters = (indexOne, indexTwo) => {
-    //     let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+    let toggleFilters = (indexOne, indexTwo) => {
+        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
 
-    //     newMapFiltersArray[indexOne].filters.forEach(item => {
-    //         item.selected = false
-    //     })
+        newMapFiltersArray[indexOne].filters.forEach(item => {
+            item.selected = false
+        })
 
-    //     newMapFiltersArray[indexOne].filters[indexTwo].selected = true
+        newMapFiltersArray[indexOne].filters[indexTwo].selected = true
 
-    //     setFiltersArray(newMapFiltersArray)
-    // }
+        setFiltersArray(newMapFiltersArray)
+    }
 
-    // useEffect(() => {
-    //     // Filter Tiles
+    useEffect(() => {
+        // Filter Tiles
 
-    //     let selectedFilters = []
+        let selectedFilters = []
 
-    //     filtersArray.forEach(itemOne => {
-    //         itemOne.filters.forEach((itemTwo, indexTwo) => {
-    //             if(indexTwo === 0) return
 
-    //             if(itemTwo.selected === true) {
-    //                 selectedFilters.push(itemTwo.label)
-    //             }
-    //         })
-    //     })
+        filtersArray.forEach(itemOne => {
+            itemOne.filters.forEach((itemTwo, indexTwo) => {
+                if(indexTwo === 0) return
 
-    //     let filterEvents = []
+                if(itemTwo.selected === true) {
+                    selectedFilters.push(itemTwo.label)
+                }
+            })
+        })
 
-    //     data.events.forEach(itemOne => {
-    //         if(itemOne.filters === null) return
+        let filterEvents = []
 
-    //         let itemOneSanitized = itemOne.filters.map(item => sanitizeTag(item))
+        data?.media?.forEach(itemOne => {
 
-    //         let result = selectedFilters.every(i => itemOneSanitized.includes(sanitizeTag(i)))
+            // if(itemOne.filters === null) return
 
-    //         if(result) {
-    //             filterEvents.push(itemOne)
-    //         }
-    //     })
+            let itemOneSanitized = sanitizeTag(itemOne.type)
 
-    //     setEventsArray(filterEvents)
+            let result = selectedFilters.every(i => itemOneSanitized.includes(sanitizeTag(i)))
 
-    // }, [filtersArray])
+            if(result) {
+                filterEvents.push(itemOne)
+            }
+        })
+
+        setMediaArray(filterEvents)
+
+    }, [filtersArray])
 
     return (
         <>
             <Layout preview={preview} title={`${data?.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
-                    {/* <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} /> */}
+                    <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} />
                     <Hero data={data} />
-                    {/* <Tiles data={eventsArray} /> */}
+                    <Tiles data={mediaArray} />
                 </Container>
             </Layout>
         </>

@@ -11,7 +11,6 @@ if(typeof window !== 'undefined') {
 
 const Container = styled.div`
     z-index: -1;
-    border-bottom: 1px solid black;
 
     .flickity-page-dots {
         right: var(--margin);

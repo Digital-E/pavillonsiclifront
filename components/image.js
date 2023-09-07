@@ -49,7 +49,8 @@ const Image = ({ data }) => {
     }
 
     return (
-        <ImageWrapper>
+        <>
+        <ImageWrapper className='image-wrapper'>
             <Img 
                 ref={imageRef}
                 onLoad={() => revealImage()}
@@ -59,13 +60,14 @@ const Image = ({ data }) => {
                 alt={data.caption} 
                 sizes="(max-width: 800px) 100vw, 800px" 
                 />
-            {
-                (data.caption) && 
-                <>
-                    <Caption className="caption">{data.caption}</Caption>
-                </>
-            }
         </ImageWrapper>
+        {
+            (data.caption) && 
+            <>
+                <Caption className="caption">{data.caption}</Caption>
+            </>
+        }
+        </>    
     )
 }
 

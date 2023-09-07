@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
-const Container = styled.div``
+const Container = styled.div`
+    width: ${props => props.hasResize ? `${props.width / props.height * 0.7 * props.windowHeight}px` : `100%`};
+`
 
 
 const Caption = styled.div`
@@ -12,22 +14,30 @@ const Caption = styled.div`
 `
 
 
-export default function Component({ data, id }) {
+export default function Component({ data, id, hasResize }) {
+    let [height, setHeight] = useState(0);
+    let [width, setWidth] = useState(0);
+    let [windowHeight, setWindowHeight] = useState(0);
+
     let videoId = data.videoID;
 
     let regExp = /[a-zA-Z]/g;
 
     let isYoutube = regExp.test(videoId);
 
-    // fetch(`https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${videoId}`)
-    // .then((res) => res.json())
-    // .then(data => {
-    //     setHeight(data.height);
-    //     setWidth(data.width)
-    // }) 
+    useEffect(() => {
+        setWindowHeight(window.innerHeight - 111)
+    }, [])
+
+    fetch(`https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${videoId}`)
+    .then((res) => res.json())
+    .then(data => {
+        setHeight(data.height);
+        setWidth(data.width)
+    })
     
     return (
-        <Container>
+        <Container height={height} width={width} windowHeight={windowHeight} hasResize={hasResize}>
             <div class="plyr__video-embed player" id={id}>
                 <iframe
                 src={

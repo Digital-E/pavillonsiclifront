@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Tile from './tile'
 
 const Container = styled.div`
+    position: relative;
     display: flex;
     flex-wrap: wrap;
 
@@ -20,6 +21,16 @@ const Container = styled.div`
         width: 1px;
         top: 0;
         right: 0;
+    }
+
+    ::before {
+        content: '';
+        position: absolute;
+        background: black;
+        height: 1px;
+        width: 100%;
+        top: 0;
+        left: 0;
     }
 
     > div::before {
@@ -67,6 +78,6 @@ const Container = styled.div`
 export default function Component ({ data }) {
 
     return (
-        <Container>{data.map(item => <Tile data={item} />)}</Container>
+        <Container>{data?.map(item => <Tile data={item} />)}</Container>
     )
 }

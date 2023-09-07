@@ -17,10 +17,10 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/media/[slug]/[slugTwo].js -> ../../../../components/event/preview-event": {
-    "id": "[language]/media/[slug]/[slugTwo].js -> ../../../../components/event/preview-event",
+  "[language]/index.js -> ../../components/home/preview-home": {
+    "id": "[language]/index.js -> ../../components/home/preview-home",
     "files": [
-      "static/chunks/components_event_preview-event_js.js"
+      "static/chunks/components_home_preview-home_js.js"
     ]
   }
 }

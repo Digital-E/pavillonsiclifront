@@ -66,7 +66,7 @@ export default function Component ({ data }) {
 
     return (
         <Container>
-            <Link href={data.link}>
+            <Link href={data.link || data.slug}>
                 <InformationTop>
                     <Info>{data.info1}</Info>
                     <Info>{data.info2}</Info>
@@ -76,7 +76,7 @@ export default function Component ({ data }) {
                     <Body content={data.title} />
                 </Title>
                 <ImageWrapper>
-                    <Image data={data.image} />
+                    <Image data={data.image || data.vignette} />
                 </ImageWrapper>
             </Link>
         </Container>

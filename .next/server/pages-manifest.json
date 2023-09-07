@@ -2,5 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/[language]/media/[slug]/[slugTwo]": "pages/[language]/media/[slug]/[slugTwo].js"
+  "/[language]": "pages/[language].js"
 }
