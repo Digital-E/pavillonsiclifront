@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { agendaSlugsQuery, agendaBySlugQuery, menuQuery, footerQuery } from '../../../lib/queries'
+import { agendaSlugsQuery, agendaBySlugQuery, agendaFiltersQuery, menuQuery, footerQuery } from '../../../lib/queries'
 import { getClient, sanityClient } from '../../../lib/sanity.server'
 
 import Agenda from '../../../components/agenda/agenda'
@@ -9,23 +9,31 @@ const PreviewAgenda = lazy(() => import("../../../components/agenda/preview-agen
 
 export default function Index ({ data = {}, preview = false }) {
 
+  if(data.agendaData === undefined) return null
+
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewAgenda data={data.agendaData} query={agendaBySlugQuery} footerData={data.footerData} />    
+      <PreviewAgenda data={data.agendaData} filters={data.agendaFilters} query={agendaBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
   (
-    <Agenda data={data.agendaData} footerData={data.footerData} />
+    <Agenda data={data.agendaData} filters={data.agendaFilters} footerData={data.footerData} />
   )
 }
 
 
 export async function getStaticProps({ preview = false, params }) {
 
+  let slug = `agenda__${params.slug}`
+
   const agendaData = await getClient(preview).fetch(agendaBySlugQuery, {
-    slug: params.slug
+    slug: slug
+  })
+
+  const agendaFilters = await getClient(preview).fetch(agendaFiltersQuery, {
+    language: params.language
   })
 
   // Get Menu And Footer
@@ -44,6 +52,7 @@ export async function getStaticProps({ preview = false, params }) {
       preview,
       data: {
         agendaData,
+        agendaFilters,
         menuData,
         footerData
       }

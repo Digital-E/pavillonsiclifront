@@ -71,6 +71,8 @@ main {
     --transition-in: 0.2s;
     --transition-out: 0.3s;
     --black: rgb(26, 25, 25);
+    --grey: rgb(136, 137, 136);
+
     --secondary-color: #E7E7E7;
     --ternary-color: #999999;
     --margin: 10px;
@@ -366,8 +368,8 @@ p, .p, li {
 }
 
 input, input::placeholder, .error-label, label, textarea, select {
-    font-family: 'Standard';
-    font-size: 24px;
+  font-family: "ES Dokument Sicli Standard Medium";
+  font-size: 1.3rem;
 }
 
 time {
