@@ -1,38 +1,40 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { agendaSlugsQuery, agendaBySlugQuery, agendaFiltersQuery, menuQuery, footerQuery } from '../../../lib/queries'
+import { pressSlugsQuery, pressBySlugQuery, pressFiltersQuery, menuQuery, footerQuery } from '../../../lib/queries'
 import { getClient, sanityClient } from '../../../lib/sanity.server'
 
-import Agenda from '../../../components/agenda/agenda'
-const PreviewAgenda = lazy(() => import("../../../components/agenda/preview-agenda"));
+import Press from '../../../components/press/press'
+const PreviewPress = lazy(() => import("../../../components/press/preview-press"));
 
 export default function Index ({ data = {}, preview = false }) {
 
-  if(data.agendaData === undefined) return null
+  if(data.pressData === undefined) return null
 
+  console.log(data)
+  
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewAgenda data={data.agendaData} filters={data.agendaFilters} query={agendaBySlugQuery} footerData={data.footerData} />    
+      <PreviewPress data={data.pressData} filters={data.pressFilters} query={pressBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
   (
-    <Agenda data={data.agendaData} filters={data.agendaFilters} footerData={data.footerData} />
+    <Press data={data.pressData} filters={data.pressFilters} footerData={data.footerData} />
   )
 }
 
 
 export async function getStaticProps({ preview = false, params }) {
 
-  let slug = `${params.language}__agenda__${params.slug}`
+  let slug = `${params.language}__presse__${params.slug}`
 
-  const agendaData = await getClient(preview).fetch(agendaBySlugQuery, {
+  const pressData = await getClient(preview).fetch(pressBySlugQuery, {
     slug: slug
   })
 
-  const agendaFilters = await getClient(preview).fetch(agendaFiltersQuery, {
+  const pressFilters = await getClient(preview).fetch(pressFiltersQuery, {
     language: params.language
   })
 
@@ -51,8 +53,8 @@ export async function getStaticProps({ preview = false, params }) {
     props: {
       preview,
       data: {
-        agendaData,
-        agendaFilters,
+        pressData,
+        pressFilters,
         menuData,
         footerData
       }
@@ -61,7 +63,7 @@ export async function getStaticProps({ preview = false, params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = await sanityClient.fetch(agendaSlugsQuery)
+    const paths = await sanityClient.fetch(pressSlugsQuery)
 
     return {
       paths: paths.map(({language, slug}) => ({ params: { language, slug } })),

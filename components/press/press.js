@@ -8,7 +8,7 @@ import { SITE_NAME } from '../../lib/constants'
 import sanitizeTag from '../../lib/sanitizeTag'
 
 import Layout from '../layout'
-import Filters from './filters'
+import Filters from '../agenda/filters'
 import Hero from './hero'
 import Tiles from './tiles'
 import Link from '../link'
@@ -21,7 +21,7 @@ const Container = styled.div`
 export default function Component ({ data = {}, filters, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [eventsArray, setEventsArray] = useState(data.events);
+    let [eventsArray, setEventsArray] = useState(data.tiles);
 
     const slug = data?.slug
 
@@ -40,14 +40,6 @@ export default function Component ({ data = {}, filters, footerData, preview = f
             {
                 category: filters.filterCategoryOne,
                 filters: filters.filterListOne
-            },
-            {
-                category: filters.filterCategoryTwo,
-                filters: filters.filterListTwo
-            },
-            {
-                category: filters.filterCategoryThree,
-                filters: filters.filterListThree
             }
         ];
 
@@ -89,6 +81,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
     }
 
     useEffect(() => {
+        
         // Filter Tiles
 
         let selectedTags = []
@@ -105,7 +98,8 @@ export default function Component ({ data = {}, filters, footerData, preview = f
 
         let filterEvents = []
 
-        data.events.forEach(itemOne => {
+        data.tiles.forEach(itemOne => {
+
             if(itemOne.tags === null) return
 
             let itemOneSanitized = itemOne.tags?.map(item => sanitizeTag(item))

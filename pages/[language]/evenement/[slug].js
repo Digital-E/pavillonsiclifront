@@ -9,6 +9,8 @@ const PreviewEvent = lazy(() => import("../../../components/event/preview-event"
 
 export default function Index ({ data = {}, preview = false }) {
 
+  if(Object.keys(data).length === 0) return
+
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
@@ -24,8 +26,10 @@ export default function Index ({ data = {}, preview = false }) {
 
 export async function getStaticProps({ preview = false, params }) {
 
+  let slug = `${params.language}__evenement__${params.slug}`
+
   const eventData = await getClient(preview).fetch(eventBySlugQuery, {
-    slug: params.slug
+    slug: slug
   })
 
   // Get Menu And Footer

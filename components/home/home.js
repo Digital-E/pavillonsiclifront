@@ -17,6 +17,10 @@ export default function Component ({ data = {}, preview = false }) {
 
     const slug = data?.slug
 
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }
+
     if (!router.isFallback && !slug) {
         return <ErrorPage statusCode={404} />
     }

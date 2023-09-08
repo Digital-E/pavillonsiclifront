@@ -8,7 +8,7 @@ import { SITE_NAME } from '../../lib/constants'
 import sanitizeTag from '../../lib/sanitizeTag'
 
 import Layout from '../layout'
-import Filters from './filters'
+import Filters from '../agenda/filters'
 import Hero from './hero'
 import Tiles from '../home/tiles'
 
@@ -22,15 +22,12 @@ export default function Component ({ data = {}, filters, footerData, preview = f
     let [filtersArray, setFiltersArray] = useState([]);
     let [mediaArray, setMediaArray] = useState(data.media);
 
+    const slug = data?.slug
+
+
     useEffect(() => {
         setMediaArray(data.media)
     }, [data])
-
-    const slug = data?.slug
-
-    if (!router.isFallback && !slug) {
-        return <ErrorPage statusCode={404} />
-    }
 
     useEffect(() => {
         // Reorganise Filters
@@ -103,7 +100,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
 
             let itemOneSanitized = sanitizeTag(itemOne.type)
 
-            let result = selectedFilters.every(i => itemOneSanitized.includes(sanitizeTag(i)))
+            let result = selectedFilters.every(i => itemOneSanitized?.includes(sanitizeTag(i)))
 
             if(result) {
                 filterEvents.push(itemOne)
@@ -113,6 +110,15 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         setMediaArray(filterEvents)
 
     }, [filtersArray])
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }    
+
+    if (!router.isFallback && !slug) {
+        return <ErrorPage statusCode={404} />
+    }
+    
 
     return (
         <>

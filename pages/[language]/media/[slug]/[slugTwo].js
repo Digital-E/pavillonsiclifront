@@ -27,7 +27,7 @@ export default function Index ({ data = {}, preview = false }) {
 export async function getStaticProps({ preview = false, params }) {
 
 
-  let slug = `media__${params.slug}__${params.slugTwo}`
+  let slug = `${params.language}__media__${params.slug}__${params.slugTwo}`
 
   const mediaPageData = await getClient(preview).fetch(mediaPageBySlugQuery, {
     slug: slug

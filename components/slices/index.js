@@ -30,7 +30,6 @@ let renderSlice = (slice, index) => {
 
 function Slices({ data }) {
 
-    console.log(data)
     return (
         <Container>
             {data?.map((slice, index) => renderSlice(slice, index))}
