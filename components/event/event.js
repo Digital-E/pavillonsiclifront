@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 
@@ -69,6 +69,7 @@ const CalendarButtons = styled.div`
 
 export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
+    let players = useRef(null);
 
     const slug = data?.slug
 
@@ -81,7 +82,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     }
 
     useEffect(() => {
-        Plyr.setup('.player', {controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+        players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
     }, [])
 
     return (
@@ -89,7 +90,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
             <Layout preview={preview} title={`${data?.referenceTitle} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
                     <ColLeft>
-                        <Slides data={data?.slides} />
+                        <Slides data={data?.slides} players={players} />
                     </ColLeft>
                     <ColRight>
                         <Hero data={data} />

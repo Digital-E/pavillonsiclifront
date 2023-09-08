@@ -23,16 +23,28 @@
       "static/chunks/components_agenda_preview-agenda_js.js"
     ]
   },
+  "[language]/evenement/[slug].js -> ../../../components/event/preview-event": {
+    "id": "[language]/evenement/[slug].js -> ../../../components/event/preview-event",
+    "files": [
+      "static/chunks/components_event_preview-event_js.js"
+    ]
+  },
   "[language]/index.js -> ../../components/home/preview-home": {
     "id": "[language]/index.js -> ../../components/home/preview-home",
     "files": [
       "static/chunks/components_home_preview-home_js.js"
     ]
   },
-  "[language]/presse/[slug].js -> ../../../components/press/preview-press": {
-    "id": "[language]/presse/[slug].js -> ../../../components/press/preview-press",
+  "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page": {
+    "id": "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page",
     "files": [
-      "static/chunks/components_press_preview-press_js.js"
+      "static/chunks/components_media-page_preview-media-page_js.js"
+    ]
+  },
+  "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media": {
+    "id": "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media",
+    "files": [
+      "static/chunks/components_media_preview-media_js.js"
     ]
   }
 }

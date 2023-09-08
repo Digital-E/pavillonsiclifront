@@ -41,7 +41,7 @@ const Slide = styled.div`
 `
 
 
-export default function Component ({ data }) {
+export default function Component ({ data, players }) {
     let flickity = null;
     let gallery = useRef();
 
@@ -63,6 +63,16 @@ export default function Component ({ data }) {
         // flickity.on('change', (cellIndex) => {
         //     setSelectedIndex(cellIndex)
         // })
+
+        flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
+            if(event.target.tagName === 'BUTTON') {
+                return
+            }
+
+            players.current?.forEach(item => {item.pause()})
+
+            flickity.next()
+        })
     }
 
     useEffect(() => {

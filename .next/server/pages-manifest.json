@@ -2,8 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.js",
-  "/[language]/presse/[slug]": "pages/[language]/presse/[slug].js",
   "/[language]/agenda/[slug]": "pages/[language]/agenda/[slug].js",
-  "/[language]": "pages/[language].js"
+  "/[language]/evenement/[slug]": "pages/[language]/evenement/[slug].js",
+  "/[language]/media/[slug]": "pages/[language]/media/[slug].js",
+  "/[language]/media/[slug]/[slugTwo]": "pages/[language]/media/[slug]/[slugTwo].js",
+  "/[language]": "pages/[language].js",
+  "/404": "pages/404.js"
 }

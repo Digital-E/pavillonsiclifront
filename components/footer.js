@@ -3,21 +3,30 @@ import Link from "./link"
 
 import splitSlug from "../lib/splitSlug"
 
+import EmailSubscribe from "./email-subscribe"
+
+import Image from './image'
+
 const Container = styled.footer`
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  padding: var(--margin);
 
-  a {
-    width: fit-content;
-    opacity: 1;
-    text-transform: uppercase;
-  }
+  ::before {
+    content: '';
+    position: absolute;
+    background: black;
+    height: 1px;
+    width: 100%;
+    top: -1px;
+    left: 0;
+}
+`
 
-  @media(min-width: 990px) {
-    * {
-      font-size: 0.75rem;
-    }
-  }
+const ColLeft = styled.div`
+  display: flex;
+  flex-basis: 50%;
+
 
   @media(max-width: 989px) {
     flex-direction: column;
@@ -26,62 +35,54 @@ const Container = styled.footer`
 
 const Links = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: calc(4 * var(--margin));
 
-  * {
-    margin: 0 0 10px 0;
-  }
-
-  @media(max-width: 989px) {
-    flex-direction: column;
+  p {
+    margin: 0;
   }
 `
 
-const Copyright = styled.h6`
-  @media(max-width: 989px) {
-    display: none;
-  }
-`
-
-const MobileCopyright = styled.h6`
-  @media(min-width: 990px) {
-    display: none;
-  }
-`
-
-const ColLeft = styled.div`
+const ColRight = styled.div`
   display: flex;
-  
-  > *, > * > * {
-    margin-right: 40px;
-  }
+  flex-basis: 50%;
+  justify-content: flex-end;
 
-  @media(max-width: 989px) {
-    flex-direction: column;
+  a {
+    width: fit-content;
   }
 `
 
-const ColRight = styled.div``
+const Logos = styled.div``
 
-const Credits = styled.h6`
-  text-transform: uppercase;
+const ImageWrapper = styled.div`
+  height: 70px;
+
+  > div {
+    height: 100%;
+  }
+
+  > div > img {
+    height: 100% !important;
+    width: auto !important;
+  }
 `
 
 
-export default function Header({ data, dataBis }) {
+
+export default function Header({ data }) {
 
   return (
-    <Container className="padding">
+    <Container>
         <ColLeft>
-          <Copyright>©ART 4 BIODIVERSITY {new Date().getFullYear()}</Copyright>
+          <EmailSubscribe data={data} />
           <Links>
-            {data?.links?.map(item => <h6><Link href={splitSlug(item.linkURL)}>{item.linkLabel}</Link></h6>)}
+            {data?.links?.map(item => <p><Link href={splitSlug(item.linkURL)}>{item.linkLabel}</Link></p>)}
           </Links>
         </ColLeft>
-
         <ColRight>
-          <Credits>Website: <a href='https://ok-deploy.live/' target='_blank'>OK Deploy</a> + <a href='https://samuelbassett.xyz/' target='_blank'>Samuel Bassett.XYZ</a></Credits>
-          <MobileCopyright>©ART 4 BIODIVERSITY {new Date().getFullYear()}</MobileCopyright>
+          {data?.logos?.map(item => <Link href={item.linkURL}><ImageWrapper><Image data={item.image}/></ImageWrapper></Link>)}
         </ColRight>
     </Container>
   )

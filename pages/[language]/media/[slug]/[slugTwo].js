@@ -4,7 +4,7 @@ import { PreviewSuspense } from 'next-sanity/preview'
 import { mediaPageSlugsQuery, mediaPageBySlugQuery, menuQuery, footerQuery } from '../../../../lib/queries'
 import { getClient, sanityClient } from '../../../../lib/sanity.server'
 
-import Event from '../../../../components/media-page/media-page'
+import MediaPage from '../../../../components/media-page/media-page'
 const PreviewMediaPage = lazy(() => import("../../../../components/media-page/preview-media-page"));
 
 import splitSubSlug from '../../../../lib/splitSubSlug'
@@ -19,7 +19,7 @@ export default function Index ({ data = {}, preview = false }) {
   )
   :
   (
-    <Event data={data.mediaPageData} footerData={data.footerData} />
+    <MediaPage data={data.mediaPageData} footerData={data.footerData} />
   )
 }
 

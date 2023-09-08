@@ -4,16 +4,11 @@ import EmailSubscribeForm from "./email-subscribe-form"
 
 
 const Container = styled.div`
-    margin: 200px 15px;
-    box-sizing: border-box;
 
-    @media(max-width: 989px) {
-        margin: 160px 15px;
-    }
 `;
 
 const Title = styled.p`
-    margin: 0 0 20px 0;
+    margin: 0 0 calc(var(--margin) / 2) 0;
 `
 
 
@@ -21,7 +16,7 @@ const EmailSubscribe = ({ data }) => {
     return (
         <Container>
             <div>
-                <Title className='body-large'>Sign up to our Newsletter</Title>
+                <Title className='body-large'>{data?.newsletterLabel}</Title>
                 <EmailSubscribeForm data={data}/>
             </div>
         </Container>

@@ -14,6 +14,7 @@ import Body from "../components/body"
 import Notification from '../components/notification'
 
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 import { credits } from "../lib/credits"
 
@@ -69,7 +70,6 @@ function MyApp({ Component, pageProps, router }) {
       <Header data={pageProps.data?.menuData} />
       <Script src="https://apis.google.com/js/api.js" strategy='beforeInteractive' />
       <Script src="https://accounts.google.com/gsi/client" strategy='beforeInteractive' />
-      {/* <Script src='https://cdn.jsdelivr.net/gh/hmongouachon/rgbKineticSlider/js/rgbKineticSlider.js' strategy='beforeInteractive'/> */}
       {/* <CookieConsent
         buttonText={pageProps.data?.menuData.cookieaccept}
         declineButtonText={pageProps.data?.menuData.cookierefuse}
@@ -87,6 +87,7 @@ function MyApp({ Component, pageProps, router }) {
       <AnimatePresence mode='wait' onExitComplete={() => { window.scrollTo(0,0) }}>   
         <motion.div key={router.asPath} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={desktopVariants}> 
           <Component {...pageProps} />
+          {/* <Footer data={pageProps.data?.footerData} /> */}
         </motion.div>
       </AnimatePresence>
       <Notification />

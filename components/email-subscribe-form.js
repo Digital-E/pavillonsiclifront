@@ -31,13 +31,11 @@ const Container = styled.div`
 
     form input {
         background-color: rgba(255, 255, 255, 0.2);
-        padding: 0 20px;
+        padding: 5px 40px 5px 20px;
         border: 1px solid black;
-        height: 140px;
-        font-size: 3rem;
-        color: white;
+        color: var(--black);
         box-sizing: border-box;
-        border-radius: 0;
+        border-radius: 999px;
     }
 
     form input:hover, form input:focus  {
@@ -45,8 +43,7 @@ const Container = styled.div`
     }
 
     form input::placeholder {
-        color: white;
-        font-size: 3rem;
+        color: var(--grey);
     }
 
     .text-input {
@@ -89,14 +86,14 @@ const Container = styled.div`
     button {
         position: absolute;
         right: 0;
+        top: 4px;
         -webkit-appearance: none;
         border: none;
         background: none;
         width: fit-content;
-        margin: 0 20px;
-        height: 100%;
-        font-size: 3rem;
-        color: white;
+        margin: 0;
+        height: auto;
+        padding: 0 20px;
         cursor: pointer;
     }
 
@@ -274,9 +271,9 @@ const SignupForm = ({ data }) => {
             label={'Sign up'}
             name="email"
             type="email"
-            placeholder={'Email address'}
+            placeholder={'e-mail'}
             />       
-            <Submit>{'Submit'}</Submit>
+            <Submit>{'→'}</Submit>
         </Form>
       </Formik>
     </Container>
