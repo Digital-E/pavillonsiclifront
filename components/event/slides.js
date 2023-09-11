@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import Image from '../image'
@@ -15,6 +15,10 @@ const Container = styled.div`
         right: var(--margin);
         bottom: var(--margin);
         width: fit-content;
+    }
+
+    .hide-nav .flickity-page-dots {
+        display: none;
     }
 
     .flickity-page-dots .dot {
@@ -44,6 +48,7 @@ const Slide = styled.div`
 export default function Component ({ data, players }) {
     let flickity = null;
     let gallery = useRef();
+    let [isInSlider, setIsInSlider] = useState(true)
 
     let init = () => {
         if(flickity !== null) return
@@ -73,11 +78,21 @@ export default function Component ({ data, players }) {
 
             flickity.next()
         })
+
+        if(data.length < 2) {
+            gallery.current.classList.add('hide-nav')
+            setIsInSlider(false)
+            setTimeout(() => {
+                flickity.resize()
+            }, 0)
+        }
     }
 
     useEffect(() => {
         init();
     }, []);
+
+    console.log(isInSlider)
 
     return (
         <Container>
@@ -91,9 +106,9 @@ export default function Component ({ data, players }) {
                                 // aria-current={selectedIndex === index ? true : false}
                             >
                                 {item._type === 'captionImage' ?
-                                    <Image data={item} />
+                                    <Image data={item} isInSlider={isInSlider} />
                                     :
-                                    <Video data={item} />
+                                    <Video data={item} isInSlider={isInSlider} />
                                 }
                             </Slide>
                         )

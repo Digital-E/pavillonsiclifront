@@ -29,10 +29,11 @@ const Caption = styled.div`
     text-align: center;
     box-sizing: border-box;
     margin: var(--margin) 0;
+    min-height: 18px;
 `
 
 
-const Image = ({ data }) => {
+const Image = ({ data, isInSlider }) => {
     let imageRef = useRef();
 
     if(data === null || data === undefined) return null;
@@ -62,7 +63,7 @@ const Image = ({ data }) => {
                 />
         </ImageWrapper>
         {
-            (data.caption) && 
+            (data.caption || isInSlider) && 
             <>
                 <Caption className="caption">{data.caption}</Caption>
             </>

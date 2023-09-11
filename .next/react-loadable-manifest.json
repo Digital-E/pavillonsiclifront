@@ -17,34 +17,20 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/agenda/[slug].js -> ../../../components/agenda/preview-agenda": {
-    "id": "[language]/agenda/[slug].js -> ../../../components/agenda/preview-agenda",
-    "files": [
-      "static/chunks/components_agenda_preview-agenda_js.js"
-    ]
-  },
   "[language]/evenement/[slug].js -> ../../../components/event/preview-event": {
     "id": "[language]/evenement/[slug].js -> ../../../components/event/preview-event",
     "files": [
       "static/chunks/components_event_preview-event_js.js"
     ]
   },
-  "[language]/index.js -> ../../components/home/preview-home": {
-    "id": "[language]/index.js -> ../../components/home/preview-home",
+  "[language]/la-fondation-pavillon-sicli.js -> ../../components/la-fondation-pavillon-sicli/preview-la-fondation-pavillon-sicli": {
+    "id": "[language]/la-fondation-pavillon-sicli.js -> ../../components/la-fondation-pavillon-sicli/preview-la-fondation-pavillon-sicli",
     "files": [
-      "static/chunks/components_home_preview-home_js.js"
+      "static/chunks/components_la-fondation-pavillon-sicli_preview-la-fondation-pavillon-sicli_js.js"
     ]
   },
-  "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page": {
-    "id": "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page",
-    "files": [
-      "static/chunks/components_media-page_preview-media-page_js.js"
-    ]
-  },
-  "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media": {
-    "id": "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media",
-    "files": [
-      "static/chunks/components_media_preview-media_js.js"
-    ]
+  "[language]/le-batiment.js -> ../../components/le-batiment/le-batiment": {
+    "id": "[language]/le-batiment.js -> ../../components/le-batiment/le-batiment",
+    "files": []
   }
 }

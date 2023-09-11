@@ -11,10 +11,11 @@ const Caption = styled.div`
     text-align: center;
     box-sizing: border-box;
     margin: var(--margin) 0;
+    min-height: 18px;
 `
 
 
-export default function Component({ data, id, hasResize }) {
+export default function Component({ data, id, hasResize, isInSlider }) {
     let [height, setHeight] = useState(0);
     let [width, setWidth] = useState(0);
     let [windowHeight, setWindowHeight] = useState(0);
@@ -51,7 +52,7 @@ export default function Component({ data, id, hasResize }) {
                 allow="autoplay"
                 ></iframe>
             </div>            
-            {(data.caption) && <Caption className="caption">{data.caption}</Caption>}
+            {(data.caption || isInSlider) && <Caption className="caption">{data.caption}</Caption>}
         </Container>
     )
 }
