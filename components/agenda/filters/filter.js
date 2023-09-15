@@ -27,12 +27,18 @@ const Option = styled.option``
 
 export default function Component ({ data, indexOne, toggleFilters }) {
 
+
     return (
         <Container>
             <Label>{data.category}</Label>
-            <Filter onChange={(e) => toggleFilters(indexOne, parseInt(e.currentTarget.value))}>
-                {data.filters.map((item, indexTwo) => <Option className='p' value={indexTwo}>{item.label}</Option>)} 
-            </Filter>               
+            {
+                data.filters ?
+                    <Filter onChange={(e) => toggleFilters(indexOne, parseInt(e.currentTarget.value))}>
+                        {data.filters?.map((item, indexTwo) => <Option className='p' value={indexTwo}>{item.label}</Option>)} 
+                    </Filter>  
+                :
+                null
+            }             
         </Container>
     )
 }

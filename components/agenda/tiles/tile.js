@@ -12,6 +12,7 @@ const Container = styled.div`
         padding: calc(var(--margin) / 1.5) var(--margin);
         box-sizing: border-box;
         height: 100%;
+        color: ${props => props.isDark ? 'white' : ''};
     }
 
     :hover .agenda-vignette {
@@ -75,11 +76,11 @@ const ImageWrapper = styled.div`
 `
 
 
-export default function Component ({ data }) {
+export default function Component ({ data, isDark }) {
     let router = useRouter();
 
     return (
-        <Container>
+        <Container isDark={isDark}>
             <Link href={`${router.query.language}/evenement/${data.slug}`}>
                 <InformationTop>
                     <Info>{data.info1}</Info>

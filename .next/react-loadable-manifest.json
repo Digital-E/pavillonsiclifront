@@ -17,8 +17,16 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/partenaires-et-sponsors.js -> ../../components/partenaires-et-sponsors/partenaires-et-sponsors": {
-    "id": "[language]/partenaires-et-sponsors.js -> ../../components/partenaires-et-sponsors/partenaires-et-sponsors",
-    "files": []
+  "[language]/archive/[slug].js -> ../../../components/agenda/preview-agenda": {
+    "id": "[language]/archive/[slug].js -> ../../../components/agenda/preview-agenda",
+    "files": [
+      "static/chunks/components_agenda_preview-agenda_js.js"
+    ]
+  },
+  "[language]/index.js -> ../../components/home/preview-home": {
+    "id": "[language]/index.js -> ../../components/home/preview-home",
+    "files": [
+      "static/chunks/components_home_preview-home_js.js"
+    ]
   }
 }

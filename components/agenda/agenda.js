@@ -11,14 +11,12 @@ import Layout from '../layout'
 import Filters from './filters'
 import Hero from './hero'
 import Tiles from './tiles'
-import Link from '../link'
 
-const Container = styled.div`
-`
+const Container = styled.div``
 
 
 
-export default function Component ({ data = {}, filters, footerData, preview = false }) {
+export default function Component ({ data = {}, filters, isDark, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
     let [eventsArray, setEventsArray] = useState(data.events);
@@ -52,9 +50,9 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         ];
 
         let mapFiltersArray = filtersArray.map(itemOne => {
-            itemOne.filters.unshift('Tout')
+            itemOne.filters?.unshift('Tout')
 
-            let newFilters = itemOne.filters.map(itemTwo => {
+            let newFilters = itemOne.filters?.map(itemTwo => {
                 let obj = {
                     label: itemTwo,
                     selected: false
@@ -67,7 +65,9 @@ export default function Component ({ data = {}, filters, footerData, preview = f
                 filters: newFilters
             }
 
-            newItem.filters[0].selected = true
+            if(newItem.filters) {
+                newItem.filters[0].selected = true
+            }
 
             return newItem
         })
@@ -94,7 +94,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         let selectedTags = []
 
         filtersArray.forEach(itemOne => {
-            itemOne.filters.forEach((itemTwo, indexTwo) => {
+            itemOne.filters?.forEach((itemTwo, indexTwo) => {
                 if(indexTwo === 0) return
 
                 if(itemTwo.selected === true) {
@@ -126,8 +126,8 @@ export default function Component ({ data = {}, filters, footerData, preview = f
             <Layout preview={preview} title={`${data?.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
                     <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} />
-                    <Hero data={data} />
-                    <Tiles data={eventsArray} />
+                    <Hero data={data} isDark={isDark} />
+                    <Tiles data={eventsArray} isDark={isDark} />
                 </Container>
             </Layout>
         </>

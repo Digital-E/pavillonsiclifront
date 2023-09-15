@@ -7,6 +7,8 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
 
+    background: ${props => props.isDark ? 'var(--black)' : ''};
+
     > div {
         position: relative;
         flex-basis: 33.3333%;
@@ -75,8 +77,8 @@ const Container = styled.div`
 `
 
 
-export default function Component ({ data }) {
+export default function Component ({ data, isDark }) {
     return (
-        <Container>{data.map(item => <Tile data={item} />)}</Container>
+        <Container isDark={isDark}>{data.map(item => <Tile data={item} isDark={isDark} />)}</Container>
     )
 }

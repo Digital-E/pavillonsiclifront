@@ -10,6 +10,9 @@ const Container = styled.div`
     justify-content: space-between;
     text-align: center;
 
+    background: ${props => props.isDark ? 'var(--black)' : ''};
+    color: ${props => props.isDark ? 'white' : ''};
+
     h1 {
         padding: calc(var(--margin) * 4) 0;
     }
@@ -28,10 +31,10 @@ const Next = styled.div`
 `
 
 
-export default function Component ({ data }) {
+export default function Component ({ data, isDark }) {
 
     return (
-        <Container>
+        <Container isDark={isDark}>
             <Prev className='h2'><Link href={data.linkPrev}>{`<`}</Link></Prev>
             <h1>{data.title}</h1>
             <Next className='h2'><Link href={data.linkNext}>{`>`}</Link></Next>

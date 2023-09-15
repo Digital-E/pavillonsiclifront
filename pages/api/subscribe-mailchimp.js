@@ -21,11 +21,13 @@ export default async (req, res) => {
         body: JSON.stringify({
           email_address: req.body.email,
           status: req.body.status,
+          status: 'subscribed',
+          status_if_new: 'subscribed',
           // status: "pending",
           // merge_fields: {
           //   "FNAME": "Samuel"
           // }
-          merge_fields: req.body.merge_fields,
+          // merge_fields: req.body.merge_fields,
           // interests: req.body.interests
           // interests: {
           //   "170682c0eb": true

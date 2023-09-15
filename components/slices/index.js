@@ -6,6 +6,7 @@ import Body from '../body'
 import Image from '../image'
 import Text from './text'
 import Video from '../video-embed'
+import Button from './button'
 
 const Container = styled.div`
 `
@@ -23,6 +24,8 @@ let renderSlice = (slice, index) => {
         return <SliceWrapper key={slice._id}><Text data={slice} /></SliceWrapper>  
         case 'video':
         return <SliceWrapper key={slice._id}><Video data={slice} /></SliceWrapper>  
+        case 'button':
+        return <SliceWrapper key={slice._id}><Button data={slice} /></SliceWrapper>          
         default:      
         return null
     }

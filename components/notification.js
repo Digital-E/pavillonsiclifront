@@ -10,7 +10,7 @@ const Popup = styled.div`
     width: calc(50vw - 20px);
     bottom: 20px;
     right: 20px;
-    background: rgba(51, 51, 51 , 1);
+    background: white;
     min-height: 150px;
     padding: 15px 20px;
     z-index: 999;

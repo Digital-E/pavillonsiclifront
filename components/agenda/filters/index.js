@@ -4,7 +4,7 @@ import Filter from './filter'
 
 const Container = styled.div`
     display: flex;
-    padding: var(--margin) var(--margin) 0 var(--margin);
+    padding: var(--margin);
 
     > div {
         flex-basis: 33.3333%;

@@ -222,6 +222,7 @@ const SignupForm = ({ data }) => {
   const addEmailToList = async (values) => {
     let dataObj = {
       email: values.email,
+      audienceId: '16016b1a51',
     }
 
   try {
@@ -232,18 +233,21 @@ const SignupForm = ({ data }) => {
       })
       .then((response) => response.json())
       .then(data => {
-        if(data.result !== "error") {
+        if(data.status !== 400) {
           dispatch({type: "update notification message", value: "Thanks for subscribing!"})
-          document.querySelectorAll(".text-input").forEach(item => {
-            item.value="";
-          })
+          setTimeout(() => {
+            document.querySelectorAll(".text-input").forEach(item => {
+              item.value="";
+            })
+          }, 10)
         } else {
           document.querySelectorAll(".text-input").forEach(item => {
             // item.value="";
             // document.querySelector("#submit-button").innerText = data.error
             // item.placeholder = data.message;
           })
-          dispatch({type: "update notification message", value: `Oops, there seems to have been an error: ${data.error}`})
+          dispatch({type: "update notification message", value: `Oops, there seems to have been an error!`})
+          // dispatch({type: "update notification message", value: `Oops, there seems to have been an error: ${data.error}`})
         }
       })
     } catch (error) {

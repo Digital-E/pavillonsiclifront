@@ -113,10 +113,10 @@ export default function Header({ data }) {
       <Menu>
         {data?.links.map(item => 
           <MenuElement onMouseEnter={(e) => toggleSubMenu(e, 'open')} onMouseLeave={(e) => toggleSubMenu(e, 'close')}>
-            <Link>{item.linkLabel}</Link>
+            <Link href={item.linkURL}>{item.linkLabel}</Link>
             {item.subLinks?.length > 0 ?
               <SubMenu>
-                {item.subLinks?.map(item => <Link>{item.linkLabel}</Link>)}
+                {item.subLinks?.map(item => <Link href={item.linkURL}>{item.linkLabel}</Link>)}
               </SubMenu>
               :
               null          

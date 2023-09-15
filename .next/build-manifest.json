@@ -15,10 +15,20 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/[language]/partenaires-et-sponsors": [
+    "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/[language]/partenaires-et-sponsors.js"
+      "static/chunks/pages/404.js"
+    ],
+    "/[language]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[language].js"
+    ],
+    "/[language]/archive/[slug]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[language]/archive/[slug].js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
