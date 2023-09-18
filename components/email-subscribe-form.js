@@ -10,6 +10,7 @@ const Container = styled.div`
 
     padding: 0;
     box-sizing: border-box;
+    width: fit-content;
 
     label {
       text-transform: lowercase;
@@ -86,7 +87,7 @@ const Container = styled.div`
     button {
         position: absolute;
         right: 0;
-        top: 4px;
+        top: 2px;
         -webkit-appearance: none;
         border: none;
         background: none;

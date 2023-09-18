@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import Image from '../image'
-import Video from '../video-embed'
 
 let Flickity = null;
 
@@ -11,14 +10,12 @@ if(typeof window !== 'undefined') {
 }
 
 const Container = styled.div`
+    z-index: -1;
+
     .flickity-page-dots {
         right: var(--margin);
         bottom: var(--margin);
         width: fit-content;
-    }
-
-    .hide-nav .flickity-page-dots {
-        display: none;
     }
 
     .flickity-page-dots .dot {
@@ -37,18 +34,42 @@ const Container = styled.div`
 `
 
 const Carousel = styled.div`
+    // height: 100%;
+    // width: 100%;
     outline: none !important;
+
+    .flickity-viewport {
+    }
 `
 
 const Slide = styled.div`
-    width: 100%;
+    display: flex;
+    // height: 100vh;
+    width: 100vw;
+
+    div, img {
+        // height: 100% !important;
+        // width: 100% !important;
+        // object-fit: cover;
+    }
+`
+
+const ColLeft = styled.div`
+    flex-basis: 50%;
+    padding: var(--margin);
+`
+
+const ColRight = styled.div`
+    flex-basis: 50%;
 `
 
 
-export default function Component ({ data, players }) {
+const Text = styled.h1``
+
+
+export default function Component ({ data }) {
     let flickity = null;
     let gallery = useRef();
-    let [isInSlider, setIsInSlider] = useState(true)
 
     let init = () => {
         if(flickity !== null) return
@@ -61,31 +82,12 @@ export default function Component ({ data, players }) {
             cellAlign: "center",
             percentPosition: true,
             wrapAround: true,
-            adaptiveHeight: true
             // setGallerySize: false
         })
 
         // flickity.on('change', (cellIndex) => {
         //     setSelectedIndex(cellIndex)
         // })
-
-        flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
-            if(event.target.tagName === 'BUTTON') {
-                return
-            }
-
-            players.current?.forEach(item => {item.pause()})
-
-            flickity.next()
-        })
-
-        if(data?.length < 2) {
-            gallery.current.classList.add('hide-nav')
-            setIsInSlider(false)
-            setTimeout(() => {
-                flickity.resize()
-            }, 0)
-        }
     }
 
     useEffect(() => {
@@ -103,11 +105,12 @@ export default function Component ({ data, players }) {
                                 aria-label={`${index + 1} of ${data.length}`}
                                 // aria-current={selectedIndex === index ? true : false}
                             >
-                                {item._type === 'captionImage' ?
-                                    <Image data={item} isInSlider={isInSlider} />
-                                    :
-                                    <Video data={item} isInSlider={isInSlider} />
-                                }
+                                <ColLeft>
+                                    <Image data={item.image} />
+                                </ColLeft>
+                                <ColRight>
+                                    <Text>{item.text}</Text>
+                                </ColRight>
                             </Slide>
                         )
                 }

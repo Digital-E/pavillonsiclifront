@@ -11,6 +11,7 @@ const Container = styled.footer`
   position: relative;
   display: flex;
   padding: var(--margin);
+  z-index: 1;
 
   ::before {
     content: '';
@@ -53,8 +54,6 @@ const ColRight = styled.div`
     width: fit-content;
   }
 `
-
-const Logos = styled.div``
 
 const ImageWrapper = styled.div`
   height: 70px;

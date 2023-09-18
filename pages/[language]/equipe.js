@@ -1,31 +1,33 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { homeQuery, menuQuery, footerQuery } from '../../lib/queries'
-import { getClient } from '../../lib/sanity.server'
+import { equipeBySlugQuery, equipeSlugsQuery, menuQuery, footerQuery } from '../../lib/queries'
+import { getClient, sanityClient } from '../../lib/sanity.server'
 
-import Home from '../../components/home/home'
-const PreviewHome = lazy(() => import("../../components/home/preview-home"));
+import Equipe from '../../components/equipe/equipe'
+const PreviewEquipe = lazy(() => import("../../components/equipe/preview-equipe"));
 
 export default function Index ({ data = {}, preview = false }) {
 
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewHome data={data.homeData} query={homeQuery} footerData={data.footerData} />    
+      <PreviewEquipe data={data.equipeData} query={equipeBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
   (
-    <Home data={data.homeData} footerData={data.footerData} />
+    <Equipe data={data.equipeData} footerData={data.footerData} />
   )
 }
 
 
 export async function getStaticProps({ preview = false, params }) {
 
-  const homeData = await getClient(preview).fetch(homeQuery, {
-    language: params.language
+  let slug = `${params.language}__equipe`
+
+  const equipeData = await getClient(preview).fetch(equipeBySlugQuery, {
+    slug: slug
   })
 
   // Get Menu And Footer
@@ -42,7 +44,7 @@ export async function getStaticProps({ preview = false, params }) {
     props: {
       preview,
       data: {
-        homeData,
+        equipeData,
         menuData,
         footerData
       }
@@ -51,10 +53,10 @@ export async function getStaticProps({ preview = false, params }) {
 }
 
 export async function getStaticPaths() {
-  const paths = ['en', 'fr'];
+  const paths = await sanityClient.fetch(equipeSlugsQuery)
 
   return {
-    paths: paths.map((language) => ({ params: { language } })),
+    paths: paths.map(({language, slug}) => ({ params: { language } })),
     fallback: false,
   }
 }

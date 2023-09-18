@@ -7,38 +7,36 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
 
-    background: ${props => props.isDark ? 'var(--black)' : ''};
-
     > div {
         position: relative;
         flex-basis: 33.3333%;
-    }
-
-    ::before {
-        content: '';
-        position: absolute;
-        background: ${props => props.isDark ? 'white' : 'var(--black)'};
-        height: 1px;
-        width: 100%;
-        top: 0;
-        left: 0;
     }
 
     > div:nth-child(3n + 1)::after,
     > div:nth-child(3n + 2)::after {
         content: '';
         position: absolute;
-        background: ${props => props.isDark ? 'white' : 'var(--black)'};
+        background: black;
         height: 100%;
         width: 1px;
         top: 0;
         right: 0;
     }
 
+    ::before {
+        content: '';
+        position: absolute;
+        background: black;
+        height: 1px;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+
     > div::before {
         content: '';
         position: absolute;
-        background: ${props => props.isDark ? 'white' : 'var(--black)'};
+        background: black;
         height: 1px;
         width: 100%;
         bottom: 0;
@@ -57,7 +55,7 @@ const Container = styled.div`
         > div:nth-child(odd)::after {
             content: '';
             position: absolute;
-            background: ${props => props.isDark ? 'white' : 'var(--black)'};
+            background: black;
             height: 100%;
             width: 1px;
             top: 0;
@@ -77,8 +75,9 @@ const Container = styled.div`
 `
 
 
-export default function Component ({ data, isDark }) {
+export default function Component ({ data }) {
+
     return (
-        <Container isDark={isDark}>{data?.map(item => <Tile data={item} isDark={isDark} />)}</Container>
+        <Container>{data?.map(item => <Tile data={item} />)}</Container>
     )
 }

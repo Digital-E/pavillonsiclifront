@@ -11,8 +11,7 @@ import Layout from '../layout'
 import Hero from '../event/hero'
 import Slices from '../slices/index'
 import Slides from '../event/slides'
-import Link from '../link'
-import Button from '../button'
+import Tiles from '../agenda/tiles'
 
 const Container = styled.div`
     display: flex;
@@ -42,27 +41,9 @@ const ColLeft = styled.div`
 
 const ColRight = styled.div``
 
-const BackButton = styled.div`
-    position: fixed;
-    bottom: calc(var(--margin) * 2);
-    left: calc(var(--margin) * 2);
-
-    > a:hover > button {
-        color: var(--black) !important;
-    }
-`
-
-const CalendarButtons = styled.div`
-    margin: calc(var(--margin) * 1) 0;
-
-    > a  {
-        margin-right: calc(var(--margin) * 6);
-        width fit-content;
-    }
-
-    > a:hover > button {
-        color: var(--black) !important;
-    }
+const TilesTitle = styled.div`
+    text-align: center;
+    border-top: 1px solid black;
 `
 
 
@@ -85,6 +66,8 @@ export default function Component ({ data = {}, footerData, preview = false }) {
         players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
     }, [])
 
+    console.log(data)
+
     return (
         <>
             <Layout preview={preview} title={`${data?.referenceTitle} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
@@ -97,6 +80,8 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                         <Slices data={data?.slices} />
                     </ColRight>
                 </Container>
+                <TilesTitle><h2>{data.gridTitle}</h2></TilesTitle>
+                <Tiles data={data?.events} />
             </Layout>
         </>
     )

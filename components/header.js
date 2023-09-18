@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import styled from "styled-components"
 
 import Link from './link'
+import LocaleLink from './locale-link'
 
 const Container = styled.header`
   position: fixed;
@@ -52,6 +53,7 @@ const MenuElement = styled.div`
   a {
     width: fit-content;
     margin: calc(var(--margin) / 2) var(--margin);
+    font-size: 1.2rem;
   }
 
   :nth-child(3n + 1) a {
@@ -90,6 +92,7 @@ const SubMenu = styled.div`
 
 
 export default function Header({ data }) {
+  let router = useRouter()
 
   let toggleSubMenu = (e, action) => {
     if(action === 'open') {
@@ -103,9 +106,11 @@ export default function Header({ data }) {
     <>
     <Container>
       <ColLeft>
-        <Logo>
-          <img src='/logo/pavillonsicli_logo.jpg'/>
-        </Logo>
+        <Link href={router.query.language}>
+          <Logo>
+            <img src='/logo/pavillonsicli_logo.jpg'/>
+          </Logo>
+        </Link>
         <Text>
           Architecture et <br/> Arts du Bâti
         </Text>
@@ -123,8 +128,8 @@ export default function Header({ data }) {
             }
           </MenuElement>
         )}
-        <MenuElement><Link>En</Link></MenuElement>
-        <MenuElement><Link>Fr</Link></MenuElement>
+        <MenuElement><LocaleLink href='/en'>En</LocaleLink></MenuElement>
+        <MenuElement><LocaleLink href='/fr'>Fr</LocaleLink></MenuElement>
       </Menu>
     </Container>
     </>

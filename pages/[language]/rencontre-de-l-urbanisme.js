@@ -26,7 +26,7 @@ export default function Index ({ data = {}, preview = false }) {
 
 export async function getStaticProps({ preview = false, params }) {
 
-  let slug = `${params.language}__rencontre-de-l-urbanisme`
+  let slug = `${params.language}__les-rendez-vous-de-l-urbanisme`
 
   const rencontreDeLurbanismeData = await getClient(preview).fetch(rencontreDeLurbanismeBySlugQuery, {
     slug: slug

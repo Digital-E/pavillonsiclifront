@@ -24,6 +24,9 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     setTimeout(() => {
       document.querySelector("#__next").style.opacity = 1
+
+      let menuHeight = document.querySelector('header').getBoundingClientRect().height
+      document.documentElement.style.setProperty("--menu-height", `${menuHeight}px`)
     }, 250)
 
     sessionStorage.setItem('hasSetCalculatorData', 'false')

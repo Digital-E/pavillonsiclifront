@@ -19,7 +19,7 @@ const Container = styled.div``
 export default function Component ({ data = {}, filters, isDark, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [eventsArray, setEventsArray] = useState(data.events);
+    let [eventsArray, setEventsArray] = useState(data?.events);
 
     const slug = data?.slug
 

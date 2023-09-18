@@ -20,13 +20,13 @@ const Container = styled.div`
 export default function Component ({ data = {}, filters, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [mediaArray, setMediaArray] = useState(data.media);
+    let [mediaArray, setMediaArray] = useState(data?.media);
 
     const slug = data?.slug
 
 
     useEffect(() => {
-        setMediaArray(data.media)
+        setMediaArray(data?.media)
     }, [data])
 
     useEffect(() => {

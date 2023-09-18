@@ -1,5 +1,3 @@
-import { useRouter } from "next/router"
-import Head from 'next/head'
 import Layout from "../components/layout";
 import styled from 'styled-components';
 
@@ -15,7 +13,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: calc(100vh - var(--menu-height));
     width: 100vw;
 
     > div {
@@ -31,13 +29,12 @@ const Container = styled.div`
 
 
 export default function Custom404({ data = {}, preview }) {
-    const router = useRouter();
 
     return (
-    <Layout preview={preview} title={`404 | ${SITE_NAME}`}>
+    <Layout preview={preview} title={`404 | ${SITE_NAME}`} footerData={data.footerData}>
       <Container>
           <div>
-            <p className='body-large'>404 - PAGE NOT FOUND</p>
+            <h2 className='body-large'>404 👀</h2>
             <Button><a href='/'>Home</a></Button>
           </div>
       </Container>
@@ -49,9 +46,13 @@ export async function getStaticProps({ preview = false, params }) {
 
   // Get Menu And Footer
 
-  const menuData = await getClient(preview).fetch(menuQuery);
+  const menuData = await getClient(preview).fetch(menuQuery, {
+    language: 'fr'
+  });
 
-  const footerData = await getClient(preview).fetch(footerQuery);
+  const footerData = await getClient(preview).fetch(footerQuery, {
+    language: 'fr'
+  });
 
 
     return {

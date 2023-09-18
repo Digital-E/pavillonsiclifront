@@ -4,12 +4,6 @@ import { useRouter } from "next/router";
 const LinkComponent = ({href, children}) => {
     const router = useRouter();
 
-    // console.log(router.route.split("/")[2])
-
-    // let path = `/${router.query.lang}/${router.route.split("/")[2]}`
-
-    // console.log(href, path)
-
     const navigateTo = () => {
 
         let pathname = window.location.pathname.split("/")
@@ -23,9 +17,7 @@ const LinkComponent = ({href, children}) => {
     }
 
     return (
-        // <Link href={`${href}`} scroll={false}>
-            <a onClick={() => navigateTo()} className={`/${router.query.lang}` === href ? "active-link" : ""}>{children}</a>
-        // </Link>
+        <a onClick={() => navigateTo()} className={`/${router.query.language}` === href ? "active-link" : ""}>{children}</a>
     )
 }
 

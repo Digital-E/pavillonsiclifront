@@ -12,7 +12,7 @@ import Tiles from './tiles'
 const Container = styled.div``
 
 
-export default function Component ({ data = {}, preview = false }) {
+export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
 
     const slug = data?.slug
@@ -27,7 +27,7 @@ export default function Component ({ data = {}, preview = false }) {
 
     return (
         <>
-            <Layout preview={preview} title={`${data.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage}>
+            <Layout preview={preview} title={`${data.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
                     <Slides data={data?.slides} />
                     <Tiles data={data?.tiles} />

@@ -46,7 +46,7 @@ const Info = styled.p`
 `
 
 const Title = styled.div`
-    margin-bottom: calc(var(--margin) * 2);
+    margin: calc(var(--margin)) 0 calc(var(--margin) * 2) 0;
 
     * {
         font-family: inherit;
@@ -54,6 +54,7 @@ const Title = styled.div`
         letter-spacing: inherit;
         font-weight: inherit;
         margin: 0;
+        line-height: 1;
         color: ${props => props.grey ? 'grey' : 'inherit'};
     }
 `

@@ -2,7 +2,17 @@ import {useRef} from 'react'
 import styled from 'styled-components'
 import { motion, animate } from 'framer-motion'
 
-const Container = styled(motion.button)``
+const Container = styled(motion.button)`
+    > * {
+        position: relative;
+        margin-top: -2px;
+        display: block;
+    }
+
+    > a {
+        color: var(--black);
+    }
+`
 
 let transition = {type: "spring", stiffness: 300, duration: 0.3}
 

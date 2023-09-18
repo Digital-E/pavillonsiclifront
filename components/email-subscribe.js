@@ -16,7 +16,7 @@ const EmailSubscribe = ({ data }) => {
     return (
         <Container>
             <div>
-                <Title className='body-large'>{data?.newsletterLabel}</Title>
+                <Title className='email-subscribe-title'>{data?.newsletterLabel}</Title>
                 <EmailSubscribeForm data={data}/>
             </div>
         </Container>

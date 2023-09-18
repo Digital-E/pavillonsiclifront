@@ -60,7 +60,7 @@ body {
 
 main {
   position: relative;
-  margin-top: 111px;
+  margin-top: var(--menu-height);
   z-index: 1;
 }
 
@@ -110,7 +110,7 @@ a {
     color: inherit;
     width: 100%;
     opacity: 1;
-    font-size: 1.2rem;
+    font-size: 1.125rem;
 }
 
 @media(min-width: 990px) {
@@ -218,7 +218,7 @@ input {
 
 h1, .h1 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 4.5rem;
+    font-size: 4.2rem;
     letter-spacing: -0.03em;
     margin: 0;
     font-weight: bold;
@@ -244,7 +244,7 @@ h3, .h3 {
 
 h4, .h4 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 24px;
+    font-size: 1.125rem;
     letter-spacing: normal;
     margin: 0;
     line-height: 1;
@@ -253,8 +253,8 @@ h4, .h4 {
 
 h5, .h5 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 1rem;
-    letter-spacing: -0.02em;
+    font-size: 1.125rem;
+    letter-spacing: normal;
     margin: 0;
     line-height: 1;
     font-weight: normal;
@@ -262,10 +262,22 @@ h5, .h5 {
 
 h6, .h6 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 0.875rem;
-    margin: 0 0 15px 0;
+    font-size: 1.125rem;
+    letter-spacing: normal;
+    margin: 0;
     line-height: 1;
     font-weight: normal;
+}
+
+h1 a, 
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a,
+p a
+ {
+  font-size: inherit;
 }
 
 p, .p, li {
@@ -278,13 +290,9 @@ p, .p, li {
 
 input, input::placeholder, .error-label, label, textarea, select {
   font-family: "ES Dokument Sicli Standard Medium";
-  font-size: 1.3rem;
+  font-size: 1.125rem;
 }
 
-time {
-    font-size: 1rem;
-    letter-spacing: -0.02em;
-}
 
 .caption {
     font-family: "ES Dokument Sicli Standard Medium";
@@ -301,5 +309,31 @@ li {
 }
 
 @media(max-width: 989px) {
+  h1, .h1 {
+    font-size: 2.5rem;
+}
 
+h2, .h2 {
+    font-size: 2rem;
+}
+
+h3, .h3 {
+    font-size: 1.3rem;
+}
+
+h4, .h4 {
+  font-size: 1.125rem;
+}
+
+h5, .h5 {
+  font-size: 1.125rem;
+}
+
+h6, .h6 {
+  font-size: 1.125rem;
+}
+
+p, .p, li {
+    font-size: 1.125rem;
+}
 }
