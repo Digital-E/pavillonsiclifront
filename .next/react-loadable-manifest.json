@@ -17,14 +17,16 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/contact.js -> ../../components/contact/contact": {
-    "id": "[language]/contact.js -> ../../components/contact/contact",
-    "files": []
-  },
-  "[language]/rencontre-de-l-urbanisme.js -> ../../components/rencontre-de-l-urbanisme/preview-rencontre-de-l-urbanisme": {
-    "id": "[language]/rencontre-de-l-urbanisme.js -> ../../components/rencontre-de-l-urbanisme/preview-rencontre-de-l-urbanisme",
+  "[language]/[slug].js -> ../../components/page-programme/preview-page-programme": {
+    "id": "[language]/[slug].js -> ../../components/page-programme/preview-page-programme",
     "files": [
-      "static/chunks/components_rencontre-de-l-urbanisme_preview-rencontre-de-l-urbanisme_js.js"
+      "static/chunks/components_page-programme_preview-page-programme_js.js"
+    ]
+  },
+  "[language]/[slug].js -> ../../components/page-template/preview-page-template": {
+    "id": "[language]/[slug].js -> ../../components/page-template/preview-page-template",
+    "files": [
+      "static/chunks/components_page-template_preview-page-template_js.js"
     ]
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
-import ErrorPage from 'next/error'
+import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
 import Plyr from 'plyr'
@@ -8,9 +8,10 @@ import Plyr from 'plyr'
 import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
-import Hero from './hero'
+import Hero from '../event/hero'
+import Slices from '../slices/index'
 import Slides from '../event/slides'
-import Body from '../body'
+import Tiles from '../agenda/tiles'
 
 const Container = styled.div`
     display: flex;
@@ -40,6 +41,10 @@ const ColLeft = styled.div`
 
 const ColRight = styled.div``
 
+const TilesTitle = styled.div`
+    text-align: center;
+    border-top: 1px solid black;
+`
 
 
 
@@ -54,7 +59,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     }    
 
     if (!router.isFallback && !slug) {
-        return <ErrorPage statusCode={404} />
+        return <Custom404 />
     }
 
     useEffect(() => {
@@ -70,10 +75,11 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                     </ColLeft>
                     <ColRight>
                         <Hero data={data} />
-                        <Body content={data?.textTwo} />
-                        {/* <Slices data={data?.slices} /> */}
+                        <Slices data={data?.slices} />
                     </ColRight>
                 </Container>
+                <TilesTitle><h2>{data.gridTitle}</h2></TilesTitle>
+                <Tiles data={data?.events} />
             </Layout>
         </>
     )

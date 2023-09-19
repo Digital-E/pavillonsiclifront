@@ -15,15 +15,10 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/[language]/contact": [
+    "/[language]/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/[language]/contact.js"
-    ],
-    "/[language]/rencontre-de-l-urbanisme": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/[language]/rencontre-de-l-urbanisme.js"
+      "static/chunks/pages/[language]/[slug].js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
