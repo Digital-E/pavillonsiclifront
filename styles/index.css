@@ -61,7 +61,7 @@ body {
 main {
   position: relative;
   margin-top: var(--menu-height);
-  z-index: 1;
+  z-index: 2;
 }
 
 .lock-scroll {
@@ -108,7 +108,6 @@ a {
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-    width: 100%;
     opacity: 1;
     font-size: 1.125rem;
 }
@@ -311,29 +310,33 @@ li {
 @media(max-width: 989px) {
   h1, .h1 {
     font-size: 2.5rem;
-}
+  }
 
-h2, .h2 {
-    font-size: 2rem;
-}
+  h2, .h2 {
+      font-size: 2rem;
+  }
 
-h3, .h3 {
-    font-size: 1.3rem;
-}
+  h3, .h3 {
+      font-size: 1.3rem;
+  }
 
-h4, .h4 {
-  font-size: 1.125rem;
-}
-
-h5, .h5 {
-  font-size: 1.125rem;
-}
-
-h6, .h6 {
-  font-size: 1.125rem;
-}
-
-p, .p, li {
+  h4, .h4 {
     font-size: 1.125rem;
-}
+  }
+
+  h5, .h5 {
+    font-size: 1.125rem;
+  }
+
+  h6, .h6 {
+    font-size: 1.125rem;
+  }
+
+  p, .p, li {
+      font-size: 1.125rem;
+  }
+
+  .caption {
+    font-size: 0.75rem;
+  }
 }

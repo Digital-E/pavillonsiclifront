@@ -9,6 +9,14 @@ const Container = styled.div`
     > div {
         flex-basis: 33.3333%;
     }
+
+    @media(max-width: 989px) {
+        flex-direction: column;
+
+        > div {
+            margin: calc(var(--margin) / 2)
+        }
+    }
 `
 
 

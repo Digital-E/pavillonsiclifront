@@ -10,8 +10,6 @@ const PreviewPress = lazy(() => import("../../../components/press/preview-press"
 export default function Index ({ data = {}, preview = false }) {
 
   if(data.pressData === undefined) return null
-
-  console.log(data)
   
   return preview ? 
   (

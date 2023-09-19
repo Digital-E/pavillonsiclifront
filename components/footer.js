@@ -21,7 +21,11 @@ const Container = styled.footer`
     width: 100%;
     top: -1px;
     left: 0;
-}
+  }
+
+  @media(max-width: 989px) {
+    flex-direction: column;
+  }
 `
 
 const ColLeft = styled.div`
@@ -43,6 +47,11 @@ const Links = styled.div`
   p {
     margin: 0;
   }
+
+  @media(max-width: 989px) {
+    margin-left: 0;
+    margin-top: var(--margin);
+  }
 `
 
 const ColRight = styled.div`
@@ -52,6 +61,11 @@ const ColRight = styled.div`
 
   a {
     width: fit-content;
+  }
+
+  @media(max-width: 989px) {
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 `
 

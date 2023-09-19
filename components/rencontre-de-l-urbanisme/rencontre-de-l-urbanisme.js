@@ -66,8 +66,6 @@ export default function Component ({ data = {}, footerData, preview = false }) {
         players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
     }, [])
 
-    console.log(data)
-
     return (
         <>
             <Layout preview={preview} title={`${data?.referenceTitle} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>

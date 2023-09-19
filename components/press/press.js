@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import ErrorPage from 'next/error'
+import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
 
@@ -11,7 +11,6 @@ import Layout from '../layout'
 import Filters from '../agenda/filters'
 import Hero from './hero'
 import Tiles from './tiles'
-import Link from '../link'
 
 const Container = styled.div`
 `
@@ -21,7 +20,7 @@ const Container = styled.div`
 export default function Component ({ data = {}, filters, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [eventsArray, setEventsArray] = useState(data.tiles);
+    let [eventsArray, setEventsArray] = useState(data?.tiles);
 
     const slug = data?.slug
 
@@ -30,7 +29,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
     }
 
     if (!router.isFallback && !slug) {
-        return <ErrorPage statusCode={404} />
+        return <Custom404 />
     }
 
     useEffect(() => {

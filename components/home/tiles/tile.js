@@ -28,6 +28,23 @@ const InformationTop = styled.div`
     > p:not(:last-child) {
         margin-right: 40px
     }
+
+    @media(max-width: 989px) {
+        flex-wrap: wrap;
+
+        > p:nth-child(n) {
+            flex-basis: 50%;
+            margin: 0;
+        }
+
+        > p:nth-child(2) {
+            text-align: right;
+        }
+
+        > p:nth-child(3) {
+            flex-basis: 100%
+        }
+    }
 `
 
 const Info = styled.p`

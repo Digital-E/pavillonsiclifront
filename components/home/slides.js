@@ -34,8 +34,6 @@ const Container = styled.div`
 `
 
 const Carousel = styled.div`
-    // height: 100%;
-    // width: 100%;
     outline: none !important;
 
     .flickity-viewport {
@@ -52,6 +50,10 @@ const Slide = styled.div`
         // width: 100% !important;
         // object-fit: cover;
     }
+
+    @media(max-width: 989px) {
+        flex-direction: column;
+    }
 `
 
 const ColLeft = styled.div`
@@ -61,6 +63,10 @@ const ColLeft = styled.div`
 
 const ColRight = styled.div`
     flex-basis: 50%;
+
+    @media(max-width: 989px) {
+        padding: 0 var(--margin) var(--margin) var(--margin);
+    }
 `
 
 

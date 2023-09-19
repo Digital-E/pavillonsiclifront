@@ -105,16 +105,15 @@ const Container = styled.div`
 
     @media(max-width: 989px) {
       form input {
-        font-size: 1rem;
-        height: 80px;
+
       }
 
       form input::placeholder {
-        font-size: 1rem;
+
       }
 
       button {
-        font-size: 1rem;
+        top: 1px;
       }
     }
 `;

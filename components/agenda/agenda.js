@@ -11,6 +11,7 @@ import Layout from '../layout'
 import Filters from './filters'
 import Hero from './hero'
 import Tiles from './tiles'
+import Custom404 from '../../pages/404'
 
 const Container = styled.div``
 
@@ -28,7 +29,7 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
     }
 
     if (!router.isFallback && !slug) {
-        return <ErrorPage statusCode={404} />
+        return <Custom404 />
     }
 
     useEffect(() => {

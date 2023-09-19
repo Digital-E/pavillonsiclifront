@@ -21,16 +21,22 @@ import { credits } from "../lib/credits"
 
 function MyApp({ Component, pageProps, router }) {
 
+  let getMenuHeight = () => {
+    document.querySelector('header').style.height = 'auto';
+    let menuHeight = document.querySelector('header').getBoundingClientRect().height
+    document.documentElement.style.setProperty("--menu-height", `${menuHeight}px`)
+  }
+
   useEffect(() => {
     setTimeout(() => {
       document.querySelector("#__next").style.opacity = 1
 
-      let menuHeight = document.querySelector('header').getBoundingClientRect().height
-      document.documentElement.style.setProperty("--menu-height", `${menuHeight}px`)
+      getMenuHeight();
     }, 250)
 
     sessionStorage.setItem('hasSetCalculatorData', 'false')
 
+    window.addEventListener('resize', getMenuHeight)
 
     // // Credits
     // console.clear()

@@ -11,6 +11,8 @@ if(typeof window !== 'undefined') {
 }
 
 const Container = styled.div`
+    position: relative;
+
     .flickity-page-dots {
         right: var(--margin);
         bottom: var(--margin);
@@ -33,6 +35,34 @@ const Container = styled.div`
     .flickity-page-dots .dot.is-selected {
         border: 1px solid black;
         background: white;
+    }
+
+    @media(max-width: 989px) {
+        .flickity-page-dots {
+            bottom: calc(var(--margin) + 5px);
+        }
+
+        &.border-bottom-single::after {
+            position: absolute;
+            left: 0;
+            bottom: calc(-1 * var(--margin));
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: var(--black);
+        }
+
+        &.border-bottom-multiple::after {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: var(--black);
+        }
     }
 `
 
@@ -93,7 +123,7 @@ export default function Component ({ data, players }) {
     }, []);
 
     return (
-        <Container>
+        <Container className={data?.length > 1 ? 'border-bottom-multiple' : 'border-bottom-single'}>
             <Carousel ref={gallery} aria-live="polite" aria-label="carousel">
                 {
                     data?.map((item, index) => 

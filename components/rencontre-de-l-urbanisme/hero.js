@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const Title = styled.div`
     position: relative;
-    padding-bottom: calc(var(--margin) / 2);
+    padding-bottom: calc(var(--margin) * 1.5);
     border-bottom: 1px solid var(--black);
 
     * {

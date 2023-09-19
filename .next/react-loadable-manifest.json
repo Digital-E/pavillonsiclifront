@@ -20,5 +20,11 @@
   "[language]/contact.js -> ../../components/contact/contact": {
     "id": "[language]/contact.js -> ../../components/contact/contact",
     "files": []
+  },
+  "[language]/rencontre-de-l-urbanisme.js -> ../../components/rencontre-de-l-urbanisme/preview-rencontre-de-l-urbanisme": {
+    "id": "[language]/rencontre-de-l-urbanisme.js -> ../../components/rencontre-de-l-urbanisme/preview-rencontre-de-l-urbanisme",
+    "files": [
+      "static/chunks/components_rencontre-de-l-urbanisme_preview-rencontre-de-l-urbanisme_js.js"
+    ]
   }
 }

@@ -4,6 +4,14 @@ import styled from 'styled-components'
 const Container = styled.div`
     display: flex;
     align-items: center;
+    
+    @media(max-width: 989px) {
+        flex-direction: column;
+        align-items: flex-start;
+        // > h3, > select {
+        //     flex-basis: 50%;
+        // }
+    }
 `
 
 const Label = styled.h3`
@@ -20,6 +28,11 @@ const Filter = styled.select`
     color: var(--grey);
     width: 70%;
     cursor: pointer;
+
+    @media(max-width: 989px) {
+        margin-top: var(--margin);
+        width: 100%;
+    }
 `
 
 const Option = styled.option``
