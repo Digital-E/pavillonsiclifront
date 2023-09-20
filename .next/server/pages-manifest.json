@@ -1,6 +1,0 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/[language]/la-fondation-pavillon-sicli": "pages/[language]/la-fondation-pavillon-sicli.js"
-}
