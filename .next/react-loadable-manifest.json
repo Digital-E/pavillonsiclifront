@@ -17,10 +17,16 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/legal/[slug].js -> ../../../components/legal/preview-legal": {
-    "id": "[language]/legal/[slug].js -> ../../../components/legal/preview-legal",
+  "[language]/[slug].js -> ../../components/page-programme/preview-page-programme": {
+    "id": "[language]/[slug].js -> ../../components/page-programme/preview-page-programme",
     "files": [
-      "static/chunks/components_legal_preview-legal_js.js"
+      "static/chunks/components_page-programme_preview-page-programme_js.js"
+    ]
+  },
+  "[language]/[slug].js -> ../../components/page-template/preview-page-template": {
+    "id": "[language]/[slug].js -> ../../components/page-template/preview-page-template",
+    "files": [
+      "static/chunks/components_page-template_preview-page-template_js.js"
     ]
   }
 }

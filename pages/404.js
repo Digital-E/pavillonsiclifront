@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Layout from "../components/layout";
 import styled from 'styled-components';
 
@@ -29,13 +30,14 @@ const Container = styled.div`
 
 
 export default function Custom404({ data = {}, preview }) {
+  let router = useRouter()
 
     return (
     <Layout preview={preview} title={`404 | ${SITE_NAME}`} footerData={data.footerData}>
       <Container>
           <div>
-            <h2 className='body-large'>404 👀</h2>
-            <Button><a href='/'>Home</a></Button>
+            <h2>404 👀</h2>
+            <Button><a href={`/${router.query.language}`}>Home</a></Button>
           </div>
       </Container>
     </Layout>
