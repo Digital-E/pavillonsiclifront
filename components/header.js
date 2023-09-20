@@ -69,6 +69,10 @@ const ColLeft = styled.div`
   display: flex;
   align-items: flex-end;
   padding: var(--margin);
+
+  .active-link {
+    opacity: 1 !important;
+  }
 `
 
 const Text = styled.div`

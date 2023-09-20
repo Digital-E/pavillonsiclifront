@@ -3,11 +3,11 @@ import { previewClient } from '../../lib/sanity.server'
 
 let splitSlug = (slug, document) => {
 
-  if(slug === 'home') return '/'
+  // if(slug === 'home') return '/'
 
-  if(document._type === 'project') return `/projects/${slug}`
+  // if(document._type === 'project') return `/projects/${slug}`
 
-  if(document._type === 'legal') return `/legal/${slug}`
+  // if(document._type === 'legal') return `/legal/${slug}`
 
   let split = slug.split("__");
   
@@ -33,6 +33,7 @@ function redirectToPreview(res, slug, document) {
 export default async function preview(req, res) {
   const secret = process.env.SANITY_STUDIO_PREVIEW_SECRET
   // Only require a secret when in production
+  console.log(res, res)
   if (!secret && process.env.NODE_ENV === 'production') {
     throw new TypeError(`Missing SANITY_STUDIO_PREVIEW_SECRET`)
   }

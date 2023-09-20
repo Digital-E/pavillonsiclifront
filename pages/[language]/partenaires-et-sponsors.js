@@ -14,7 +14,7 @@ export default function Index ({ data = {}, preview = false }) {
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewpartenairesEtSponsors data={data.partenairesEtSponsorsData} query={partenairesEtSponsorsBySlugQuery} footerData={data.footerData} />    
+      <PreviewPartenairesEtSponsors data={data.partenairesEtSponsorsData} query={partenairesEtSponsorsBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
