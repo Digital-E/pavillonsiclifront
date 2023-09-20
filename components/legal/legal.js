@@ -7,22 +7,19 @@ import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
 import Body from '../body'
-import Hero from './hero'
-import AnchorMenu from '../slices/anchor-menu'
-import Slices from '../slices/index'
 
 const Container = styled.div`
-    margin: 100px 15px 0 15px;
-    min-height: calc(100vh - 100px);
+    margin: 0 var(--margin);
+    min-height: calc(100vh - var(--menu-height));
 `
 
-const Title = styled.div`
-    margin: 30px 0;
+const Title = styled.h2`
+    padding: var(--margin) 0;
 `
 
 
 const Text = styled.div`
-    margin: 30px 0;
+    margin: var(--margin) 0;
 
     p {
         font-size: inherit;
@@ -52,9 +49,6 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                 <Text className='body-large'>
                     <Body content={data.text} />
                 </Text>
-                    {/* <Hero data={data} />
-                    <AnchorMenu data={data} />
-                    <Slices data={data?.slices} /> */}
                 </Container>
             </Layout>
         </>

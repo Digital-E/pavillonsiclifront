@@ -24,15 +24,21 @@ export default function Index ({ data = {}, footerData, preview = false }) {
 
 export async function getStaticProps({ preview = false, params }) {
 
+  let slug = `${params.language}__legal__${params.slug}`
+
   const legalData = await getClient(preview).fetch(legalBySlugQuery, {
-    slug: params.slug
+    slug: slug
   })
 
   // Get Menu And Footer
 
-  const menuData = await getClient(preview).fetch(menuQuery);
+  const menuData = await getClient(preview).fetch(menuQuery, {
+    language: params.language
+  });
 
-  const footerData = await getClient(preview).fetch(footerQuery);
+  const footerData = await getClient(preview).fetch(footerQuery, {
+    language: params.language
+  });
 
   return {
     props: {
@@ -50,8 +56,8 @@ export async function getStaticPaths() {
     const paths = await sanityClient.fetch(legalSlugsQuery)
 
     return {
-      paths: paths.map((slug) => ({ params: { slug } })),
-      fallback: true,
+      paths: paths.map(({language, slug}) => ({ params: { language, slug } })),
+      fallback: true
     }
   }
 
