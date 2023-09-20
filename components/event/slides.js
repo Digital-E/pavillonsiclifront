@@ -114,7 +114,7 @@ export default function Component ({ data, players }) {
             setIsInSlider(false)
             setTimeout(() => {
                 flickity.resize()
-            }, 0)
+            }, 10)
         }
     }
 

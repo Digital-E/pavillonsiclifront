@@ -34,7 +34,7 @@ export default function Component({ data, id, hasResize, isInSlider }) {
     .then((res) => res.json())
     .then(data => {
         setHeight(data.height);
-        setWidth(data.width)
+        setWidth(data.width);
     })
     
     return (

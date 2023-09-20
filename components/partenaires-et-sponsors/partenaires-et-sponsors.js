@@ -1,6 +1,5 @@
-import { useRef } from 'react'
 import { useRouter } from 'next/router'
-import ErrorPage from 'next/error'
+import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
 
@@ -83,7 +82,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     }    
 
     if (!router.isFallback && !slug) {
-        return <ErrorPage statusCode={404} />
+        return <Custom404 />
     }
     
     return (
