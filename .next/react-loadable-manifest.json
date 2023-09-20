@@ -17,16 +17,22 @@
       "static/chunks/node_modules_sanity_groq-store_dist_index_browser_mjs.js"
     ]
   },
-  "[language]/[slug].js -> ../../components/page-programme/preview-page-programme": {
-    "id": "[language]/[slug].js -> ../../components/page-programme/preview-page-programme",
+  "[language]/agenda/[slug].js -> ../../../components/agenda/preview-agenda": {
+    "id": "[language]/agenda/[slug].js -> ../../../components/agenda/preview-agenda",
     "files": [
-      "static/chunks/components_page-programme_preview-page-programme_js.js"
+      "static/chunks/components_agenda_preview-agenda_js.js"
     ]
   },
-  "[language]/[slug].js -> ../../components/page-template/preview-page-template": {
-    "id": "[language]/[slug].js -> ../../components/page-template/preview-page-template",
+  "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page": {
+    "id": "[language]/media/[slug]/[slugTwo].js -> ../../../../components/media-page/preview-media-page",
     "files": [
-      "static/chunks/components_page-template_preview-page-template_js.js"
+      "static/chunks/components_media-page_preview-media-page_js.js"
+    ]
+  },
+  "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media": {
+    "id": "[language]/media/[slug]/index.js -> ../../../../components/media/preview-media",
+    "files": [
+      "static/chunks/components_media_preview-media_js.js"
     ]
   }
 }

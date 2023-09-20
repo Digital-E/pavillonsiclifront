@@ -95,11 +95,10 @@ const ImageWrapper = styled.div`
 
 
 export default function Component ({ data, isDark }) {
-    let router = useRouter();
 
     return (
         <Container isDark={isDark}>
-            <Link href={`${router.query.language}/evenement/${data.slug}`}>
+            <Link href={data.slug}>
                 <InformationTop>
                     <Info>{data.info1}</Info>
                     <Info>{data.info2}</Info>

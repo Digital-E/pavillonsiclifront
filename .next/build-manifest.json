@@ -15,10 +15,20 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/[language]/[slug]": [
+    "/[language]/agenda/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/[language]/[slug].js"
+      "static/chunks/pages/[language]/agenda/[slug].js"
+    ],
+    "/[language]/media/[slug]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[language]/media/[slug].js"
+    ],
+    "/[language]/media/[slug]/[slugTwo]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[language]/media/[slug]/[slugTwo].js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
