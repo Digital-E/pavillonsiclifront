@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
+import Body from '../body'
 import Image from '../image'
+import Video from '../video-local'
 
 let Flickity = null;
 
@@ -70,7 +72,7 @@ const ColRight = styled.div`
 `
 
 
-const Text = styled.h1``
+const Text = styled.div``
 
 
 export default function Component ({ data }) {
@@ -109,6 +111,7 @@ export default function Component ({ data }) {
         init();
     }, []);
 
+
     return (
         <Container>
             <Carousel ref={gallery} aria-live="polite" aria-label="carousel">
@@ -121,10 +124,15 @@ export default function Component ({ data }) {
                                 // aria-current={selectedIndex === index ? true : false}
                             >
                                 <ColLeft>
-                                    <Image data={item.image} />
+                                    {
+                                        item.image ?
+                                        <Image data={item.image} />
+                                        :
+                                        <Video data={item.videoURL} />
+                                    }
                                 </ColLeft>
                                 <ColRight>
-                                    <Text>{item.text}</Text>
+                                    <Text><Body content={item.text} /></Text>
                                 </ColRight>
                             </Slide>
                         )

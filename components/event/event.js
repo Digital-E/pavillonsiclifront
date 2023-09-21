@@ -61,10 +61,10 @@ const BackButton = styled.div`
 `
 
 const CalendarButtons = styled.div`
-    margin: calc(var(--margin) * 1) 0;
+    margin-top: calc(-1 * var(--margin));
 
     > a  {
-        margin-right: calc(var(--margin) * 6);
+        margin:  var(--margin) calc(var(--margin) * 6) var(--margin) 0;
         width fit-content;
     }
 
@@ -122,8 +122,12 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                         <Hero data={data} />
                         <Slices data={data?.slices} />
                         <CalendarButtons>
-                            <a href={data.googleCalLink} target='_blank' rel='noopener noreferrer nofollow'><Button>Ajouter à Google agenda</Button></a>
-                            <a href={`${data.iCalURL}?dl=`} rel='noopener noreferrer nofollow'><Button>Exporter vers I cal</Button></a>
+                            {
+                                data.googleCalLink && <a href={data.googleCalLink} target='_blank' rel='noopener noreferrer nofollow'><Button>Ajouter à Google agenda</Button></a>
+                            }
+                            {
+                                data.iCalURL && <a href={`${data.iCalURL}?dl=`} rel='noopener noreferrer nofollow'><Button>Exporter vers I cal</Button></a>
+                            }
                         </CalendarButtons>
                     </ColRight>
                 </Container>
