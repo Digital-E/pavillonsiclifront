@@ -96,7 +96,11 @@ export default function Component ({ data }) {
 
             players.current?.forEach(item => {item.pause()})
 
-            flickity.next()
+            if(event.clientX < window.innerWidth / 2) {
+                flickity.previous()
+            } else {
+                flickity.next()
+            }
         })
 
         // flickity.on('change', (cellIndex) => {

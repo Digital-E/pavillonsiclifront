@@ -88,11 +88,20 @@ export default function Component ({ data }) {
             cellAlign: "center",
             percentPosition: true,
             wrapAround: true,
+            autoPlay: 4000 
             // setGallerySize: false
         })
 
         // flickity.on('change', (cellIndex) => {
         //     setSelectedIndex(cellIndex)
+        // })
+        // flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
+
+        //     if(event.clientX < window.innerWidth / 2) {
+        //         flickity.previous()
+        //     } else {
+        //         flickity.next()
+        //     }
         // })
     }
 

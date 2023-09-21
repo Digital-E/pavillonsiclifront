@@ -27,15 +27,26 @@ export default function Component({ data, id, hasResize, isInSlider }) {
     let isYoutube = regExp.test(videoId);
 
     useEffect(() => {
-        setWindowHeight(window.innerHeight - 111)
+        let headerHeight = document.querySelector('header').getBoundingClientRect().height
+        setWindowHeight(window.innerHeight - headerHeight)
     }, [])
 
-    fetch(`https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${videoId}`)
-    .then((res) => res.json())
-    .then(data => {
-        setHeight(data.height);
-        setWidth(data.width);
-    })
+    if(!isYoutube) {
+        fetch(`https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${videoId}`)
+        .then((res) => res.json())
+        .then(data => {
+            setHeight(data.height);
+            setWidth(data.width);
+        })
+    } else {
+        fetch(`https://youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data)
+            setHeight(data.height);
+            setWidth(data.width);
+        }) 
+    }
     
     return (
         <Container height={height} width={width} windowHeight={windowHeight} hasResize={hasResize}>

@@ -100,6 +100,15 @@ export default function Component ({ data = {}, footerData, preview = false }) {
 
     useEffect(() => {
         players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+
+        players.current?.forEach(item => {
+            // Remove double click for fullscreen
+            item.eventListeners.forEach(function(eventListener) {
+                if(eventListener.type === 'dblclick') {
+                    eventListener.element.removeEventListener(eventListener.type, eventListener.callback, eventListener.options);
+                }
+            });
+        })
     }, [])
 
     return (

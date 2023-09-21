@@ -106,7 +106,11 @@ export default function Component ({ data, players }) {
 
             players.current?.forEach(item => {item.pause()})
 
-            flickity.next()
+            if(event.clientX < window.innerWidth / 4) {
+                flickity.previous()
+            } else {
+                flickity.next()
+            }
         })
 
         if(data?.length < 2) {

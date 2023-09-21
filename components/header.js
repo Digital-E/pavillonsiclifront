@@ -87,7 +87,7 @@ const Text = styled.div`
 
 
 const Logo = styled.div`
-  height: 90px;
+  height: 77px;
 
   img {
     height: 100%;
