@@ -26,6 +26,7 @@ export default function Index ({ data = {}, preview = false }) {
 
 export async function getStaticProps({ preview = false, params }) {
 
+
   let slug = `${params.language}__archive__${params.slug}`
 
   const archiveData = await getClient(preview).fetch(archiveBySlugQuery, {
