@@ -76,6 +76,7 @@ const ColLeft = styled.div`
 
 const ColRight = styled.div`
     flex-basis: 50%;
+    padding: var(--margin);
 
     @media(max-width: 989px) {
         padding: 0 var(--margin) var(--margin) var(--margin);
