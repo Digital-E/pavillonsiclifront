@@ -49,6 +49,7 @@ const Slide = styled.div`
 
     > a {
         display: flex;  
+        width: 100%;
     }
 
     > a:hover * {
