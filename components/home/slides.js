@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Body from '../body'
 import Image from '../image'
 import Video from '../video-local'
+import Link from '../link'
 
 let Flickity = null;
 
@@ -44,8 +45,15 @@ const Carousel = styled.div`
 
 const Slide = styled.div`
     display: flex;
-    // height: 100vh;
-    width: 100vw;
+    width: 100%;
+
+    > a {
+        display: flex;  
+    }
+
+    > a:hover * {
+        color: var(--black) !important;
+    }
 
     div, img {
         // height: 100% !important;
@@ -54,7 +62,9 @@ const Slide = styled.div`
     }
 
     @media(max-width: 989px) {
-        flex-direction: column;
+        > a {
+            flex-direction: column;
+        }
     }
 `
 
@@ -97,14 +107,15 @@ export default function Component ({ data }) {
         // flickity.on('change', (cellIndex) => {
         //     setSelectedIndex(cellIndex)
         // })
-        // flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
+        flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
 
-        //     if(event.clientX < window.innerWidth / 2) {
-        //         flickity.previous()
-        //     } else {
-        //         flickity.next()
-        //     }
-        // })
+            console.log('click')
+            // if(event.clientX < window.innerWidth / 2) {
+            //     flickity.previous()
+            // } else {
+            //     flickity.next()
+            // }
+        })
     }
 
     useEffect(() => {
@@ -123,17 +134,19 @@ export default function Component ({ data }) {
                                 aria-label={`${index + 1} of ${data.length}`}
                                 // aria-current={selectedIndex === index ? true : false}
                             >
-                                <ColLeft>
-                                    {
-                                        item.image ?
-                                        <Image data={item.image} />
-                                        :
-                                        <Video data={item.videoURL} />
-                                    }
-                                </ColLeft>
-                                <ColRight>
-                                    <Text><Body content={item.text} /></Text>
-                                </ColRight>
+                                <Link href={item.link}>
+                                    <ColLeft>
+                                        {
+                                            item.image ?
+                                            <Image data={item.image} />
+                                            :
+                                            <Video data={item.videoURL} />
+                                        }
+                                    </ColLeft>
+                                    <ColRight>
+                                        <Text><Body content={item.text} /></Text>
+                                    </ColRight>
+                                </Link>
                             </Slide>
                         )
                 }

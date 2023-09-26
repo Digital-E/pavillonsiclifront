@@ -12,6 +12,7 @@ const Container = styled.footer`
   display: flex;
   padding: var(--margin);
   z-index: 1;
+  padding-bottom: var(--footer-padding-bottom);
 
   ::before {
     content: '';

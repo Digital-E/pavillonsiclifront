@@ -1,9 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
 import Plyr from 'plyr'
+
+import splitSlug from '../../lib/splitSlug'
+
+// import { google, outlook, office365, yahoo, ics } from "calendar-link";
+import { google } from "calendar-link";
+import * as ics from 'ics'
 
 import { SITE_NAME } from '../../lib/constants'
 
@@ -45,18 +51,31 @@ const ColLeft = styled.div`
 `
 
 const ColRight = styled.div`
+    margin-bottom: -50px;
+
     @media(max-width: 989px) {
         padding-top: 0;
+        margin-bottom: 0;
     }
 `
 
 const BackButton = styled.div`
-    position: fixed;
+    position: sticky;
     bottom: calc(var(--margin) * 2);
     left: calc(var(--margin) * 2);
+    margin-left: calc(var(--margin) * 2);
+    margin-bottom: calc(var(--margin) * 2);
+    z-index: -1;
 
     > a:hover > button {
         color: var(--black) !important;
+    }
+
+    @media(max-width: 989px) {
+        position: fixed;
+        bottom: calc(var(--margin) * 2);
+        left: calc(var(--margin) * 1);
+        margin: 0;
     }
 `
 
@@ -88,6 +107,9 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
     let players = useRef(null);
 
+    let [googleCalUrl, setGoogleCalUrl] = useState(null)
+    let [icsUrl, setIcsUrl] = useState(null)
+
     const slug = data?.slug
 
     if (router.isFallback) {
@@ -109,7 +131,64 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                 }
             });
         })
+
+        // Create calendar events:
+        const event = {
+            title: data.referenceTitle,
+            description: data.description,
+            start: data.dateAndTime,
+            duration: [1, "hour"]
+        };
+
+        let googleCalUrlVar = google(event);
+
+
+        setGoogleCalUrl(googleCalUrlVar);
+
+        // let newDate = newDate(data.dateAndTime)
+
+        // console.log(newDate.getMinutes())
+
     }, [])
+
+
+
+    const downloadFile = () => {
+        const event = {
+        start: [2018, 5, 30, 6, 30],
+        duration: { hours: 1, minutes: 0 },
+        title: data.referenceTitle,
+        description: data.description,
+        // location: 'Folsom Field, University of Colorado (finish line)',
+        url: `http://www.pavillonsicli.ch/${splitSlug(data.slug)}`,
+        // geo: { lat: 40.0095, lon: 105.2669 },
+        // categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
+        status: 'CONFIRMED',
+        // busyStatus: 'BUSY',
+        // organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
+        // attendees: [
+        //     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true, partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' },
+        //     { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton', role: 'OPT-PARTICIPANT' }
+        // ]
+        }  
+
+        ics.createEvent(event, (error, value) => {
+        if (error) {
+            console.log(error)
+            return
+        }
+
+        const link = document.createElement("a");
+        const file = new Blob([value], { type: 'text/calendar' });
+        link.href = URL.createObjectURL(file);
+        link.download = `${data.referenceTitle}.ics`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+
+        })        
+    }
+
+
 
     return (
         <>
@@ -122,17 +201,15 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                         <Hero data={data} />
                         <Slices data={data?.slices} />
                         <CalendarButtons>
-                            {
-                                data.googleCalLink && <a href={data.googleCalLink} target='_blank' rel='noopener noreferrer nofollow'><Button>Ajouter à Google agenda</Button></a>
-                            }
-                            {
-                                data.iCalURL && <a href={`${data.iCalURL}?dl=`} rel='noopener noreferrer nofollow'><Button>Exporter vers I cal</Button></a>
-                            }
+                            <a href={googleCalUrl} target='_blank' rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Ajouter à Google agenda' : 'Add to Google Calendar'}</Button></a>
+                            <a onClick={() => downloadFile()}  rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Exporter vers I cal' : 'Export to I cal'}</Button></a>
                         </CalendarButtons>
                     </ColRight>
                 </Container>
                 <BackButton>
-                    <Link href={`/${router.query.language}/agenda`}><Button>{router.query.language === 'fr' ? 'Retour agenda' : 'Back to calendar'}</Button></Link>
+                    {
+                        data.backLink && <Link href={data.backLink}><Button>{router.query.language === 'fr' ? 'Retour agenda' : 'Back to calendar'}</Button></Link>
+                    }
                 </BackButton>
             </Layout>
         </>

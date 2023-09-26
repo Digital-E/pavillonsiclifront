@@ -106,7 +106,7 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
         let filterEvents = []
 
         data.events.forEach(itemOne => {
-            if(itemOne.tags === null) return
+            // if(itemOne.tags === null) return
 
             let itemOneSanitized = itemOne.tags?.map(item => sanitizeTag(item))
 

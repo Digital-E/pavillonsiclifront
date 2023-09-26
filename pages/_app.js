@@ -34,11 +34,13 @@ function MyApp({ Component, pageProps, router }) {
 
   let setFooterPadding = () => {
     if(window.innerWidth < 990) {
-      return document.querySelector('footer').style.paddingBottom = '50px'
+      return document.documentElement.style.setProperty("--footer-padding-bottom", `50px`)
+      // return document.querySelector('footer').style.paddingBottom = '50px'
     }
 
     let calendarHeight = document.querySelector('.home-calendar')?.getBoundingClientRect().height;
-    document.querySelector('footer').style.paddingBottom = `${calendarHeight + 10}px`
+    document.documentElement.style.setProperty("--footer-padding-bottom", `${calendarHeight + 10}px`)
+    // document.querySelector('footer').style.paddingBottom = `${calendarHeight + 10}px`
   }
 
   let getCalendarData = async () => {
@@ -104,7 +106,7 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <StateProvider>
       <Header data={pageProps.data?.menuData} />
-      {/* {calendarData !== null && <Calendar data={calendarData} />} */}
+      {calendarData !== null && <Calendar data={calendarData} />}
       {/* <CookieConsent
         buttonText={pageProps.data?.menuData.cookieaccept}
         declineButtonText={pageProps.data?.menuData.cookierefuse}

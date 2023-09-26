@@ -34,34 +34,11 @@ const ColLeft = styled.div`
 
     > div {
         position: sticky;
-        top: 122px;
+        top: calc(var(--menu-height) + var(--margin));
     }
 `
 
 const ColRight = styled.div``
-
-const BackButton = styled.div`
-    position: fixed;
-    bottom: calc(var(--margin) * 2);
-    left: calc(var(--margin) * 2);
-
-    > a:hover > button {
-        color: var(--black) !important;
-    }
-`
-
-const CalendarButtons = styled.div`
-    margin: calc(var(--margin) * 1) 0;
-
-    > a  {
-        margin-right: calc(var(--margin) * 6);
-        width fit-content;
-    }
-
-    > a:hover > button {
-        color: var(--black) !important;
-    }
-`
 
 
 

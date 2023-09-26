@@ -76,7 +76,7 @@ const ColLeft = styled.div`
 `
 
 const Text = styled.div`
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-left: calc(3 * var(--margin));
 
   @media(max-width: 989px) {
@@ -87,7 +87,7 @@ const Text = styled.div`
 
 
 const Logo = styled.div`
-  height: 77px;
+  height: 58px;
 
   img {
     height: 100%;
@@ -119,16 +119,16 @@ const MenuElement = styled.div`
 
   a {
     width: fit-content;
-    margin: calc(var(--margin) / 2) var(--margin);
-    font-size: 1.2rem;
+    margin: calc(var(--margin) / 4) var(--margin);
+    font-size: 1rem;
   }
 
   :nth-child(3n + 1) a {
-    margin-top: var(--margin);
+    margin-top: calc(var(--margin) / 2);
   }
 
   :nth-child(3n) a {
-    margin-bottom: var(--margin);
+    margin-bottom: calc(var(--margin) / 2);
   }
 
   :nth-last-child(1),
@@ -152,6 +152,7 @@ const SubMenu = styled.div`
   position: absolute;
   top: 100%;
   margin-left: -1px;
+  padding: calc(var(--margin) / 2) 0;
   width: 100%;
   display: none;
   flex-direction: column;

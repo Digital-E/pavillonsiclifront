@@ -42,7 +42,6 @@ export default function Component({ data, id, hasResize, isInSlider }) {
         fetch(`https://youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)
         .then((res) => res.json())
         .then(data => {
-            console.log(data)
             setHeight(data.height);
             setWidth(data.width);
         }) 

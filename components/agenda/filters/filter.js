@@ -14,7 +14,7 @@ const Container = styled.div`
     }
 `
 
-const Label = styled.h3`
+const Label = styled.h4`
     margin: 0 var(--margin) 0 0;
 `
 

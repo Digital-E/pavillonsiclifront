@@ -13,7 +13,7 @@ if(typeof window !== 'undefined') {
 
 const Container = styled.div`
     position: fixed;
-    height: calc(100vh - 111px);
+    height: calc(100vh - var(--menu-height));
     width: 100%;
     background: var(--black);
 

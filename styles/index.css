@@ -109,7 +109,7 @@ a {
     text-decoration: none;
     color: inherit;
     opacity: 1;
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 @media(min-width: 990px) {
@@ -127,7 +127,7 @@ button {
     background: white;
     padding: calc(var(--margin) / 2) var(--margin);
     border: 1px solid var(--black);
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: pointer;
     user-select: none;
 }
@@ -199,6 +199,12 @@ input {
           max-width: 1800px;
           margin: 0 auto;
       }
+
+      header, .home-calendar-container {
+        max-width: 1800px;
+        left: 50% !important;
+        transform: translateX(-50%);
+      }
   }
 
   img {
@@ -217,7 +223,7 @@ input {
 
 h1, .h1 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 3.3rem;
+    font-size: 2.9rem;
     letter-spacing: -0.03em;
     margin: 0;
     font-weight: bold;
@@ -225,7 +231,7 @@ h1, .h1 {
 
 h2, .h2 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 2.5rem;
+    font-size: 2rem;
     letter-spacing: -0.03em;
     margin: 0 0 var(--margin) 0;
     line-height: 1.2;
@@ -234,7 +240,7 @@ h2, .h2 {
 
 h3, .h3 {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin: 0 0 var(--margin) 0;
     letter-spacing: normal;
     line-height: 1.2;
@@ -281,7 +287,7 @@ p a
 
 p, .p, li {
     font-family: "ES Dokument Sicli Standard Medium";
-    font-size: 1.125rem;
+    font-size: 1rem;
     margin: 0 0 calc(var(--margin) * 2) 0;
     line-height: 1.2;
     font-weight: normal;
@@ -289,14 +295,14 @@ p, .p, li {
 
 input, input::placeholder, .error-label, label, textarea, select {
   font-family: "ES Dokument Sicli Standard Medium";
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 
 
 .caption {
     font-family: "ES Dokument Sicli Standard Medium";
     display: inline-block;
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 ul {
@@ -317,26 +323,26 @@ li {
   }
 
   h3, .h3 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
   }
 
   h4, .h4 {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   h5, .h5 {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   h6, .h6 {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   p, .p, li {
-      font-size: 1.125rem;
+      font-size: 1rem;
   }
 
   .caption {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 }

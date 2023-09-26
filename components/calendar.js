@@ -380,6 +380,11 @@ let Container = styled.div`
         }
     }
 
+    .home-calendar__events  .active-link {
+        opacity: 1 !important;
+        color: var(--black) !important;
+    }
+
     .home-calendar__events > div:not(:first-child) {
         border-top: 1px solid black;
     }

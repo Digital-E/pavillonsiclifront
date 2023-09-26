@@ -4,6 +4,8 @@ import Image from '../../image'
 import Link from '../../link'
 
 const Container = styled.div`
+    min-height: 300px;
+
     > a {
         display: flex;
         flex-direction: column;

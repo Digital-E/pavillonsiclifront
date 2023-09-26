@@ -87,7 +87,7 @@ const Container = styled.div`
     button {
         position: absolute;
         right: 0;
-        top: 2px;
+        top: 4px;
         -webkit-appearance: none;
         border: none;
         background: none;
