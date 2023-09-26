@@ -10,6 +10,7 @@ const Title = styled.div`
     position: relative;
     padding-bottom: calc(var(--margin) * 1.5);
     border-bottom: 1px solid var(--black);
+    margin: 0;
 
     * {
         font-family: inherit;

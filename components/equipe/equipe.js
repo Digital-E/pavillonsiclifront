@@ -11,6 +11,7 @@ import Tiles from './tiles'
 const Container = styled.div``
 
 const Title = styled.h1`
+    margin: 0;
     padding: calc(var(--margin) * 3) 0;
     text-align: center;
 `

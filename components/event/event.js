@@ -7,9 +7,10 @@ import Plyr from 'plyr'
 
 import splitSlug from '../../lib/splitSlug'
 
-// import { google, outlook, office365, yahoo, ics } from "calendar-link";
 import { google } from "calendar-link";
+// https://anandchowdhary.github.io/calendar-link/
 import * as ics from 'ics'
+// https://github.com/adamgibbons/ics
 
 import { SITE_NAME } from '../../lib/constants'
 
@@ -137,6 +138,8 @@ export default function Component ({ data = {}, footerData, preview = false }) {
             title: data.referenceTitle,
             description: data.description,
             start: data.dateAndTime,
+            end: data.endDateAndTime,
+            url: `http://www.pavillonsicli.ch/${splitSlug(data.slug)}`,
             duration: [1, "hour"]
         };
 
@@ -145,31 +148,36 @@ export default function Component ({ data = {}, footerData, preview = false }) {
 
         setGoogleCalUrl(googleCalUrlVar);
 
-        // let newDate = newDate(data.dateAndTime)
-
-        // console.log(newDate.getMinutes())
 
     }, [])
 
 
 
     const downloadFile = () => {
+        let startDate = new Date(data.dateAndTime)
+        let endDate = new Date(data.endDateAndTime)
+
+        let startYear = startDate.getFullYear()
+        let startMonth = startDate.getMonth() + 1
+        let startDay = startDate.getDate()
+        let startHours = startDate.getHours()
+        let startMinutes = startDate.getMinutes()
+
+        let endYear = endDate.getFullYear()
+        let endMonth = endDate.getMonth() + 1
+        let endDay = endDate.getDate()
+        let endHours = endDate.getHours()
+        let endMinutes = endDate.getMinutes()
+
         const event = {
-        start: [2018, 5, 30, 6, 30],
-        duration: { hours: 1, minutes: 0 },
+        start: [startYear, startMonth, startDay, startHours, startMinutes],
+        end: [endYear, endMonth, endDay, endHours, endMinutes],
+        // duration: { hours: 1, minutes: 0 },
         title: data.referenceTitle,
         description: data.description,
         // location: 'Folsom Field, University of Colorado (finish line)',
         url: `http://www.pavillonsicli.ch/${splitSlug(data.slug)}`,
-        // geo: { lat: 40.0095, lon: 105.2669 },
-        // categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
         status: 'CONFIRMED',
-        // busyStatus: 'BUSY',
-        // organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
-        // attendees: [
-        //     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true, partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' },
-        //     { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton', role: 'OPT-PARTICIPANT' }
-        // ]
         }  
 
         ics.createEvent(event, (error, value) => {
