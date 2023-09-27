@@ -111,6 +111,18 @@ export default function Component ({ data = {}, filters, footerData, preview = f
 
     }, [filtersArray])
 
+    const resetAll = () => {
+        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+
+        newMapFiltersArray.forEach(item => 
+            item.filters.forEach(item => {
+                item.selected = false
+            })
+        )
+
+        setFiltersArray(newMapFiltersArray)
+    }
+
     if (router.isFallback) {
         return <div>Loading...</div>
     }    
@@ -124,7 +136,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         <>
             <Layout preview={preview} title={`${data?.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
-                    <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} />
+                    <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} resetAll={() => resetAll()} />
                     <Hero data={data} />
                     <Tiles data={mediaArray} />
                 </Container>

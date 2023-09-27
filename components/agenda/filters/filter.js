@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 
@@ -29,6 +30,10 @@ const Filter = styled.select`
     width: 70%;
     cursor: pointer;
 
+    &&.selected {
+        color: var(--black);
+    }
+
     @media(max-width: 989px) {
         margin-top: var(--margin);
         width: 100%;
@@ -39,15 +44,31 @@ const Option = styled.option``
 
 
 export default function Component ({ data, indexOne, toggleFilters }) {
+    let filterRef = useRef();
+    let [isSelected, setIsSelected] = useState(false);
 
+    useEffect(() => {
+        let isSelectedVar = false;
+        data.filters.forEach((item, index) => {
+            if(item.selected && index !== 0) {
+                isSelectedVar = true;
+            }
+        })
+
+        setIsSelected(isSelectedVar)
+
+        if(!isSelectedVar) {
+            filterRef.current.selectedIndex = 0;
+        }
+    }, [data])
 
     return (
         <Container>
             <Label>{data.category}</Label>
             {
                 data.filters ?
-                    <Filter onChange={(e) => toggleFilters(indexOne, parseInt(e.currentTarget.value))}>
-                        {data.filters?.map((item, indexTwo) => <Option className='p' value={indexTwo}>{item.label}</Option>)} 
+                    <Filter ref={filterRef} onChange={(e) => toggleFilters(indexOne, parseInt(e.currentTarget.value))} className={isSelected && 'selected'}>
+                        {data.filters?.map((item, indexTwo) => <Option  className='p' value={indexTwo}>{item.label}</Option>)} 
                     </Filter>  
                 :
                 null

@@ -104,17 +104,7 @@ const Container = styled.div`
     }
 
     @media(max-width: 989px) {
-      form input {
 
-      }
-
-      form input::placeholder {
-
-      }
-
-      button {
-        top: 1px;
-      }
     }
 `;
 

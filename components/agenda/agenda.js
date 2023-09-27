@@ -121,11 +121,23 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
     }, [filtersArray])
 
+    const resetAll = () => {
+        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+
+        newMapFiltersArray.forEach(item => 
+            item.filters.forEach(item => {
+                item.selected = false
+            })
+        )
+
+        setFiltersArray(newMapFiltersArray)
+    }
+
     return (
         <>
             <Layout preview={preview} title={`${data?.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
-                    <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} />
+                    <Filters data={filtersArray} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} resetAll={() => resetAll()} />
                     <Hero data={data} isDark={isDark} />
                     <Tiles data={eventsArray} isDark={isDark} />
                 </Container>

@@ -59,6 +59,8 @@ export async function getStaticProps({ preview = false, params }) {
 export async function getStaticPaths() {
     const paths = await sanityClient.fetch(mediaPageSlugsQuery)
 
+    console.log(paths)
+
     return {
       paths: paths.map(({language, slug}) => ({
         params: { language: language , slug: splitSubSlug(slug, 1), slugTwo: splitSubSlug(slug, 2)}
