@@ -109,7 +109,6 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     let players = useRef(null);
 
     let [googleCalUrl, setGoogleCalUrl] = useState(null)
-    let [icsUrl, setIcsUrl] = useState(null)
 
     const slug = data?.slug
 
@@ -122,7 +121,8 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     }
 
     useEffect(() => {
-        players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+        // 'play-large'
+        players.current = Plyr.setup('.player', {clickToPlay: false, quality: {default: 1080}, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
 
         players.current?.forEach(item => {
             // Remove double click for fullscreen

@@ -13,6 +13,10 @@ const Container = styled.div`
         height: 100%;
     }
 
+    &.no-link a:hover * {
+        color: var(--black) !important
+    }
+
     :hover .agenda-vignette {
         display: block;
     }
@@ -30,16 +34,20 @@ const ColLeft = styled.div`
     display: flex;
     flex-basis: 40%;
 
+    > p {
+        padding: 0 var(--margin);
+    }
+
     > p:nth-child(1) {
-        flex-basis: 20%;
+        flex-basis: 35%;
     }
 
     > p:nth-child(2) {
-        flex-basis: 40%;
+        flex-basis: 35%;
     }
 
     > p:nth-child(3) {
-        flex-basis: 40%;
+        flex-basis: 30%;
     }
 
     * {
@@ -49,6 +57,10 @@ const ColLeft = styled.div`
     @media(max-width: 989px) {
         flex-direction: column;
         flex-basis: 100%;
+
+        > p {
+            padding: 0;
+        }
     }
 `
 
@@ -82,10 +94,9 @@ const Title = styled.div`
 
 
 export default function Component ({ data }) {
-    let router = useRouter();
 
     return (
-        <Container>
+        <Container className={data.link === undefined && 'no-link'}>
             <Link href={data.link}>
                 <ColLeft>
                     <Info>{data.info1}</Info>

@@ -67,11 +67,12 @@ const ColRight = styled.div`
   @media(max-width: 989px) {
     justify-content: flex-start;
     flex-wrap: wrap;
+    margin-top: var(--margin);
   }
 `
 
 const ImageWrapper = styled.div`
-  height: 70px;
+  height: 40px;
 
   > div {
     height: 100%;

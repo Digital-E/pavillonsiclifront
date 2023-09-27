@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import styled from 'styled-components'
 import Body from '../../body'
 import Image from '../../image'
@@ -98,8 +96,14 @@ const ImageWrapper = styled.div`
 
 export default function Component ({ data, isDark }) {
 
+    let day = new Date(data.dateAndTime).getDate()
+    let month = new Date(data.dateAndTime).getMonth() + 1
+    let year = new Date(data.dateAndTime).getFullYear()
+    
+    let date = `${month}-${day}-${year}`
+
     return (
-        <Container isDark={isDark}>
+        <Container isDark={isDark} data-date={date} className='agenda-tile'>
             <Link href={data.slug}>
                 <InformationTop>
                     <Info>{data.info1}</Info>

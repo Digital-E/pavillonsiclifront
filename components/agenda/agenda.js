@@ -12,6 +12,11 @@ import Filters from './filters'
 import Hero from './hero'
 import Tiles from './tiles'
 
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
+gsap.registerPlugin(ScrollToPlugin);
+
+
 const Container = styled.div``
 
 
@@ -29,6 +34,40 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
     if (!router.isFallback && !slug) {
         return <Custom404 />
+    }
+
+    let scrollToClosestToToday = () => {
+
+        let allTiles = document.querySelectorAll('.agenda-tile')
+
+        if(allTiles.length === 0) return
+
+        let allDates = Array.from(allTiles).map(item => item.getAttribute('data-date'))
+        let arr = allDates.map(item => new Date(item))
+
+        let diffdate = new Date();
+
+        arr.sort(function(a, b) {
+            var distancea = Math.abs(diffdate - a);
+            var distanceb = Math.abs(diffdate - b);
+            return distancea - distanceb; // sort a before b when the distance is smaller
+        });
+
+        let closestToToday = arr[0]
+
+        let closestToTodayFormat = `${closestToToday.getMonth() + 1}-${closestToToday.getDate()}-${closestToToday.getFullYear()}`
+
+        let tileToScrollTo = null
+
+        Array.from(allTiles).forEach(item => {
+            if(item.getAttribute('data-date') === closestToTodayFormat) {
+                tileToScrollTo = item
+            }
+        })
+
+        let scrollTo = tileToScrollTo.getBoundingClientRect().top - document.querySelector('header').getBoundingClientRect().height - document.querySelector('.filters').getBoundingClientRect().height
+
+        gsap.to(window, {duration: 1, scrollTo: scrollTo});
     }
 
     useEffect(() => {
@@ -76,15 +115,18 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
         setFiltersArray(mapFiltersArray)
 
         getUrlParams(mapFiltersArray)
-    }, [])
 
-    useEffect(() => {
-        let allEvents = data.events
+        // Sort events by date
 
-        allEvents.sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
+        let allEvents = data?.events
+
+        allEvents?.sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
 
         setEventsArray(allEvents)
 
+        setTimeout(() => {
+            scrollToClosestToToday();
+        }, 0)
     }, [])
 
     let modifyUrlParams = (indexOne, indexTwo) => {
@@ -116,7 +158,7 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
     }
 
     let toggleFiltersInit = (indexOne, indexTwo, filtersArray) => {
-        
+
         let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
     
         newMapFiltersArray[indexOne].filters.forEach(item => {
@@ -160,8 +202,7 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
         let filterEvents = []
 
-        data.events.forEach(itemOne => {
-            // if(itemOne.tags === null) return
+        data?.events?.forEach(itemOne => {
 
             let itemOneSanitized = itemOne.tags?.map(item => sanitizeTag(item))
 

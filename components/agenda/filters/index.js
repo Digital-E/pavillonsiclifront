@@ -85,7 +85,7 @@ export default function Component ({ data, toggleFilters, resetAll }) {
     }
 
     return (
-        <Container>
+        <Container className='filters'>
             <Filters>
                 <FiltersInner ref={filtersInnerRef} className={mobileFiltersOpen && 'mobile-filters--open'}>
                     {data.map((item, index) => <Filter data={item} indexOne={index} toggleFilters={(indexOne, indexTwo) => toggleFilters(indexOne, indexTwo)} />)}

@@ -517,7 +517,8 @@ export default function Component({ data }) {
                     itemThree?.occurences?.forEach((itemFour, indexFour) => {
 
                         let parsedDate = null
-                        if(itemFour !== null) {
+
+                        if(itemFour !== null && itemFour !== "") {
                             parsedDate = format(parseISO(itemFour), 'yyyy-LL-dd')
                         }
 
