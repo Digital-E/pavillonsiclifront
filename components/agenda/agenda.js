@@ -19,7 +19,7 @@ const Container = styled.div``
 export default function Component ({ data = {}, filters, isDark, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [eventsArray, setEventsArray] = useState(data?.events);
+    let [eventsArray, setEventsArray] = useState([]);
 
     const slug = data?.slug
 
@@ -74,18 +74,73 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
 
         setFiltersArray(mapFiltersArray)
+
+        getUrlParams(mapFiltersArray)
     }, [])
 
-    let toggleFilters = (indexOne, indexTwo) => {
-        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+    useEffect(() => {
+        let allEvents = data.events
 
+        allEvents.sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
+
+        setEventsArray(allEvents)
+
+    }, [])
+
+    let modifyUrlParams = (indexOne, indexTwo) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set(indexOne, indexTwo);
+        window.history.replaceState(null, null, url); // or pushState
+    }
+
+    let resetUrlParams = () => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete(0);
+        url.searchParams.delete(1);
+        url.searchParams.delete(2);
+        window.history.replaceState(null, null, url); // or pushState
+    }
+
+    let getUrlParams = (filtersArray) => {
+        let params = new URL(document.location).searchParams;
+        let value1 = {indexOne: 0, indexTwo: params.get(0)};
+        let value2 = {indexOne: 1, indexTwo: params.get(1)};
+        let value3 = {indexOne: 2, indexTwo: params.get(2)};
+
+        let valuesArray = [value1, value2, value3]
+
+        valuesArray.forEach(item => {
+            if(item.indexTwo === null) return
+            toggleFiltersInit(item.indexOne, item.indexTwo, filtersArray)
+        })
+    }
+
+    let toggleFiltersInit = (indexOne, indexTwo, filtersArray) => {
+        
+        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+    
         newMapFiltersArray[indexOne].filters.forEach(item => {
             item.selected = false
         })
 
         newMapFiltersArray[indexOne].filters[indexTwo].selected = true
-
+        
         setFiltersArray(newMapFiltersArray)
+
+    }
+
+    let toggleFilters = (indexOne, indexTwo) => {
+        let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
+    
+        newMapFiltersArray[indexOne].filters.forEach(item => {
+            item.selected = false
+        })
+
+        newMapFiltersArray[indexOne].filters[indexTwo].selected = true
+        
+        setFiltersArray(newMapFiltersArray)
+
+        modifyUrlParams(indexOne, indexTwo);
     }
 
     useEffect(() => {
@@ -125,12 +180,14 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
         let newMapFiltersArray = JSON.parse(JSON.stringify(filtersArray))
 
         newMapFiltersArray.forEach(item => 
-            item.filters.forEach(item => {
+            item.filters?.forEach(item => {
                 item.selected = false
             })
         )
 
         setFiltersArray(newMapFiltersArray)
+
+        resetUrlParams();
     }
 
     return (

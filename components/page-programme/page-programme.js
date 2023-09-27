@@ -35,7 +35,7 @@ const ColLeft = styled.div`
 
     > div {
         position: sticky;
-        top: 122px;
+        top: calc(var(--menu-height) + var(--margin));
     }
 `
 

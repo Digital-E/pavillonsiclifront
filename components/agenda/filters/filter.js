@@ -5,13 +5,14 @@ import styled from 'styled-components'
 const Container = styled.div`
     display: flex;
     align-items: center;
+
+    &:empty {
+        display: none;
+    }
     
     @media(max-width: 989px) {
         flex-direction: column;
         align-items: flex-start;
-        // > h3, > select {
-        //     flex-basis: 50%;
-        // }
     }
 `
 
@@ -49,22 +50,25 @@ export default function Component ({ data, indexOne, toggleFilters }) {
 
     useEffect(() => {
         let isSelectedVar = false;
-        data.filters.forEach((item, index) => {
+
+        data.filters?.forEach((item, index) => {
             if(item.selected && index !== 0) {
                 isSelectedVar = true;
+
+                filterRef.current.selectedIndex = index;
             }
         })
 
         setIsSelected(isSelectedVar)
 
-        if(!isSelectedVar) {
+        if(!isSelectedVar && filterRef.current) {
             filterRef.current.selectedIndex = 0;
         }
     }, [data])
 
     return (
         <Container>
-            <Label>{data.category}</Label>
+            {data.category && <Label>{data.category}</Label>}
             {
                 data.filters ?
                     <Filter ref={filterRef} onChange={(e) => toggleFilters(indexOne, parseInt(e.currentTarget.value))} className={isSelected && 'selected'}>
