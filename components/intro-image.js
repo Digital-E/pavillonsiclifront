@@ -33,7 +33,7 @@ const Caption = styled.div`
 `
 
 
-const Image = ({ data, isInSlider }) => {
+const Image = ({ data, isInSlider, hasLoaded }) => {
 
     if(data === null || data === undefined) return null;
 
@@ -48,6 +48,7 @@ const Image = ({ data, isInSlider }) => {
 
     let revealImage = () => {
         imageRef.current.classList.remove('hide-image')
+        hasLoaded()
     }
 
     return (

@@ -9,7 +9,12 @@ import Layout from '../layout'
 import Slides from './slides'
 import Tiles from './tiles'
 
-const Container = styled.div``
+import IntroOverlay from '../intro-overlay'
+
+const Container = styled.div`
+    opacity: 0;
+    transition: opacity 0.3s;
+`
 
 
 export default function Component ({ data = {}, footerData, preview = false }) {
@@ -28,7 +33,8 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     return (
         <>
             <Layout preview={preview} title={`${data.title} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
-                <Container>
+                <IntroOverlay data={data?.introImages}/>
+                <Container className='home-container'>
                     <Slides data={data?.slides} />
                     <Tiles data={data?.tiles} />
                 </Container>
