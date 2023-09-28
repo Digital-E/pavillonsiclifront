@@ -64,10 +64,14 @@ export default function Component ({ data }) {
                 <Info>{data.info1}</Info>
                 <Info>{data.info2}</Info>
                 <Info>{data.info3}</Info>
+                <Info>{data.info4}</Info>
             </Information>
-            <Excerpt className='h3'>
-                <Body content={data?.excerpt} />
-            </Excerpt>
+            {
+                data?.excerpt &&
+                <Excerpt className='h3'>
+                    <Body content={data?.excerpt} />
+                </Excerpt>
+            }
         </Container>
     )
 }

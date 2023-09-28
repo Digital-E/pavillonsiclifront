@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { useRouter } from 'next/router'
 import Custom404 from '../../pages/404'
 
@@ -44,18 +43,39 @@ const ColLeft = styled.div`
 `
 
 const ColRight = styled.div`
+    display: flex;
     margin: calc(var(--margin)*2) 0 calc(var(--margin)*10) 0;
-    column-count: 2;
 
-    * {
+    // * {
+    //     margin: 0;
+    //     font-size: inherit;
+    // }
+
+    p {
         margin: 0;
-        font-size: inherit;
+    }
+
+    > div {
+        padding: 0 calc(2 * var(--margin));
     }
 
     @media(max-width: 989px) {
-        column-count: 1;
+        flex-direction: column;
+
+        > div {
+            padding: 0;
+        }
     }
 `
+
+const ColRightInnerLeft = styled.div``
+
+const ColRightInnerRight = styled.div`
+    @media(max-width: 989px) {
+        margin-top: calc(var(--margin) * 2)
+    }
+`
+
 
 const RowTwo = styled.div`
     display: flex;  
@@ -112,8 +132,13 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                         <ColLeft>
                             <h1>{data.referenceTitle}</h1>
                         </ColLeft>
-                        <ColRight className='h3'>
-                            <Body content={data?.textOne} />
+                        <ColRight>
+                            <ColRightInnerLeft>
+                                <Body content={data?.textOne} />
+                            </ColRightInnerLeft>
+                            <ColRightInnerRight>
+                                <Body content={data?.textTwo} />
+                            </ColRightInnerRight>
                         </ColRight>
                     </RowOne>
                     <RowTwo>

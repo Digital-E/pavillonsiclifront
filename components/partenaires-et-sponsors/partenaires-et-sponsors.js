@@ -62,7 +62,7 @@ const Text = styled.div`
     column-count: 4;
 
     * {
-        margin: 0;
+        margin: 0 0 calc(var(--margin) * 2) 0;
         font-size: inherit;
     }
 

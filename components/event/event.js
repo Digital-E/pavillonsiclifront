@@ -83,6 +83,10 @@ const BackButton = styled.div`
 const CalendarButtons = styled.div`
     margin-top: calc(-1 * var(--margin));
 
+    &&.hide-calendar-buttons {
+        display: none;
+    }
+
     > a  {
         margin:  var(--margin) calc(var(--margin) * 6) var(--margin) 0;
         width fit-content;
@@ -107,6 +111,7 @@ const CalendarButtons = styled.div`
 export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
     let players = useRef(null);
+    let [eventHasFinished, setEventHasFinished] = useState(false)
 
     let [googleCalUrl, setGoogleCalUrl] = useState(null)
 
@@ -196,6 +201,15 @@ export default function Component ({ data = {}, footerData, preview = false }) {
         })        
     }
 
+    useEffect(() => {
+        let today = new Date();
+        let endDate = new Date(data?.endDateAndTime);
+
+        if(endDate - today < 0) {
+            setEventHasFinished(true)
+        }
+    }, [])
+
 
 
     return (
@@ -208,7 +222,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                     <ColRight>
                         <Hero data={data} />
                         <Slices data={data?.slices} />
-                        <CalendarButtons>
+                        <CalendarButtons className={eventHasFinished && 'hide-calendar-buttons'}>
                             <a href={googleCalUrl} target='_blank' rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Ajouter à Google agenda' : 'Add to Google Calendar'}</Button></a>
                             <a onClick={() => downloadFile()}  rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Exporter vers I cal' : 'Export to I cal'}</Button></a>
                         </CalendarButtons>
