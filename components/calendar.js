@@ -161,6 +161,23 @@ let Container = styled.div`
         text-align: center;
     }
 
+    .home-calendar__modal--show .home-calendar__day__hitzone {
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%)
+    }
+    // .home-calendar__day__hitzone {
+    //     position: absolute;
+    //     height: 100px;
+    //     width: 100px;
+    //     left: 50%;
+    //     top: 50%;
+    //     transform: translate(-50%, -50%)
+    // }
+
     @media(max-width: 1200px) {
         .home-calendar__col-right {
             margin-left: -5px;
@@ -692,6 +709,7 @@ export default function Component({ data }) {
                                 ${item.events.length > 0 &&'home-calendar__day--has-event'} 
                                 ${item.events.length > 1 && 'home-calendar__day--has-two-events'}
                                 `}>
+                                <div className='home-calendar__day__hitzone'></div>
                                 <span>{index + 1}</span>
                                 <div class="home-calendar__modal-overlay"></div>
                                 <div class="home-calendar__modal">

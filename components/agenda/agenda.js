@@ -28,13 +28,6 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
     const slug = data?.slug
 
-    if (router.isFallback) {
-        return <div>Loading...</div>
-    }
-
-    if (!router.isFallback && !slug) {
-        return <Custom404 />
-    }
 
     let scrollToClosestToToday = () => {
 
@@ -233,6 +226,14 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
         setFiltersArray(newMapFiltersArray)
 
         resetUrlParams();
+    }
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }
+
+    if (!router.isFallback && !slug) {
+        return <Custom404 />
     }
 
     return (

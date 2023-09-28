@@ -19,13 +19,21 @@ const Title = styled.div`
         font-weight: inherit;
         line-height: inherit;
         margin: 0;
-    }    
+    }
+    
+    @media(max-width: 989px) {
+        margin-top: var(--margin);
+    }
 `
 
 const Information = styled.div`
     display: flex;
     padding: var(--margin) 0;
     border-bottom: 1px solid var(--black);
+
+    @media(max-width: 989px) {
+        flex-direction: column
+    }
 `
 
 const Info = styled.h3`
@@ -36,9 +44,16 @@ const Info = styled.h3`
     :not(:last-child) {
         margin: 0 calc(6 * var(--margin)) 0 0 !important;
     }
+
+    @media(max-width: 989px) {
+        :not(:last-child) {
+            margin: 0 !important;
+        }
+    }
+
 `
 const Excerpt = styled.div`
-    margin: 0 0 calc(2 * var(--margin)) 0;
+    margin: 0 0 calc(var(--margin)) 0;
     padding: var(--margin) 0;
     border-bottom: 1px solid var(--black);
 

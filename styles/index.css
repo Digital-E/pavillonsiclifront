@@ -80,6 +80,8 @@ main {
     --ternary-color: #999999;
     --margin: 10px;
 
+    --footer-padding-bottom: var(--margin);
+
     --plyr-range-thumb-background: transparent;
     /* --plyr-video-progress-buffered-background: transparent; */
     --plyr-color-main: transparent;

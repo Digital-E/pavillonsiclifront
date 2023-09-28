@@ -6,13 +6,11 @@ import '../styles/flickity-fade.css'
 
 import { useEffect, useState } from 'react'
 // import { useRouter } from 'next/router'
-import Script from 'next/script'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StateProvider } from "../store"
 import { getClient } from '../lib/sanity.server'
 import { allEvents } from '../lib/queries'
 
-import Body from "../components/body"
 // import CookieConsent from "react-cookie-consent"
 import Notification from '../components/notification'
 
@@ -39,7 +37,12 @@ function MyApp({ Component, pageProps, router }) {
     }
 
     let calendarHeight = document.querySelector('.home-calendar')?.getBoundingClientRect().height;
-    document.documentElement.style.setProperty("--footer-padding-bottom", `${calendarHeight + 10}px`)
+
+    if(calendarHeight) {
+      document.documentElement.style.setProperty("--footer-padding-bottom", `${calendarHeight + 20}px`)
+    } else {
+      document.documentElement.style.setProperty("--footer-padding-bottom", `${10}px`)
+    }
     // document.querySelector('footer').style.paddingBottom = `${calendarHeight + 10}px`
   }
 

@@ -59,6 +59,7 @@ const ColRight = styled.div`
   display: flex;
   flex-basis: 50%;
   justify-content: flex-end;
+  align-items: center;
 
   a {
     width: fit-content;

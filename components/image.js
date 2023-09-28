@@ -34,9 +34,10 @@ const Caption = styled.div`
 
 
 const Image = ({ data, isInSlider }) => {
-    let imageRef = useRef();
-
+    
     if(data === null || data === undefined) return null;
+
+    let imageRef = useRef();
 
     const configuredSanityClient = createClient(sanityConfig);
 

@@ -66,7 +66,7 @@ const BackButton = styled.div`
     left: calc(var(--margin) * 2);
     margin-left: calc(var(--margin) * 2);
     margin-bottom: calc(var(--margin) * 2);
-    z-index: -1;
+    z-index: 0;
 
     > a:hover > button {
         color: var(--black) !important;
@@ -105,6 +105,11 @@ const CalendarButtons = styled.div`
         }
     }
 `
+
+const SlicesWrapper = styled.div`
+    margin: var(--margin) 0 0 0;
+`
+
 
 
 
@@ -221,7 +226,9 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                     </ColLeft>
                     <ColRight>
                         <Hero data={data} />
-                        <Slices data={data?.slices} />
+                        <SlicesWrapper>
+                            <Slices data={data?.slices} />
+                        </SlicesWrapper>
                         <CalendarButtons className={eventHasFinished && 'hide-calendar-buttons'}>
                             <a href={googleCalUrl} target='_blank' rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Ajouter à Google agenda' : 'Add to Google Calendar'}</Button></a>
                             <a onClick={() => downloadFile()}  rel='noopener noreferrer nofollow'><Button>{router.query.language === 'fr' ? 'Exporter vers I cal' : 'Export to I cal'}</Button></a>
