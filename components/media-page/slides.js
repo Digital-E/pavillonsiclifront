@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import Image from '../image'
 import Video from '../video-embed'
 
+import { useMediaQuery } from 'react-responsive'
+
 let Flickity = null;
 
 if(typeof window !== 'undefined') {
@@ -66,6 +68,30 @@ const Slide = styled.div`
     .caption {
         color: white;
     }
+
+    @media(max-width: 1199px) {
+        > .image-wrapper {
+            height: 50%;
+            width: auto;
+        }
+    }
+
+    @media(max-width: 989px) {
+        > .image-wrapper {
+            height: auto;
+            width: 100%;
+        }
+
+        > div > img
+        {
+           width: 100% !important;
+           height: auto !important;
+       }
+
+       .video-embed-container {
+            width: 100% !important
+       }
+    }
 `
 
 
@@ -73,6 +99,10 @@ export default function Component ({ data }) {
     let flickity = null;
     let gallery = useRef();
     let players = useRef(null);
+
+    const isDesktop = useMediaQuery({
+        query: '(min-width: 1200px)'
+    })
 
     let init = () => {
         if(flickity !== null) return
@@ -117,7 +147,11 @@ export default function Component ({ data }) {
 
             let aspectRatio = width / height 
 
-            item.elements.container.parentNode.style.width = `${aspectRatio * 0.7 * window.innerHeight}px`
+            let isDesktopVar = window.innerWidth > 1200 ? 0.7 : 0.5
+
+            console.log(isDesktopVar)
+
+            item.elements.container.parentNode.style.width = `${aspectRatio * isDesktopVar * window.innerHeight}px`
         })
     }
 
@@ -159,7 +193,7 @@ export default function Component ({ data }) {
                                 {item._type === 'captionImage' ?
                                     <Image data={item} />
                                     :
-                                    <Video data={item} hasResize={true} />
+                                    <Video data={item} hasResize={true} resizeAmount={isDesktop ? 0.7 : 0.5}/>
                                 }
                             </Slide>
                         )

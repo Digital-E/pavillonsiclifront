@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 const Container = styled.div`
-    width: ${props => props.hasResize ? `${props.width / props.height * 0.7 * props.windowHeight}px` : `100%`};
+    width: ${props => props.hasResize ? `${props.width / props.height * props.resizeAmount * props.windowHeight}px` : `100%`};
 `
 
 
@@ -15,7 +15,7 @@ const Caption = styled.div`
 `
 
 
-export default function Component({ data, id, hasResize, isInSlider }) {
+export default function Component({ data, id, hasResize, resizeAmount, isInSlider }) {
     let [height, setHeight] = useState(0);
     let [width, setWidth] = useState(0);
     let [windowHeight, setWindowHeight] = useState(0);
@@ -48,7 +48,7 @@ export default function Component({ data, id, hasResize, isInSlider }) {
     }
     
     return (
-        <Container height={height} width={width} windowHeight={windowHeight} hasResize={hasResize}>
+        <Container height={height} width={width} windowHeight={windowHeight} hasResize={hasResize} resizeAmount={resizeAmount} className='video-embed-container'>
             <div class="plyr__video-embed player" id={id}>
                 <iframe
                 src={

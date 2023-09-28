@@ -70,10 +70,14 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
         gsap.to(window, {duration: 1, scrollTo: scrollTo});
     }
 
+    
+
     useEffect(() => {
+
+
         // Reorganise Filters
 
-        let filtersArray = [
+        let filtersArrayVar = [
             {
                 category: filters.filterCategoryOne,
                 filters: filters.filterListOne
@@ -88,7 +92,8 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
             }
         ];
 
-        let mapFiltersArray = filtersArray.map(itemOne => {
+
+        let mapFiltersArray = JSON.parse(JSON.stringify(filtersArrayVar)).map(itemOne => {
             itemOne.filters?.unshift('Tout')
 
             let newFilters = itemOne.filters?.map(itemTwo => {
@@ -111,7 +116,6 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
             return newItem
         })
 
-
         setFiltersArray(mapFiltersArray)
 
         getUrlParams(mapFiltersArray)
@@ -126,7 +130,7 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
         setTimeout(() => {
             scrollToClosestToToday();
-        }, 0)
+        }, 100)
     }, [])
 
     let modifyUrlParams = (indexOne, indexTwo) => {

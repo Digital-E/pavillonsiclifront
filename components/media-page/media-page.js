@@ -7,23 +7,26 @@ import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
 import Slides from './slides'
-import Link from '../link'
+import { useEffect } from 'react'
 
-const Container = styled.div``
+const Container = styled.div`
+    position: fixed;
+    height: 100%;
+    width: 100%;
+`
 
 const BackButton = styled.div`
     position: absolute;
     top: calc(var(--margin) * 2);
     right: calc(var(--margin) * 2);
     z-index: 999;
+    cursor: button;
 
     svg {
         fill: white;
         width: 25px;
     }
 `
-
-
 
 export default function Component ({ data = {}, footerData, preview = false }) {
     const router = useRouter()
@@ -38,12 +41,22 @@ export default function Component ({ data = {}, footerData, preview = false }) {
         return <Custom404 />
     }
 
+    useEffect(() => {
+        let homeCalendarContainer = document.querySelector('.home-calendar-container')
+
+        if(homeCalendarContainer) homeCalendarContainer.style.display = 'none';
+        
+        return () => {
+            if(homeCalendarContainer) homeCalendarContainer.style.display = 'block';
+        }
+    }, [])
+
     return (
         <>
             <Layout preview={preview} title={`${data?.referenceTitle} | ${SITE_NAME}`} description={data?.description} ogImage={data?.ogImage} footerData={footerData}>
                 <Container>
-                    <BackButton>
-                        <Link href={`/${router.query.language}/media/${router.query.slug}`}>
+                    <BackButton onClick={() => router.back()}>
+                        <div>
                             <svg x="0px" y="0px" viewBox="0 0 490 490" xmlSpace="preserve">
                             <g>
                                 <g>
@@ -62,7 +75,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                                 </g>
                             </g>
                             </svg>                            
-                        </Link>
+                        </div>
                     </BackButton>                    
                     <Slides data={data?.slides} />
                 </Container>
