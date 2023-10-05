@@ -589,6 +589,7 @@ export default function Component({ data }) {
             }
 
             let toggleModalVisibleOff = (item) => {
+                if(window.innerWidth > 990) return
                 if(item.classList.contains("home-calendar__day--has-event")) {
                     item.classList.remove("home-calendar__modal--show")
                     document.querySelector(".home-calendar").style.zIndex = "0";

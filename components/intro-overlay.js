@@ -44,6 +44,7 @@ export default function Component({ data }) {
         if(!containerRef.current) return
         containerRef.current.classList.add('close-intro-overlay')
         setTimeout(() => {
+            if(!containerRef.current) return
             containerRef.current.style.display = 'none'
         }, 350)
         window.sessionStorage.setItem("pavillonSicliIntro", "true");
