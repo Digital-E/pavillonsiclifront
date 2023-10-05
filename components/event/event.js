@@ -52,7 +52,7 @@ const ColLeft = styled.div`
 `
 
 const ColRight = styled.div`
-    margin-bottom: -50px;
+    margin-bottom: ${props => props.marginBottom ? '-50px' : '0px'};
 
     @media(max-width: 989px) {
         padding-top: 0;
@@ -74,9 +74,10 @@ const BackButton = styled.div`
 
     @media(max-width: 989px) {
         position: fixed;
-        bottom: calc(var(--margin) * 2);
-        left: calc(var(--margin) * 1);
-        margin: 0;
+        bottom: calc(var(--margin) * 6);
+        right: calc(var(--margin) * 1);
+        left: auto;
+        margin: 0px;
     }
 `
 
@@ -224,7 +225,7 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                     <ColLeft>
                         <Slides data={data?.slides} players={players} />
                     </ColLeft>
-                    <ColRight>
+                    <ColRight marginBottom={data.backLink}>
                         <Hero data={data} />
                         <SlicesWrapper>
                             <Slices data={data?.slices} />

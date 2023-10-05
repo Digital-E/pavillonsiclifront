@@ -70,7 +70,7 @@ const Text = styled.div`
 `
 
 const EmailSubscribeWrapper = styled.div`
-    margin-top: var(--margin);
+    margin: var(--margin) 0 calc(var(--margin) * 2) 0;
 `
 
 

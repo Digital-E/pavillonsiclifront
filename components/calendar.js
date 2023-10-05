@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
 import styled from "styled-components"
 import Link from "./link"
 import Tile from './home/tiles/tile'
-import Body from "./body"
-import Image from "./image"
-// import DateComponent from "./date-component"
 
 import sanitizeTag from "../lib/sanitizeTag"
 
@@ -26,6 +23,12 @@ let Container = styled.div`
         position: absolute;
         right: var(--margin);
         display: none;
+    }
+
+    @media(max-width: 989px) {
+        &.home-calendar-container__modal--show {
+            height: 100%;
+        }
     }
 
     @media(max-width: 1000px) {
@@ -169,14 +172,6 @@ let Container = styled.div`
         top: 50%;
         transform: translate(-50%, -50%)
     }
-    // .home-calendar__day__hitzone {
-    //     position: absolute;
-    //     height: 100px;
-    //     width: 100px;
-    //     left: 50%;
-    //     top: 50%;
-    //     transform: translate(-50%, -50%)
-    // }
 
     @media(max-width: 1200px) {
         .home-calendar__col-right {
@@ -208,7 +203,11 @@ let Container = styled.div`
         }
     }
 
-    
+    @media(max-width: 989px) {
+        .home-calendar__modal--show .home-calendar__day__hitzone {
+            display: none;
+        }
+    }
 
     @media(max-width: 767px) {
         .home-calendar {
@@ -266,6 +265,7 @@ let Container = styled.div`
         height: 27px;
         border: 2px solid black;
         border-radius: 999px;
+        pointer-events: none;
     }
 
     .home-calendar__day--has-two-events::before {
@@ -278,6 +278,7 @@ let Container = styled.div`
         height: 27px;
         border: 2px solid black;
         border-radius: 999px;
+        pointer-events: none;
     }
 
     @media(max-width: 1580px) {
@@ -346,7 +347,7 @@ let Container = styled.div`
         }
     }
 
-    @media(min-width: 992px) {
+    @media(min-width: 990px) {
         .home-calendar__col-right > div:nth-child(n+15) .home-calendar__modal {
             margin-left: -300px;
         }
@@ -582,6 +583,8 @@ export default function Component({ data }) {
                 if(item.classList.contains("home-calendar__day--has-event")) {
                     item.classList.add("home-calendar__modal--show")
                     document.querySelector(".home-calendar").style.zIndex = "999";
+
+                    document.querySelector('.home-calendar-container').classList.add('home-calendar-container__modal--show');
                 }
             }
 
@@ -589,6 +592,8 @@ export default function Component({ data }) {
                 if(item.classList.contains("home-calendar__day--has-event")) {
                     item.classList.remove("home-calendar__modal--show")
                     document.querySelector(".home-calendar").style.zIndex = "0";
+
+                    document.querySelector('.home-calendar-container').classList.remove('home-calendar-container__modal--show')
                 }
             }
 
@@ -597,12 +602,13 @@ export default function Component({ data }) {
                     item.addEventListener("mouseenter", () => toggleModalVisible(item));
                     item.addEventListener("mouseleave", () => toggleModalVisible(item));
                 } else {
-                    item.children[0]?.addEventListener("touchstart", () => toggleModalVisibleOn(item));
+                    item.children[1]?.addEventListener("touchstart", () => toggleModalVisibleOn(item));
                 }
             })
             
             Array.from(allHomeCalendarDays).forEach(item => {
-                item.children[1]?.addEventListener("touchstart", () => toggleModalVisibleOff(item));
+                item.children[2]?.addEventListener("touchstart", () => toggleModalVisibleOff(item));
+                item.children[3]?.addEventListener("click", () => toggleModalVisibleOff(item));
             })  
 
         }, 1000)

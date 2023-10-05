@@ -21,7 +21,7 @@ const Container = styled.div``
 
 
 
-export default function Component ({ data = {}, filters, isDark, footerData, preview = false }) {
+export default function Component ({ data = {}, filters, isDark, anchor, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
     let [eventsArray, setEventsArray] = useState([]);
@@ -31,12 +31,14 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
 
     let scrollToClosestToToday = () => {
 
+        if(!anchor) return
+
         let allTiles = document.querySelectorAll('.agenda-tile')
 
         if(allTiles.length === 0) return
 
         let allDates = Array.from(allTiles).map(item => item.getAttribute('data-date'))
-        let arr = allDates.map(item => new Date(item))
+        let arr = allDates.map(item => new Date(item.replace(/-/g, "/")))
 
         let diffdate = new Date();
 
@@ -57,6 +59,8 @@ export default function Component ({ data = {}, filters, isDark, footerData, pre
                 tileToScrollTo = item
             }
         })
+
+        if(!tileToScrollTo) return
 
         let scrollTo = tileToScrollTo.getBoundingClientRect().top - document.querySelector('header').getBoundingClientRect().height - document.querySelector('.filters').getBoundingClientRect().height
 

@@ -19,7 +19,7 @@ export default function Index ({ data = {}, preview = false }) {
   )
   :
   (
-    <Agenda data={data.agendaData} filters={data.agendaFilters} footerData={data.footerData} />
+    <Agenda data={data.agendaData} filters={data.agendaFilters} footerData={data.footerData} anchor={true} />
   )
 }
 

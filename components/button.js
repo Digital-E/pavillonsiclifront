@@ -9,9 +9,12 @@ const Container = styled(motion.button)`
         display: block;
     }
 
+    color: var(--black);
+
     > a {
         color: var(--black);
     }
+    
 `
 
 let transition = {type: "spring", stiffness: 300, duration: 0.3}

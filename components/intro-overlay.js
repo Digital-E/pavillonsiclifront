@@ -41,7 +41,11 @@ export default function Component({ data }) {
     }, [])
 
     let closeIntroOverlay = () => {
+        if(!containerRef.current) return
         containerRef.current.classList.add('close-intro-overlay')
+        setTimeout(() => {
+            containerRef.current.style.display = 'none'
+        }, 350)
         window.sessionStorage.setItem("pavillonSicliIntro", "true");
     }
 
@@ -58,8 +62,8 @@ export default function Component({ data }) {
     }
 
     return (
-    <Container ref={containerRef} onClick={() => closeIntroOverlay()} onWheel={() => closeIntroOverlay()}>
-        {data && <Image data={data[Math.floor(Math.random() * (data?.length))]} hasLoaded={() => hasLoaded()}/>}
-    </Container>
+        <Container ref={containerRef} onClick={() => closeIntroOverlay()} onWheel={() => closeIntroOverlay()}>
+            {data && <Image data={data[Math.floor(Math.random() * (data?.length))]} hasLoaded={() => hasLoaded()}/>}
+        </Container>
     )
 }

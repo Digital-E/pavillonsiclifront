@@ -19,12 +19,10 @@
   ;
 }
 
-/* @font-face {
-    font-family: "Standard";
-    src: url("/fonts/NeueHaasGrotText-65Medium-Web.woff2") format("woff2"),
-    url("/fonts/NeueHaasGrotText-65Medium-Web.woff") format("woff")
-    ;
-} */
+@font-face {
+  font-family: "Social Media Circled";
+  src: url("/fonts/Social Media Circled.otf");
+}
 
 *::-webkit-scrollbar {
     display: none;
@@ -133,6 +131,7 @@ button {
     font-size: 1rem;
     cursor: pointer;
     user-select: none;
+    color: var(--black);
 }
 
 .button *, button * {
@@ -229,7 +228,7 @@ h1, .h1 {
     font-size: 2.9rem;
     letter-spacing: -0.03em;
     margin: 0 0 var(--margin) 0;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 h2, .h2 {
@@ -238,7 +237,7 @@ h2, .h2 {
     letter-spacing: -0.03em;
     margin: 0 0 var(--margin) 0;
     line-height: 1.2;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 h3, .h3 {

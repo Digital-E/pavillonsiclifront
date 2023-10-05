@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { pageProgrammeAndPageTemplateSlugsQuery, pageProgrammeBySlugQuery, pageTemplateBySlugQuery, pageProgrammeAndPageTemplateBySlugQuery, menuQuery, footerQuery } from '../../lib/queries'
+import { pageProgrammeAndPageTemplateAndPageGridSlugsQuery, pageProgrammeBySlugQuery, pageTemplateBySlugQuery, pageGridBySlugQuery, pageProgrammeAndPageTemplateAndPageGridBySlugQuery, menuQuery, footerQuery } from '../../lib/queries'
 import { getClient, sanityClient } from '../../lib/sanity.server'
 
 import  PageProgramme from '../../components/page-programme/page-programme'
@@ -10,7 +10,8 @@ const PreviewPageProgramme = lazy(() => import("../../components/page-programme/
 import  PageTemplate from '../../components/page-template/page-template'
 const PreviewPageTemplate = lazy(() => import("../../components/page-template/preview-page-template"));
 
-import splitSubSlug from '../../lib/splitSubSlug'
+import  PageGrid from '../../components/page-grid/page-grid'
+const PreviewPageGrid= lazy(() => import("../../components/page-grid/preview-page-grid"));
 
 const pageProgramme = (data, preview) => {
   return preview ? 
@@ -38,12 +39,27 @@ const pageTemplate = (data, preview) => {
   )
 }
 
+const pageGrid = (data, preview) => {
+  return preview ? 
+  (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPageGrid data={data.pageData} query={pageTemplateBySlugQuery} footerData={data.footerData} />    
+    </PreviewSuspense>
+  )
+  :
+  (
+    <PageGrid data={data.pageData} footerData={data.footerData} />
+  )
+}
+
 const pageSwitch = (data, preview) => {
   switch(data?.pageData?._type) {
     case 'pageProgramme':
       return pageProgramme(data, preview)
     case 'pageTemplate':
       return pageTemplate(data, preview)
+    case 'pageGrid':
+      return pageGrid(data, preview)  
     default:
       return pageTemplate(data, preview)
   }
@@ -61,7 +77,7 @@ export async function getStaticProps({ preview = false, params }) {
 
   let slug = `${params.language}__${params.slug}`
 
-  const pageData = await getClient(preview).fetch(pageProgrammeAndPageTemplateBySlugQuery, {
+  const pageData = await getClient(preview).fetch(pageProgrammeAndPageTemplateAndPageGridBySlugQuery, {
     slug: slug
   })
 
@@ -89,7 +105,7 @@ export async function getStaticProps({ preview = false, params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = await sanityClient.fetch(pageProgrammeAndPageTemplateSlugsQuery)
+    const paths = await sanityClient.fetch(pageProgrammeAndPageTemplateAndPageGridSlugsQuery)
 
     return {
       // paths: paths.map(({language, slug}) => ({ params: { language, slug } })),

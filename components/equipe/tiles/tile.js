@@ -4,6 +4,9 @@ import Image from '../../image'
 import Link from '../../link'
 
 const Container = styled.div`
+`
+
+const InnerContainer = styled.div`
     display: flex;
     flex-direction: column;
     padding: calc(var(--margin) / 1.5) var(--margin);
@@ -63,19 +66,23 @@ export default function Component ({ data }) {
 
     return (
         <Container>
-            <InformationTop>
-                <Title className='h2'>{data.title}</Title>
-            </InformationTop>
-            <InformationMiddle>
-                <Info><Body content={data.info1} /></Info>
-            </InformationMiddle>
-            <InformationBottom>
-                <Info><Body content={data.info2} /></Info>
-                <Info><Body content={data.info3} /></Info>
-            </InformationBottom>
-            <ImageWrapper>
-                <Image data={data.image || data.vignette} />
-            </ImageWrapper>
+            <InnerContainer>
+                <InformationTop>
+                    <Title className='h2'>{data.title}</Title>
+                </InformationTop>
+                <InformationMiddle>
+                    <Info><Body content={data.info1} /></Info>
+                </InformationMiddle>
+                <InformationBottom>
+                    <Info><Body content={data.info2} /></Info>
+                    <Info><Body content={data.info3} /></Info>
+                </InformationBottom>
+                {data.image && 
+                <ImageWrapper>
+                    <Image data={data.image || data.vignette} />
+                </ImageWrapper>
+                }
+            </InnerContainer>
         </Container>
     )
 }
