@@ -136,7 +136,7 @@ export default function Header({ data }) {
           </Links>
           <Socials>
             <List>
-              {data.socials.map(item => (
+              {data?.socials?.map(item => (
                 <ListItem><Link href={item.linkURL}>{item.linkLabel}</Link></ListItem>
               ))}
             </List>

@@ -261,7 +261,7 @@ export default function Header({ data }) {
         <div></div>
       </MobileToggleButton>
       <Menu className='nav-menu'>
-        {data?.links.map(item => 
+        {data?.links?.map(item => 
           <MenuElement onMouseEnter={(e) => toggleSubMenuDesktop(e, 'open')} onMouseLeave={(e) => toggleSubMenuDesktop(e, 'close')} onClick={(e) => toggleSubMenuMobile(e)}>
             <div onClick={() => toggleNavMobile(item.subLinks?.length)}><Link href={item.linkURL}>{item.linkLabel}</Link></div>
             {item.subLinks?.length > 0 && <DropdownArrow className='nav__dropdown-arrow'/>}
