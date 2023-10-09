@@ -153,7 +153,7 @@ const SubMenu = styled.div`
   top: 100%;
   margin-left: -1px;
   padding: calc(var(--margin) / 2) 0;
-  width: 100%;
+  min-width: 100%;
   display: none;
   flex-direction: column;
   border: 1px solid black;

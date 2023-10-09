@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { PreviewSuspense } from 'next-sanity/preview'
 
-import { pageProgrammeAndPageTemplateAndPageGridSlugsQuery, pageProgrammeBySlugQuery, pageTemplateBySlugQuery, pageGridBySlugQuery, pageProgrammeAndPageTemplateAndPageGridBySlugQuery, menuQuery, footerQuery } from '../../lib/queries'
+import { pageProgrammeAndPageTemplateAndPageGridSlugsQuery, pageProgrammeBySlugQuery, pageTemplateBySlugQuery, pageGridBySlugQuery, menuQuery, footerQuery } from '../../lib/queries'
 import { getClient, sanityClient } from '../../lib/sanity.server'
 
 import  PageProgramme from '../../components/page-programme/page-programme'
@@ -43,7 +43,7 @@ const pageGrid = (data, preview) => {
   return preview ? 
   (
     <PreviewSuspense fallback="Loading...">
-      <PreviewPageGrid data={data.pageData} query={pageTemplateBySlugQuery} footerData={data.footerData} />    
+      <PreviewPageGrid data={data.pageData} query={pageGridBySlugQuery} footerData={data.footerData} />    
     </PreviewSuspense>
   )
   :
@@ -77,9 +77,25 @@ export async function getStaticProps({ preview = false, params }) {
 
   let slug = `${params.language}__${params.slug}`
 
-  const pageData = await getClient(preview).fetch(pageProgrammeAndPageTemplateAndPageGridBySlugQuery, {
+  let pageProgrammeData = await getClient(preview).fetch(pageProgrammeBySlugQuery, {
     slug: slug
   })
+  
+  let pageTemplateData = await getClient(preview).fetch(pageTemplateBySlugQuery, {
+    slug: slug
+  })
+
+  let pageGridData = await getClient(preview).fetch(pageGridBySlugQuery, {
+    slug: slug
+  })
+
+  let pageData = [pageProgrammeData, pageTemplateData, pageGridData]
+
+  pageData = pageData.filter(item => item !== null)
+
+  pageData = pageData[0]
+
+  if(pageData === undefined) pageData = null
 
   // Get Menu And Footer
 
