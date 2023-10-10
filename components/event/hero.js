@@ -36,15 +36,12 @@ const Information = styled.div`
 
         > h3:nth-child(1), > h3:nth-child(2) {
             flex-basis: 50%;
+            margin-bottom: var(--margin) !important;
+            display: block;
         }
 
         > h3:nth-child(2), h3:nth-child(4) {
             text-align: right;
-        }
-
-        > h3:nth-child(3), > h3:nth-child(4) {
-            margin-top: var(--margin);
-            display: block;
         }
     }
 `
