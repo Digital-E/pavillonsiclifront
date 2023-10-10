@@ -55,7 +55,7 @@ const ColRight = styled.div`
     margin-bottom: ${props => props.marginBottom ? '-50px' : '0px'};
 
     @media(max-width: 989px) {
-        padding-top: 0;
+        padding-top: 0 !important;
         margin-bottom: 0;
     }
 `

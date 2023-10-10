@@ -71,6 +71,10 @@ const Text = styled.div`
 
 const EmailSubscribeWrapper = styled.div`
     margin: var(--margin) 0 calc(var(--margin) * 2) 0;
+
+    @media(max-width: 989px) {
+        display: none;
+    }
 `
 
 

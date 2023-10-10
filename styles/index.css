@@ -74,7 +74,7 @@ main {
     --black: rgb(26, 25, 25);
     --grey: rgb(136, 137, 136);
 
-    --secondary-color: #E7E7E7;
+    --secondary-color: #999999;
     --ternary-color: #999999;
     --margin: 10px;
 
@@ -100,8 +100,7 @@ main {
 }
 
 .active-link {
-    /* color: var(--secondary-color); */
-    opacity: 0.5;
+    color: grey;
 }
 
 a {

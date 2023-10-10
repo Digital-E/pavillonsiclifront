@@ -15,7 +15,7 @@ const Container = styled.div`
 
     .flickity-page-dots {
         right: var(--margin);
-        bottom: var(--margin);
+        bottom: calc(var(--margin) + 2px);
         width: fit-content;
     }
 
@@ -39,7 +39,8 @@ const Container = styled.div`
 
     @media(max-width: 989px) {
         .flickity-page-dots {
-            bottom: calc(var(--margin) + 5px);
+            // bottom: calc(var(--margin) + 5px);
+            bottom: 45px;
         }
 
         &.border-bottom-single::after {

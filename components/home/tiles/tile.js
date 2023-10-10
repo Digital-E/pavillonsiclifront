@@ -9,7 +9,7 @@ const Container = styled.div`
     > a {
         display: flex;
         flex-direction: column;
-        padding: calc(var(--margin) / 1.5) var(--margin);
+        padding: var(--margin);
         box-sizing: border-box;
         height: 100%;
     }

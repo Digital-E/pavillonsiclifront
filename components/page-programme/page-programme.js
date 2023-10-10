@@ -39,7 +39,11 @@ const ColLeft = styled.div`
     }
 `
 
-const ColRight = styled.div``
+const ColRight = styled.div`
+    @media(max-width: 989px) {
+        padding-top: 0 !important;
+    }
+`
 
 const TilesTitle = styled.div`
     text-align: center;

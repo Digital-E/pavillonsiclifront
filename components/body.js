@@ -4,7 +4,11 @@ import { PortableText } from '@portabletext/react'
 const Container = styled.div`
   a {
     width: fit-content;
-    opacity: 0.5;
+    color: grey;
+  }
+
+  a:hover {
+    color: var(--secondary-color);
   }
 `
 

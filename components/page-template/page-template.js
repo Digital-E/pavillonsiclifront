@@ -38,30 +38,12 @@ const ColLeft = styled.div`
     }
 `
 
-const ColRight = styled.div``
-
-const BackButton = styled.div`
-    position: fixed;
-    bottom: calc(var(--margin) * 2);
-    left: calc(var(--margin) * 2);
-
-    > a:hover > button {
-        color: var(--black) !important;
+const ColRight = styled.div`
+    @media(max-width: 989px) {
+        padding-top: 0 !important;
     }
 `
 
-const CalendarButtons = styled.div`
-    margin: calc(var(--margin) * 1) 0;
-
-    > a  {
-        margin-right: calc(var(--margin) * 6);
-        width fit-content;
-    }
-
-    > a:hover > button {
-        color: var(--black) !important;
-    }
-`
 
 
 

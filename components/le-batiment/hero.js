@@ -22,21 +22,6 @@ const Title = styled.div`
     }    
 `
 
-const Information = styled.div`
-    display: flex;
-    padding: var(--margin) 0;
-    border-bottom: 1px solid var(--black);
-`
-
-const Info = styled.h3`
-    display: block;
-
-    margin: 0;
-
-    :not(:last-child) {
-        margin: 0 calc(6 * var(--margin)) 0 0 !important;
-    }
-`
 const Excerpt = styled.div`
     margin: 0 0 calc(2 * var(--margin)) 0;
     padding: var(--margin) 0;
