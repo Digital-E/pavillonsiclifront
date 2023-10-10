@@ -36,6 +36,7 @@ export default function Component({ data }) {
         let sessionStorage = window.sessionStorage.getItem("pavillonSicliIntro");
 
         if(sessionStorage) {
+            document.querySelector('.home-container').style.opacity = 1
             containerRef.current.style.display = 'none'
         }
     }, [])
@@ -51,15 +52,13 @@ export default function Component({ data }) {
     }
 
     let hasLoaded = () => {
-        if(!containerRef.current) return
-
         setTimeout(() => {
             document.querySelector('.home-container').style.opacity = 1
 
             setTimeout(() => {
                 closeIntroOverlay()
             }, 4000)
-        }, 300)
+        }, 0)
     }
 
     return (
