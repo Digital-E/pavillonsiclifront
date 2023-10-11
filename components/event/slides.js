@@ -96,16 +96,14 @@ export default function Component ({ data, players }) {
             // setGallerySize: false
         })
 
-        // flickity.on('change', (cellIndex) => {
-        //     setSelectedIndex(cellIndex)
-        // })
+        flickity.on('change', (cellIndex) => {
+            players.current?.forEach(item => {item.pause()})
+        })
 
         flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
             if(event.target.tagName === 'BUTTON') {
                 return
             }
-
-            players.current?.forEach(item => {item.pause()})
 
             if(event.clientX < window.innerWidth / 4) {
                 flickity.previous()

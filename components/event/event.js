@@ -48,6 +48,7 @@ const ColLeft = styled.div`
 
     @media(max-width: 989px) {
         padding-bottom: 0 !important;
+        display: none;
     }
 `
 
@@ -109,6 +110,12 @@ const CalendarButtons = styled.div`
 
 const SlicesWrapper = styled.div`
     margin: var(--margin) 0 0 0;
+`
+
+const MobileSlides = styled.div`
+    @media(min-width: 990px) {
+        display: none;
+    }
 `
 
 
@@ -227,6 +234,9 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                     </ColLeft>
                     <ColRight marginBottom={data.backLink}>
                         <Hero data={data} />
+                        <MobileSlides>
+                            <Slides data={data?.slides} players={players} />
+                        </MobileSlides>
                         <SlicesWrapper>
                             <Slices data={data?.slices} />
                         </SlicesWrapper>

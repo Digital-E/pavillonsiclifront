@@ -40,8 +40,12 @@ const Information = styled.div`
             display: block;
         }
 
-        > h3:nth-child(2), h3:nth-child(4) {
+        > h3:nth-child(2) {
             text-align: right;
+        }
+
+        > h3:nth-child(3), > h3:nth-child(4) {
+            flex-basis: 100%;
         }
     }
 `

@@ -15,6 +15,10 @@ const Container = styled.header`
   background: white;
   border-bottom: 1px solid black;
 
+  .language-switch {
+    display: none;
+  }
+
   &.nav--open .nav-mobile-burger > div:nth-child(1) {
     position: absolute;
     transform: rotateZ(45deg);
@@ -132,7 +136,11 @@ const MenuElement = styled.div`
   }
 
   :nth-last-child(1),
-  :nth-last-child(2)
+  :nth-last-child(2),
+  // Remove upon adding language switch
+  :nth-last-child(3),
+  :nth-last-child(4),
+  :nth-last-child(5)
    {
     border-right: none;
   }
@@ -275,7 +283,7 @@ export default function Header({ data }) {
           </MenuElement>
         )}
         <MenuElement className='language-switch'><LocaleLink href='/en'>En</LocaleLink></MenuElement>
-        <MenuElement><LocaleLink href='/fr'>Fr</LocaleLink></MenuElement>
+        <MenuElement className='language-switch'><LocaleLink href='/fr'>Fr</LocaleLink></MenuElement>
       </Menu>
     </Container>
     </>
