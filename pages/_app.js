@@ -47,8 +47,12 @@ function MyApp({ Component, pageProps, router }) {
   }
 
   let getCalendarData = async () => {
+    let language = router.query.language
+
+    if(language === undefined) language = 'fr'
+
     let calendarData = await getClient(false).fetch(allEvents, {
-      language: router.query.language
+      language: language
     })
 
     setCalendarData(calendarData)

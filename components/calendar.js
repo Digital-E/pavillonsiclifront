@@ -167,7 +167,7 @@ let Container = styled.div`
     .home-calendar__modal--show .home-calendar__day__hitzone {
         position: absolute;
         height: 100px;
-        width: 100px;
+        width: 50px;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%)
@@ -279,6 +279,34 @@ let Container = styled.div`
         border: 2px solid black;
         border-radius: 999px;
         pointer-events: none;
+    }
+
+    .home-calendar__day--has-recurring-event::before {
+        display: none;
+    }
+
+    // .home-calendar__day--has-recurring-event::after {
+    //     display: none;
+    // }
+
+    .home-calendar__day--has-recurring-event::after {
+        content: "";
+        position: absolute;
+        top: auto;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0.1px;
+        height: 0.1px;
+        background-color: black;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+
+    @media(max-width: 989px) {
+        .home-calendar__day--has-recurring-event::after {
+            bottom: 0px;
+        }
     }
 
     @media(max-width: 1580px) {
@@ -453,6 +481,7 @@ let Container = styled.div`
 const Blank = styled.div``
 
 
+
 export default function Component({ data }) {
 
     let router = useRouter();
@@ -524,32 +553,66 @@ export default function Component({ data }) {
         months.forEach((itemOne, indexOne) => {
 
             itemOne.forEach((itemTwo, indexTwo) => {
+                let hasRecurringEvent = false;
+                let hasSingleEvent = false;
+
                 data.forEach((itemThree, indexThree) => {
 
                     let date = parseISO(itemTwo.timestamp.toISOString())
 
-                    // if(itemThree.startdate === format(date, 'yyyy-LL-dd')) {
-                    //     months[indexOne][indexTwo].events.push(itemThree)
-                    // }
+                    let parsedStartDate = null
+                    let parsedEndDate = null
 
-                    itemThree?.occurences?.forEach((itemFour, indexFour) => {
+                    if(itemThree.dateAndTime !== null && itemThree.dateAndTime !== "") {
+                        parsedStartDate = format(parseISO(itemThree.dateAndTime), 'yyyy-LL-dd')
+                    }       
+                    
+                    if(itemThree.endDateAndTime !== null && itemThree.endDateAndTime !== "") {
+                        parsedEndDate = format(parseISO(itemThree.endDateAndTime), 'yyyy-LL-dd')
+                    }      
 
-                        let parsedDate = null
+                    // months[indexOne][indexTwo].hasSingleEvent = true
+                    // months[indexOne][indexTwo].hasRecurringEvent = false
 
-                        if(itemFour !== null && itemFour !== "") {
-                            parsedDate = format(parseISO(itemFour), 'yyyy-LL-dd')
-                        }
+                    if(parsedStartDate === format(date, 'yyyy-LL-dd')) {
+                        let newItemThree = Object.assign({}, itemThree);
+                        newItemThree.index = indexThree;
+                        hasSingleEvent = true
+                        // months[indexOne][indexTwo].hasSingleEvent = true
 
-                        if(parsedDate === format(date, 'yyyy-LL-dd')) {
+                        months[indexOne][indexTwo].events.push(newItemThree)
+                    }
 
-                            let newItemThree = Object.assign({}, itemThree);
+                    if(parsedStartDate < format(date, 'yyyy-LL-dd') && format(date, 'yyyy-LL-dd') <= parsedEndDate) {
+                        let newItemThree = Object.assign({}, itemThree);
+                        newItemThree.index = indexThree;
+                        hasRecurringEvent = true
+                        // months[indexOne][indexTwo].hasRecurringEvent = true
 
-                            newItemThree.index = indexFour;
+                        months[indexOne][indexTwo].events.push(newItemThree)
+                    }
+
+                    // itemThree?.occurences?.forEach((itemFour, indexFour) => {
+
+                    //     let parsedDate = null
+
+                    //     if(itemFour !== null && itemFour !== "") {
+                    //         parsedDate = format(parseISO(itemFour), 'yyyy-LL-dd')
+                    //     }
+
+                    //     if(parsedDate === format(date, 'yyyy-LL-dd')) {
+
+                    //         let newItemThree = Object.assign({}, itemThree);
+
+                    //         newItemThree.index = indexFour;
                             
-                            months[indexOne][indexTwo].events.push(newItemThree)
-                        }
-                    })
+                    //         months[indexOne][indexTwo].events.push(newItemThree)
+                    //     }
+                    // })
                 })
+
+                months[indexOne][indexTwo].hasSingleEvent = hasSingleEvent
+                months[indexOne][indexTwo].hasRecurringEvent = hasRecurringEvent
             })
         })
 
@@ -564,61 +627,69 @@ export default function Component({ data }) {
         // Add Event Listeners to Days
         setTimeout(() => {
 
-            let allHomeCalendarDays = document.querySelector(".home-calendar__col-right").children;
+            bindEventListenersToCalendarDays()
 
-            let toggleModalVisible = (item) => {
-
-                if(item.classList.contains("home-calendar__day--has-event")) {
-                    if(item.classList.contains("home-calendar__modal--show")) {
-                    item.classList.remove("home-calendar__modal--show")
-                    document.querySelector(".home-calendar").style.zIndex = "0";
-                    } else {
-                        item.classList.add("home-calendar__modal--show")
-                        document.querySelector(".home-calendar").style.zIndex = "999";
-                    }
-                }
-            }
-
-            let toggleModalVisibleOn = (item) => {
-                if(item.classList.contains("home-calendar__day--has-event")) {
-                    item.classList.add("home-calendar__modal--show")
-                    document.querySelector(".home-calendar").style.zIndex = "999";
-
-                    document.querySelector('.home-calendar-container').classList.add('home-calendar-container__modal--show');
-                }
-            }
-
-            let toggleModalVisibleOff = (item) => {
-                if(window.innerWidth > 990) return
-                if(item.classList.contains("home-calendar__day--has-event")) {
-                    item.classList.remove("home-calendar__modal--show")
-                    document.querySelector(".home-calendar").style.zIndex = "0";
-
-                    document.querySelector('.home-calendar-container').classList.remove('home-calendar-container__modal--show')
-                }
-            }
-
-            Array.from(allHomeCalendarDays).forEach(item => {
-                if(window.innerWidth > 768) {
-                    item.addEventListener("mouseenter", () => toggleModalVisible(item));
-                    item.addEventListener("mouseleave", () => toggleModalVisible(item));
-                } else {
-                    item.children[1]?.addEventListener("touchstart", () => toggleModalVisibleOn(item));
-                }
-            })
-            
-            Array.from(allHomeCalendarDays).forEach(item => {
-                item.children[2]?.addEventListener("touchstart", () => toggleModalVisibleOff(item));
-                item.children[3]?.addEventListener("click", () => toggleModalVisibleOff(item));
-            })  
-
-        }, 1000)
+        }, 300)
 
 
         // Add toggle to mobile calendar
         document.querySelector('.home-calendar__main-title').addEventListener('click', toggleMobileCalendar)
 
     },[])
+
+    function  bindEventListenersToCalendarDays() {
+        let allHomeCalendarDays = document.querySelector(".home-calendar__col-right").children;
+
+        Array.from(allHomeCalendarDays).forEach(item => {
+
+            function toggleModalVisibleVar() {
+                toggleModalVisible(item)
+            }
+            
+            if(window.innerWidth > 768) {
+                item.addEventListener("mouseenter", toggleModalVisibleVar);
+                item.addEventListener("mouseleave", toggleModalVisibleVar);
+            } else {
+                item.children[1]?.addEventListener("touchstart", () => toggleModalVisibleOn(item));
+            }
+        })
+        
+        Array.from(allHomeCalendarDays).forEach(item => {
+            item.children[2]?.addEventListener("touchstart", () => toggleModalVisibleOff(item));
+            item.children[3]?.addEventListener("click", () => toggleModalVisibleOff(item));
+        })  
+    }
+
+    let toggleModalVisible = (item) => {
+        if(item.classList.contains("home-calendar__day--has-event")) {
+            if(item.classList.contains("home-calendar__modal--show")) {
+            item.classList.remove("home-calendar__modal--show")
+            document.querySelector(".home-calendar").style.zIndex = "0";
+            } else {
+                item.classList.add("home-calendar__modal--show")
+                document.querySelector(".home-calendar").style.zIndex = "999";
+            }
+        }
+    }
+
+    let toggleModalVisibleOn = (item) => {
+        if(item.classList.contains("home-calendar__day--has-event")) {
+            item.classList.add("home-calendar__modal--show")
+            document.querySelector(".home-calendar").style.zIndex = "999";
+
+            document.querySelector('.home-calendar-container').classList.add('home-calendar-container__modal--show');
+        }
+    }
+
+    let toggleModalVisibleOff = (item) => {
+        if(window.innerWidth > 990) return
+        if(item.classList.contains("home-calendar__day--has-event")) {
+            item.classList.remove("home-calendar__modal--show")
+            document.querySelector(".home-calendar").style.zIndex = "0";
+
+            document.querySelector('.home-calendar-container').classList.remove('home-calendar-container__modal--show')
+        }
+    }
 
     let toggleMobileCalendar = () => {
         let homeCalendar = document.querySelector('.home-calendar-container')
@@ -642,6 +713,10 @@ export default function Component({ data }) {
                 setCurrentMonthIndex(currentMonthIndex += 1)
             }
         }
+
+        setTimeout(() => {
+            bindEventListenersToCalendarDays()
+        }, 0)
     }
 
     useEffect(() => {
@@ -712,9 +787,12 @@ export default function Component({ data }) {
                     }
                     {allMonths[currentMonthIndex].map((item, index) => {
                         return (
-                            <div class={`h5 home-calendar__day 
+                            <div 
+                                key={item.timestamp}
+                                class={`h5 home-calendar__day 
                                 ${item.events.length > 0 &&'home-calendar__day--has-event'} 
                                 ${item.events.length > 1 && 'home-calendar__day--has-two-events'}
+                                ${((item.hasRecurringEvent === true && item.hasSingleEvent === false)) ? 'home-calendar__day--has-recurring-event' : ''}
                                 `}>
                                 <div className='home-calendar__day__hitzone'></div>
                                 <span>{index + 1}</span>
