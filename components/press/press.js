@@ -20,7 +20,7 @@ const Container = styled.div`
 export default function Component ({ data = {}, filters, footerData, preview = false }) {
     const router = useRouter()
     let [filtersArray, setFiltersArray] = useState([]);
-    let [eventsArray, setEventsArray] = useState(data?.tiles);
+    let [eventsArray, setEventsArray] = useState([]);
 
     const slug = data?.slug
 
@@ -45,7 +45,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
         let mapFiltersArray = JSON.parse(JSON.stringify(filtersArrayVar)).map(itemOne => {
             itemOne.filters.unshift('Tout')
 
-            let newFilters = itemOne.filters.map(itemTwo => {
+            let newFilters = itemOne.filters?.map(itemTwo => {
                 let obj = {
                     label: itemTwo,
                     selected: false
@@ -97,7 +97,7 @@ export default function Component ({ data = {}, filters, footerData, preview = f
 
         let filterEvents = []
 
-        data.tiles.forEach(itemOne => {
+        data?.tiles?.forEach(itemOne => {
 
             if(itemOne.tags === null) return
 
