@@ -210,7 +210,7 @@ const SignupForm = ({ dataProp }) => {
   const context = useContext(store);
   const { state, dispatch } = context; 
 
-  const addEmailToList = async (values) => {
+  const addEmailToList = async (values, resetForm) => {
     let dataObj = {
       email: values.email,
       audienceId: '16016b1a51',
@@ -226,17 +226,8 @@ const SignupForm = ({ dataProp }) => {
       .then(data => {
         if(data.status !== 400) {
           dispatch({type: "update notification message", value: dataProp.newsletterConfirmationMessage})
-          setTimeout(() => {
-            document.querySelectorAll(".text-input").forEach(item => {
-              item.value="";
-            })
-          }, 10)
+          resetForm();
         } else {
-          document.querySelectorAll(".text-input").forEach(item => {
-            // item.value="";
-            // document.querySelector("#submit-button").innerText = data.error
-            // item.placeholder = data.message;
-          })
           dispatch({type: "update notification message", value: `Oops, there seems to have been an error!`})
           // dispatch({type: "update notification message", value: `Oops, there seems to have been an error: ${data.error}`})
         }
@@ -257,8 +248,8 @@ const SignupForm = ({ dataProp }) => {
             .email("Invalid")
             .required("Required")
         })}
-        onSubmit={async (values, { setSubmitting }) => {
-          addEmailToList(values);
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          addEmailToList(values, resetForm);
         }}
       >
         <Form>                         
