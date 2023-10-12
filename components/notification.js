@@ -52,7 +52,7 @@ const Overlay = styled.div`
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.8);
-    z-index: 1;
+    z-index: 999;
 
     &&.show-overlay {
         opacity: 1;
@@ -91,6 +91,8 @@ const Component = () => {
     const { state, dispatch } = context;
 
     useEffect(() => {
+        if(state.notificationMessage === null) return setDisplayNotification(false)
+
         setNotificationMessage(state.notificationMessage)
         setDisplayNotification(true)
     }, [state.notificationMessage])
@@ -98,13 +100,17 @@ const Component = () => {
     useEffect(() => {
         setDisplayNotification(false)
     }, [])
+
+    let closeNotification = () => {
+        dispatch({type: "update notification message", value: null})
+    }
     
 
     return (
         <Container>
-            <Overlay onClick={() => setDisplayNotification(false)} className={displayNotification ? 'show-overlay' : 'hide-overlay'}/>
+            <Overlay onClick={() => closeNotification()} className={displayNotification ? 'show-overlay' : 'hide-overlay'}/>
             <Popup className={displayNotification ? 'show-notification' : 'hide-notification'}>
-                <Close onClick={() => setDisplayNotification(false)} className='p'>Close</Close>
+                <Close onClick={() => closeNotification()} className='p'>Close</Close>
                 <Text>
                     {/* <h6>DONE!</h6> */}
                     <p className='body-medium'>{notificationMessage}</p>

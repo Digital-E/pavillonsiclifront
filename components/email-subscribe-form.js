@@ -205,7 +205,7 @@ const MySelect = ({ label, ...props }) => {
 };
 
 // And now we can use these
-const SignupForm = ({ data }) => {
+const SignupForm = ({ dataProp }) => {
   //Context
   const context = useContext(store);
   const { state, dispatch } = context; 
@@ -225,7 +225,7 @@ const SignupForm = ({ data }) => {
       .then((response) => response.json())
       .then(data => {
         if(data.status !== 400) {
-          dispatch({type: "update notification message", value: "Thanks for subscribing!"})
+          dispatch({type: "update notification message", value: dataProp.newsletterConfirmationMessage})
           setTimeout(() => {
             document.querySelectorAll(".text-input").forEach(item => {
               item.value="";

@@ -58,12 +58,6 @@ const StateProvider = ({ children }) => {
     // Object.keys(initialState).forEach((item) => {
     //   initialState[`${item}`] = JSON.parse(localStorage.getItem(item));
     // });
-
-    let unlocked = JSON.parse(sessionStorage.getItem('art4bioCalculatorUnlocked'))
-
-    if(unlocked === true) {
-      dispatch({ type: 'update unlocked', value: true})
-    }
   }, []);
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
