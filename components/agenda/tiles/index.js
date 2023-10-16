@@ -22,6 +22,7 @@ const Container = styled.div`
         width: 100%;
         top: 0;
         left: 0;
+        z-index: 999;
     }
 
     > div:nth-child(3n + 1)::after,
@@ -43,6 +44,7 @@ const Container = styled.div`
         width: 100%;
         bottom: 0;
         left: 0;
+        z-index: 999;
     }
 
     @media(max-width: 1200px) {

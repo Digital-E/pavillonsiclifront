@@ -32,9 +32,9 @@ export default function Component ({ data }) {
 
     return (
         <Container>
-            <Prev className='h2'><Link href={data.linkPrev}>{`<`}</Link></Prev>
+            <Prev className='h2'>{data.linkPrev && <Link href={data.linkPrev}>{`<`}</Link>}</Prev>
             <h1>{data.title}</h1>
-            <Next className='h2'><Link href={data.linkNext}>{`>`}</Link></Next>
+            <Next className='h2'>{data.linkNext && <Link href={data.linkNext}>{`>`}</Link>}</Next>
         </Container>
     )
 }

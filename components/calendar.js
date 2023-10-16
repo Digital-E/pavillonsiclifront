@@ -196,8 +196,6 @@ let Container = styled.div`
         }
 
         .home-calendar__day {
-            // padding: 0;
-            // padding-right: 0px;
             padding: var(--margin);
             width: fit-content;
         }
@@ -224,10 +222,10 @@ let Container = styled.div`
         }
 
         .home-calendar__day {
-            // padding: 0;
-            // padding-right: 0px;
-            padding: var(--margin);
+            padding: calc( 1.5 * var(--margin));
             width: fit-content;
+            min-height: 15px;
+            min-width: 15px;
         }
 
         .arrow-prev::after {
@@ -556,6 +554,9 @@ export default function Component({ data }) {
                 let hasRecurringEvent = false;
                 let hasSingleEvent = false;
 
+                let singleEvents = [];
+                let recurringEvents = [];
+
                 data.forEach((itemThree, indexThree) => {
 
                     let date = parseISO(itemTwo.timestamp.toISOString())
@@ -569,50 +570,29 @@ export default function Component({ data }) {
                     
                     if(itemThree.endDateAndTime !== null && itemThree.endDateAndTime !== "") {
                         parsedEndDate = format(parseISO(itemThree.endDateAndTime), 'yyyy-LL-dd')
-                    }      
-
-                    // months[indexOne][indexTwo].hasSingleEvent = true
-                    // months[indexOne][indexTwo].hasRecurringEvent = false
+                    }
 
                     if(parsedStartDate === format(date, 'yyyy-LL-dd')) {
                         let newItemThree = Object.assign({}, itemThree);
                         newItemThree.index = indexThree;
                         hasSingleEvent = true
-                        // months[indexOne][indexTwo].hasSingleEvent = true
 
-                        months[indexOne][indexTwo].events.push(newItemThree)
+                        singleEvents.push(newItemThree)
                     }
 
                     if(parsedStartDate < format(date, 'yyyy-LL-dd') && format(date, 'yyyy-LL-dd') <= parsedEndDate) {
                         let newItemThree = Object.assign({}, itemThree);
                         newItemThree.index = indexThree;
                         hasRecurringEvent = true
-                        // months[indexOne][indexTwo].hasRecurringEvent = true
 
-                        months[indexOne][indexTwo].events.push(newItemThree)
+                        recurringEvents.push(newItemThree)
                     }
-
-                    // itemThree?.occurences?.forEach((itemFour, indexFour) => {
-
-                    //     let parsedDate = null
-
-                    //     if(itemFour !== null && itemFour !== "") {
-                    //         parsedDate = format(parseISO(itemFour), 'yyyy-LL-dd')
-                    //     }
-
-                    //     if(parsedDate === format(date, 'yyyy-LL-dd')) {
-
-                    //         let newItemThree = Object.assign({}, itemThree);
-
-                    //         newItemThree.index = indexFour;
-                            
-                    //         months[indexOne][indexTwo].events.push(newItemThree)
-                    //     }
-                    // })
                 })
 
                 months[indexOne][indexTwo].hasSingleEvent = hasSingleEvent
                 months[indexOne][indexTwo].hasRecurringEvent = hasRecurringEvent
+
+                months[indexOne][indexTwo].events.push(...singleEvents, ...recurringEvents)
             })
         })
 
@@ -637,7 +617,7 @@ export default function Component({ data }) {
 
     },[])
 
-    function  bindEventListenersToCalendarDays() {
+    function bindEventListenersToCalendarDays() {
         let allHomeCalendarDays = document.querySelector(".home-calendar__col-right").children;
 
         Array.from(allHomeCalendarDays).forEach(item => {
@@ -650,13 +630,13 @@ export default function Component({ data }) {
                 item.addEventListener("mouseenter", toggleModalVisibleVar);
                 item.addEventListener("mouseleave", toggleModalVisibleVar);
             } else {
-                item.children[1]?.addEventListener("touchstart", () => toggleModalVisibleOn(item));
+                item.addEventListener("touchstart", (e) => toggleModalVisibleOn(e, item));
             }
         })
         
         Array.from(allHomeCalendarDays).forEach(item => {
-            item.children[2]?.addEventListener("touchstart", () => toggleModalVisibleOff(item));
-            item.children[3]?.addEventListener("click", () => toggleModalVisibleOff(item));
+            item.children[2]?.addEventListener("touchstart", (e) => toggleModalVisibleOff(e, item));
+            item.children[3]?.addEventListener("click", (e) => toggleModalVisibleOff(e, item));
         })  
     }
 
@@ -672,7 +652,8 @@ export default function Component({ data }) {
         }
     }
 
-    let toggleModalVisibleOn = (item) => {
+    let toggleModalVisibleOn = (e, item) => {
+        if(!e.target.classList.contains('home-calendar__day__number')) return
         if(item.classList.contains("home-calendar__day--has-event")) {
             item.classList.add("home-calendar__modal--show")
             document.querySelector(".home-calendar").style.zIndex = "999";
@@ -681,7 +662,8 @@ export default function Component({ data }) {
         }
     }
 
-    let toggleModalVisibleOff = (item) => {
+    let toggleModalVisibleOff = (e, item) => {
+        console.log(e, item)
         if(window.innerWidth > 990) return
         if(item.classList.contains("home-calendar__day--has-event")) {
             item.classList.remove("home-calendar__modal--show")
@@ -795,10 +777,10 @@ export default function Component({ data }) {
                                 ${((item.hasRecurringEvent === true && item.hasSingleEvent === false)) ? 'home-calendar__day--has-recurring-event' : ''}
                                 `}>
                                 <div className='home-calendar__day__hitzone'></div>
-                                <span>{index + 1}</span>
+                                <span className='home-calendar__day__number'>{index + 1}</span>
                                 <div class="home-calendar__modal-overlay"></div>
-                                <div class="home-calendar__modal">
-                                    <div class="home-calendar__events">
+                                <div className="home-calendar__modal">
+                                    <div className="home-calendar__events">
                                         {
                                             item.events.map((item, index) => (
                                                 <Tile data={item} />

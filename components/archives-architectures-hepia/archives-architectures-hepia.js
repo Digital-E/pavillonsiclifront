@@ -20,6 +20,12 @@ const Container = styled.div`
         padding: var(--margin);
     }
 
+    @media(min-width: 990px) {
+        > div:nth-child(2) {
+            padding-left: 0;
+        }
+    }
+
     @media(max-width: 989px) {
         flex-direction: column;
 

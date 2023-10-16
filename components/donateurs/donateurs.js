@@ -11,6 +11,10 @@ import Link from '../link'
 import Image from '../image'
 
 const Container = styled.div`
+
+    a {
+        color: var(--black);
+    }
 `
 
 const RowOne = styled.div`
@@ -45,11 +49,6 @@ const ColLeft = styled.div`
 const ColRight = styled.div`
     display: flex;
     margin: calc(var(--margin)*2) 0 calc(var(--margin)*10) 0;
-
-    // * {
-    //     margin: 0;
-    //     font-size: inherit;
-    // }
 
     p {
         margin: 0;

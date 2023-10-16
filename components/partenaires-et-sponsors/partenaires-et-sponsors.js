@@ -66,6 +66,10 @@ const Text = styled.div`
         font-size: inherit;
     }
 
+    a {
+        color: var(--black);
+    }
+
     @media(max-width: 989px) {
         column-count: 1;
     }
