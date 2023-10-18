@@ -60,7 +60,7 @@ const Image = ({ data, isInSlider }) => {
                 {...imageProps} 
                 style={{ width: '100%', height: 'auto' }}
                 alt={data.caption} 
-                sizes="(max-width: 800px) 100vw, 800px" 
+                sizes="(max-width: 1200px) 100vw, 1200px" 
                 quality={100}
                 />
         </ImageWrapper>

@@ -26,7 +26,17 @@ const Container = styled.div`
     }
 `
 
+const DesktopImage = styled.div`
+    @media(max-width: 989px) {
+        display: none;
+    }
+`
 
+const MobileImage = styled.div`
+    @media(min-width: 990px) {
+        display: none;
+    }
+`
 
 
 export default function Component({ data }) {
@@ -63,7 +73,12 @@ export default function Component({ data }) {
 
     return (
         <Container ref={containerRef} onClick={() => closeIntroOverlay()} onWheel={() => closeIntroOverlay()}>
-            {data && <Image data={data[Math.floor(Math.random() * (data?.length))]} hasLoaded={() => hasLoaded()}/>}
+            <DesktopImage>
+                {data && <Image maxWidth={1600} data={data[Math.floor(Math.random() * (data?.length))].desktopImage} hasLoaded={() => hasLoaded()}/>}
+            </DesktopImage>
+            <MobileImage>
+                {data && <Image maxWidth={800} data={data[Math.floor(Math.random() * (data?.length))].mobileImage} hasLoaded={() => hasLoaded()}/>}
+            </MobileImage>
         </Container>
     )
 }

@@ -33,7 +33,7 @@ const Caption = styled.div`
 `
 
 
-const Image = ({ data, isInSlider, hasLoaded }) => {
+const Image = ({ data, hasLoaded, maxWidth }) => {
 
     if(data === null || data === undefined) return null;
 
@@ -61,16 +61,10 @@ const Image = ({ data, isInSlider, hasLoaded }) => {
                 {...imageProps} 
                 style={{ width: '100%', height: 'auto' }}
                 alt={data.caption} 
-                sizes="(max-width: 800px) 100vw, 800px" 
+                sizes={`(max-width: ${maxWidth}px) 100vw, ${maxWidth}px`}
                 quality={100}
                 />
         </ImageWrapper>
-        {
-            (data.caption || isInSlider) && 
-            <>
-                <Caption className="caption">{data.caption}</Caption>
-            </>
-        }
         </>    
     )
 }
