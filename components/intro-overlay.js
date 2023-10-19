@@ -81,7 +81,7 @@ export default function Component({ data }) {
                 {data && <Image maxWidth={1200} data={data[Math.floor(Math.random() * (data?.length))].desktopImage} hasLoaded={() => hasLoaded()}/>}
             </DesktopImage>
             <MobileImage>
-                {data && <Image maxWidth={800} data={data[Math.floor(Math.random() * (data?.length))].mobileImage} hasLoaded={() => hasLoaded()}/>}
+                {data && <Image maxWidth={600} data={data[Math.floor(Math.random() * (data?.length))].mobileImage} hasLoaded={() => hasLoaded()}/>}
             </MobileImage>
         </Container>
     )
