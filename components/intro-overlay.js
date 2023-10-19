@@ -10,6 +10,10 @@ const Container = styled.div`
     width: 100vw;
     z-index: 999;
 
+    > div {
+        height: 100%;
+    }
+
     &.close-intro-overlay {
         opacity: 0;
         transition: opacity 0.3s;
