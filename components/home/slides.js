@@ -111,7 +111,6 @@ export default function Component ({ data }) {
         // })
         flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
 
-            console.log('click')
             // if(event.clientX < window.innerWidth / 2) {
             //     flickity.previous()
             // } else {
@@ -121,7 +120,9 @@ export default function Component ({ data }) {
     }
 
     useEffect(() => {
-        init();
+        setTimeout(() => {
+            init();
+        }, 10)
     }, []);
 
 
