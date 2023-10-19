@@ -5,7 +5,7 @@ import '../styles/flickity.css'
 import '../styles/flickity-fade.css'
 
 import { useEffect, useState } from 'react'
-// import { useRouter } from 'next/router'
+import Script from 'next/script'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StateProvider } from "../store"
 import { getClient } from '../lib/sanity.server'
@@ -112,6 +112,16 @@ function MyApp({ Component, pageProps, router }) {
 
   return (
     <StateProvider>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-Y07X5CWB98" />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-Y07X5CWB98');
+        `}
+      </Script>
       <Header data={pageProps.data?.menuData} />
       {calendarData !== null && <Calendar data={calendarData} />}
       {/* <CookieConsent
