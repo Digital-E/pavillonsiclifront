@@ -47,6 +47,10 @@ export default function Component({ data }) {
     const containerRef = useRef();
 
     useEffect(() => {
+        if(data.length === 0) {
+            return document.querySelector('.home-container').style.opacity = 1
+        }
+
         let sessionStorage = window.sessionStorage.getItem("pavillonSicliIntro");
 
         if(sessionStorage) {
@@ -74,6 +78,8 @@ export default function Component({ data }) {
             }, 4000)
         }, 0)
     }
+
+    if(data.length === 0) return null
 
     return (
         <Container ref={containerRef} onClick={() => closeIntroOverlay()} onWheel={() => closeIntroOverlay()}>

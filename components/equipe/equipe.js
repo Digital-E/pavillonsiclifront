@@ -7,6 +7,7 @@ import { SITE_NAME } from '../../lib/constants'
 
 import Layout from '../layout'
 import Tiles from './tiles'
+import Body from '../body'
 
 const Container = styled.div``
 
@@ -15,6 +16,11 @@ const Title = styled.h1`
     padding: calc(var(--margin) * 3) 0;
     text-align: center;
 `
+
+const Text = styled.div`
+    padding: calc(var(--margin) * 2) var(--margin);
+`
+
 
 
 export default function Component ({ data = {}, footerData, preview = false }) {
@@ -36,6 +42,9 @@ export default function Component ({ data = {}, footerData, preview = false }) {
                 <Title>{data.title}</Title>
                 <Container>
                     <Tiles data={data?.tiles} />
+                    <Text>
+                        <Body content={data?.text} />
+                    </Text>
                 </Container>
             </Layout>
         </>

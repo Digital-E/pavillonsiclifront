@@ -49,15 +49,26 @@ const Title = styled.div`
 
 const ImageWrapper = styled.div`
     position: relative;
-    height: 400px;
+    // height: 400px;
     overflow: hidden;
     margin-top: var(--margin);
 
     > div, img {
-        position: absolute;
-        height: 100% !important;
-        width: 100% !important;
+        // position: absolute;
+        // height: 100% !important;
+        // width: 100% !important;
         object-fit: cover;
+    }
+
+    @media(max-width: 989px) {
+        height: auto;
+
+        > div, img {
+            position: relative;
+            height: auto !important;
+            width: 100% !important;
+            object-fit: cover;
+        }
     }
 `
 
