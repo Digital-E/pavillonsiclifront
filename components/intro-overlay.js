@@ -47,7 +47,7 @@ export default function Component({ data }) {
     const containerRef = useRef();
 
     useEffect(() => {
-        if(data.length === 0) {
+        if(data?.length === 0 || data === undefined || data === null) {
             return document.querySelector('.home-container').style.opacity = 1
         }
 
@@ -79,7 +79,7 @@ export default function Component({ data }) {
         }, 0)
     }
 
-    if(data.length === 0) return null
+    if(data?.length === 0 || data === undefined || data === null) return null
 
     return (
         <Container ref={containerRef} onClick={() => closeIntroOverlay()} onWheel={() => closeIntroOverlay()}>
