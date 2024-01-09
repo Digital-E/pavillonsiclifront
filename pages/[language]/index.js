@@ -8,6 +8,7 @@ import Home from '../../components/home/home'
 const PreviewHome = lazy(() => import("../../components/home/preview-home"));
 
 export default function Index ({ data = {}, preview = false }) {
+  
 
   return preview ? 
   (

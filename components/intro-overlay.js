@@ -48,7 +48,8 @@ export default function Component({ data }) {
 
     useEffect(() => {
         if(data?.length === 0 || data === undefined || data === null) {
-            return document.querySelector('.home-container').style.opacity = 1
+           document.querySelector('.home-container').style.opacity = 1
+           return undefined
         }
 
         let sessionStorage = window.sessionStorage.getItem("pavillonSicliIntro");
