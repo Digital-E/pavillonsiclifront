@@ -260,7 +260,7 @@ export default function Header({ data }) {
           </Logo>
         </Link>
         <Text>
-          Architecture et <br/> Arts du Bâti
+          Architecture<br/>et Arts du Bâti
         </Text>
       </ColLeft>
       <MobileToggleButton className="nav-mobile-burger" onClick={() => toggleNavMobile()}>
