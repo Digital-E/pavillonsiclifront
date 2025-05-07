@@ -9,7 +9,6 @@ const Container = styled.div`
     top: var(--menu-height);
     z-index: 9999;
     background: white;
-    
 
     @media(max-width: 989px) {
         border-bottom: 1px solid var(--black);
