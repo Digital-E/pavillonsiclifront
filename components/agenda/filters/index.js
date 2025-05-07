@@ -7,7 +7,7 @@ import Filter from './filter'
 const Container = styled.div`
     position: sticky;
     top: var(--menu-height);
-    z-index: 999;
+    z-index: 9999;
     background: white;
 
     @media(max-width: 989px) {
