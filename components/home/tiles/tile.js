@@ -82,7 +82,7 @@ const ImageWrapper = styled.div`
 
 
 export default function Component ({ data }) {
-console.log(data)
+// console.log(data)
     return (
         <Container>
             <Link href={data.link || data.slug}>
