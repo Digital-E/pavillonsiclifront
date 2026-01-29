@@ -1,0 +1,991 @@
+import { useRef, useEffect, useState } from "react"
+import { useRouter } from "next/router"
+
+import styled from "styled-components"
+import Link from "./link"
+import Tile from './home/tiles/tile'
+
+import sanitizeTag from "../lib/sanitizeTag"
+
+import { format, parseISO, addDays, isBefore } from 'date-fns'
+import { enGB, fr } from 'date-fns/locale'
+
+let Container = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background: white;
+    width: 100%;
+    box-shadow: -1px -1px 10px rgba(0, 0, 0, 1);
+
+    .home-calendar__mobile-toggle {
+        position: absolute;
+        right: var(--margin);
+        display: none;
+    }
+
+    @media(max-width: 989px) {
+        &.home-calendar-container__modal--show {
+            height: 100%;
+        }
+    }
+
+    @media(max-width: 1000px) {
+        .home-calendar__mobile-toggle {
+            display: block
+        }
+
+        &.home-calendar-container {
+            transform: translateY(calc(100% - 40px));
+            transition: transform 0.3s;
+        }
+    }
+
+    .home-calendar {
+        position: relative;
+        flex-direction: row;
+        z-index: 0;
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+        padding: 0 var(--margin);
+    }
+
+    &.home-calendar-container--open {
+        transform: translateY(0);
+    }
+
+
+    @media(max-width: 1300px) {
+        .home-calendar {
+            justify-content: flex-start;
+            flex-direction: column;
+            padding: var(--margin);
+        }
+    }
+
+    @media(max-width: 767px) {
+        .home-calendar {
+            flex-direction: column;
+        }
+    }
+
+
+    .home-calendar__col-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .home-calendar__main-title {
+        margin: 0 50px 0 0;
+    }
+
+    @media(max-width: 1000px) {
+        .home-calendar__main-title {
+            width: 100%;
+            margin: 0 0 20px 0;
+        }
+    }
+
+    .home-calendar__col-left > div:nth-child(2) {
+        // margin-left: 40px;
+    }
+
+    .home-calendar__month {
+        text-transform: capitalize;
+    }
+
+    .home-calendar__month {
+        min-width: 150px;
+    }
+
+    .home-calendar__year {
+        display: inline-block;
+    }
+
+    .home-calendar__month > span:nth-child(4) {
+        display: inline-block;
+        text-decoration: underline;
+        position: relative;
+        color: var(--color);
+        width: 5.5em;
+        margin-left: 20px;
+    }
+
+    .arrow-next, .arrow-prev {
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .arrow-next::after {
+        content:"";
+        position: absolute;
+        top: 0.65em;
+        right: -2.7em;
+        transform: translateY(-50%) rotateZ(-90deg) scale(1.5);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid black;
+    }
+
+    .arrow-prev::after {
+        content:"";
+        position: absolute;
+        top: 0.65em;
+        right: -1.5em;
+        transform: translateY(-50%) rotateZ(90deg) scale(1.5);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid black;
+    }
+
+    .arrow-prev:hover::after, .arrow-next:hover::after {
+        // border-top: 5px solid var(--color);
+        opacity: 0.5;
+    }
+
+    .home-calendar__day {
+        position: relative;
+        display: inline-block;
+        padding: calc(2 * var(--margin)) 8px;
+        transition-duration: var(--transition-out);
+        align-items: center;
+        // margin-bottom: 20px;
+    }
+
+    .home-calendar__day > span {
+        text-align: center;
+    }
+
+    .home-calendar__modal--show .home-calendar__day__hitzone {
+        position: absolute;
+        height: 100px;
+        width: 50px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%)
+    }
+
+    @media(max-width: 1200px) {
+        .home-calendar__col-right {
+            margin-left: -5px;
+        }
+
+    }
+
+    @media(max-width: 1000px) {
+        .home-calendar__col-left {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .home-calendar__col-right {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-top: 50px;
+            margin-left: 0;
+            padding-left: 0;
+            max-width: 500px;
+        }
+
+        .home-calendar__day {
+            padding: var(--margin);
+            width: fit-content;
+        }
+    }
+
+    @media(max-width: 989px) {
+        .home-calendar__modal--show .home-calendar__day__hitzone {
+            display: none;
+        }
+    }
+
+    @media(max-width: 767px) {
+        .home-calendar {
+            flex-wrap: wrap;
+        }
+
+        .home-calendar__col-right {
+            margin-top: 50px;
+            margin-left: 0;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding-left: 0;
+            width: 100%;
+        }
+
+        .home-calendar__day {
+            padding: calc( 1.5 * var(--margin));
+            width: fit-content;
+            min-height: 15px;
+            min-width: 15px;
+        }
+
+        .arrow-prev::after {
+            right: -1.5em;
+        }
+
+        .arrow-next::after {
+            right: -3em;
+        }
+    }
+
+
+    .home-calendar__day > span {
+        display: block;
+        position: relative;
+        // padding-bottom: 10px;
+    }
+
+    .home-calendar__day:hover {
+        cursor: pointer;
+        transition-duration: var(--transition-in);
+    }
+
+    .home-calendar__day:hover > span {
+        opacity: 0.5;
+    }
+
+    .home-calendar__day--has-event::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 27px;
+        height: 27px;
+        border: 2px solid black;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+
+    .home-calendar__day--has-two-events::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 27px;
+        height: 27px;
+        border: 2px solid black;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+
+    .home-calendar__day--has-recurring-event::before {
+        display: none;
+    }
+
+    // .home-calendar__day--has-recurring-event::after {
+    //     display: none;
+    // }
+
+    .home-calendar__day--has-recurring-event::after {
+        content: "";
+        position: absolute;
+        top: auto;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0.1px;
+        height: 0.1px;
+        background-color: black;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+
+    @media(max-width: 989px) {
+        .home-calendar__day--has-recurring-event::after {
+            bottom: 0px;
+        }
+    }
+
+    @media(max-width: 1580px) {
+        // .home-calendar__day--has-event::after {
+        //     left: calc(50% - 2.5px);
+        //     width: 5px;
+        //     height: 5px;
+        //     bottom: 0px;
+        // }
+
+        // .home-calendar__day--has-two-events::before {
+        //     left: calc(50% - 2.5px);
+        //     width: 5px;
+        //     height: 5px;
+        //     bottom: -8px;
+        // }
+    }
+
+    @media(max-width: 767px) {
+        // .home-calendar__day--has-event::after {
+        //     left: calc(50% - 2.5px);
+        //     width: 5px;
+        //     height: 5px;
+        //     bottom: 0px;
+        // }
+
+        // .home-calendar__day--has-two-events::before {
+        //     left: calc(50% - 2.5px);
+        //     width: 5px;
+        //     height: 5px;
+        //     bottom: -8px;
+        // }
+    }
+
+    .home-calendar__modal {
+        display: none;
+        position: absolute;
+        // width: 350px;
+        width: 33.3333vw;
+        max-height: 600px;
+        border: 1px solid black;
+        background-color: white;
+        z-index: 999;
+        overflow: scroll;
+        top: 0;
+        right: 0;
+        transform: translateY(-100%);
+        box-shadow: -5px -5px 20px rgba(0,0,0,0.5);
+    }
+
+    .home-calendar__modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 998;
+    }
+
+    @media(min-width: 576px) {
+        .home-calendar__modal {
+            margin-left: 0px;
+        }
+    }
+
+    @media(min-width: 990px) {
+        .home-calendar__col-right > div:nth-child(n+15) .home-calendar__modal {
+            margin-left: -300px;
+        }
+    }
+
+
+    @media(max-width: 767px) {
+        .home-calendar__modal {
+            position: fixed;
+            margin-left: 0;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100vw - 40px);
+        } 
+        
+        .home-calendar__modal--show .home-calendar__modal-overlay {
+            display: block;
+        }
+    }
+    
+    .home-calendar__modal--show .home-calendar__modal {
+        display: block;
+    }
+
+    .home-calendar__event {
+        border-top: var(--border-width) solid black;
+    }
+
+
+    .home-calendar__event > a {
+        display: block;
+        padding: 10px 10px;
+    
+        > div {
+            flex-basis: 50%;
+        }
+    
+        transition: var(--transition-out);
+    
+        :hover {
+            transition: var(--transition-in);
+            cursor: pointer;
+        }
+    
+        :hover {
+            color: white;
+        }
+    }
+
+    .home-calendar__events  .active-link {
+        opacity: 1 !important;
+        color: var(--black) !important;
+    }
+
+    .home-calendar__events > div:not(:first-child) {
+        border-top: 1px solid black;
+    }
+
+    .home-calendar__date {
+        margin-bottom: 5px;
+    }
+
+    .home-calendar__information {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 5px 0;
+
+        * {
+            margin: 0;
+        }
+    }
+
+    .home-calendar__information > div {
+        flex-basis: 50%;
+    }
+
+
+    .home-calendar__title {
+        margin: 20px 0 5px 0;
+    }
+
+    .home-calendar__title * {
+        font-size: inherit;
+    }
+
+    .home-calendar__image {
+        height: calc(0.5 * 400px);
+    }
+
+    .home-calendar__image img,
+    .home-calendar__image span,
+    .home-calendar__image div
+     {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+`
+
+const Blank = styled.div``
+
+
+
+export default function Component({ data }) {
+
+    let router = useRouter();
+
+    let [allMonths, setAllMonths ] = useState( [ [] ] );
+
+    let [currentMonthIndex, setCurrentMonthIndex] = useState(0);
+
+    let [allBlanks, setAllBlanks] = useState([]);
+
+    let months = [];
+
+    let startIndex = 0;
+    let startIndexHasBeenSet = false;
+
+    let endYear = new Date().getFullYear() + 2;
+    let yearIncrement = 2022;
+
+    const [viewDate, setViewDate] = useState(() => new Date())
+    const [currentMonth, setCurrentMonth] = useState([])
+    const monthsCache = useRef(new Map())
+    
+    
+
+    const normalizeEvents = (data) =>
+    data.map((e, index) => ({
+        ...e,
+        index,
+        start: e.dateAndTime
+        ? format(parseISO(e.dateAndTime), 'yyyy-LL-dd')
+        : null,
+        end: e.endDateAndTime
+        ? format(parseISO(e.endDateAndTime), 'yyyy-LL-dd')
+        : null,
+    })) 
+    
+    const buildEventMap = (events) => {
+    const map = new Map()
+
+    events.forEach((event) => {
+        if (!event.start) return
+
+        const startDate = parseISO(event.start)
+        const endDate = event.end ? parseISO(event.end) : startDate
+
+        let cursor = startDate
+
+        while (!isBefore(endDate, cursor)) {
+        const key = format(cursor, 'yyyy-LL-dd')
+
+        if (!map.has(key)) map.set(key, [])
+        map.get(key).push(event)
+
+        cursor = addDays(cursor, 1)
+        }
+    })
+
+    return map
+    }  
+    
+    const getDaysInMonth = (year, month, eventMap) => {
+    const days = []
+    const date = new Date(year, month, 1)
+
+    while (date.getMonth() === month) {
+        const key = format(date, 'yyyy-LL-dd')
+        const events = eventMap.get(key) || []
+
+        days.push({
+        timestamp: new Date(date),
+        events,
+        hasSingleEvent: events.some(e => !e.end || e.start === key),
+        hasRecurringEvent: events.some(e => e.end && e.start !== key),
+        })
+
+        date.setDate(date.getDate() + 1)
+    }
+
+    return days
+    } 
+    
+    const getMonthKey = (date) =>
+    `${date.getFullYear()}-${date.getMonth()}`
+
+    const buildMonth = (date, eventMap) =>
+    getDaysInMonth(date.getFullYear(), date.getMonth(), eventMap) 
+    
+    const goToPrevMonth = () => {
+    setViewDate((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))
+    }
+
+    const goToNextMonth = () => {
+    setViewDate((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))
+    }    
+
+    useEffect(() => {
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth()
+
+    const normalized = normalizeEvents(data)
+    const eventMap = buildEventMap(normalized)
+
+    const currentMonth = getDaysInMonth(year, month, eventMap)
+
+    setAllMonths([currentMonth])
+    setCurrentMonthIndex(0)
+    }, [data])  
+    
+    useEffect(() => {
+    const normalizedEvents = normalizeEvents(data)
+    const eventMap = buildEventMap(normalizedEvents)
+
+    const year = viewDate.getFullYear()
+    const month = viewDate.getMonth()
+    const key = `${year}-${month}`
+
+    if (monthsCache.current.has(key)) {
+        setCurrentMonth(monthsCache.current.get(key))
+        return
+    }
+
+    const monthDays = getDaysInMonth(year, month, eventMap)
+    monthsCache.current.set(key, monthDays)
+
+    setCurrentMonth(monthDays)
+
+    }, [viewDate, data]) 
+
+    // useEffect(() => {
+    //     let currentYear = new Date().getFullYear();
+    //     let currentMonth = new Date().getMonth();
+
+
+    //     setCurrentMonthIndex(currentMonth);
+
+    //     const getDaysInMonth = (year, month, eventMap) => {
+    //     const days = []
+    //     const date = new Date(year, month, 1)
+
+    //     while (date.getMonth() === month) {
+    //         const key = format(date, 'yyyy-LL-dd')
+    //         const events = eventMap.get(key) || []
+
+    //         days.push({
+    //         timestamp: new Date(date),
+    //         events,
+    //         hasSingleEvent: events.some(e => !e.end || e.start === key),
+    //         hasRecurringEvent: events.some(e => e.end && e.start !== key),
+    //         })
+
+    //         date.setDate(date.getDate() + 1)
+    //     }
+
+    //     return days
+    //     }
+        
+    //     let getMonthsInYear = (year) => {
+    //         let i = 0;
+
+    //         while(i < 12) {
+    //             months.push(getDaysInMonth(i, year));
+    //             i++;
+
+    //             if(!startIndexHasBeenSet) {
+    //                 startIndex++;
+    //             }
+    //         }
+    //     }
+
+
+    //     while(yearIncrement <= endYear) {
+    //         getMonthsInYear(yearIncrement);
+
+    //         yearIncrement ++;
+    //     }
+
+    //     months.forEach((itemOne, indexOne) => {
+
+    //         itemOne.forEach((itemTwo, indexTwo) => {
+    //             let hasRecurringEvent = false;
+    //             let hasSingleEvent = false;
+
+    //             let singleEvents = [];
+    //             let recurringEvents = [];
+
+    //             data.forEach((itemThree, indexThree) => {
+
+    //                 let date = parseISO(itemTwo.timestamp.toISOString())
+
+    //                 let parsedStartDate = null
+    //                 let parsedEndDate = null
+
+    //                 if(itemThree.dateAndTime !== null && itemThree.dateAndTime !== "") {
+    //                     parsedStartDate = format(parseISO(itemThree.dateAndTime), 'yyyy-LL-dd')
+    //                 }       
+                    
+    //                 if(itemThree.endDateAndTime !== null && itemThree.endDateAndTime !== "") {
+    //                     parsedEndDate = format(parseISO(itemThree.endDateAndTime), 'yyyy-LL-dd')
+    //                 }
+
+    //                 if(parsedStartDate === format(date, 'yyyy-LL-dd')) {
+    //                     let newItemThree = Object.assign({}, itemThree);
+    //                     newItemThree.index = indexThree;
+    //                     hasSingleEvent = true
+
+    //                     singleEvents.push(newItemThree)
+    //                 }
+
+    //                 if(parsedStartDate < format(date, 'yyyy-LL-dd') && format(date, 'yyyy-LL-dd') <= parsedEndDate) {
+    //                     let newItemThree = Object.assign({}, itemThree);
+    //                     newItemThree.index = indexThree;
+    //                     hasRecurringEvent = true
+
+    //                     recurringEvents.push(newItemThree)
+    //                 }
+    //             })
+
+    //             months[indexOne][indexTwo].hasSingleEvent = hasSingleEvent
+    //             months[indexOne][indexTwo].hasRecurringEvent = hasRecurringEvent
+
+    //             months[indexOne][indexTwo].events.push(...singleEvents, ...recurringEvents)
+    //         })
+    //     })
+
+    //     // Set All Months
+
+    //     setAllMonths(months);
+
+
+    //     setCurrentMonthIndex(startIndex)
+
+
+    //     // Add Event Listeners to Days
+    //     setTimeout(() => {
+
+    //         bindEventListenersToCalendarDays()
+
+    //     }, 300)
+
+
+    //     // Add toggle to mobile calendar
+    //     document.querySelector('.home-calendar__main-title').addEventListener('click', toggleMobileCalendar)
+
+    // },[])
+
+    function bindEventListenersToCalendarDays() {
+        let allHomeCalendarDays = document.querySelector(".home-calendar__col-right").children;
+
+        Array.from(allHomeCalendarDays).forEach(item => {
+
+            function toggleModalVisibleVar() {
+                toggleModalVisible(item)
+            }
+            
+            if(window.innerWidth > 768) {
+                item.addEventListener("mouseenter", toggleModalVisibleVar);
+                item.addEventListener("mouseleave", toggleModalVisibleVar);
+            } else {
+                item.addEventListener("touchstart", (e) => toggleModalVisibleOn(e, item));
+            }
+        })
+        
+        Array.from(allHomeCalendarDays).forEach(item => {
+            item.children[2]?.addEventListener("touchstart", (e) => toggleModalVisibleOff(e, item));
+            item.children[3]?.addEventListener("click", (e) => toggleModalVisibleOff(e, item));
+        })  
+    }
+
+    let toggleModalVisible = (item) => {
+        // console.log(item)
+        // if(item.classList.contains("home-calendar__day--has-event")) {
+        //     if(item.classList.contains("home-calendar__modal--show")) {
+        //     item.classList.remove("home-calendar__modal--show")
+        //     document.querySelector(".home-calendar").style.zIndex = "0";
+        //     } else {
+        //         item.classList.add("home-calendar__modal--show")
+        //         document.querySelector(".home-calendar").style.zIndex = "999";
+        //     }
+        // }
+    }
+
+    let toggleModalVisibleOn = (e, item) => {
+        if(!e.target.classList.contains('home-calendar__day__number')) return
+        if(item.classList.contains("home-calendar__day--has-event")) {
+            item.classList.add("home-calendar__modal--show")
+            document.querySelector(".home-calendar").style.zIndex = "999";
+
+            document.querySelector('.home-calendar-container').classList.add('home-calendar-container__modal--show');
+        }
+    }
+
+    let toggleModalVisibleOff = (e, item) => {
+        // console.log(e, item)
+        if(window.innerWidth > 990) return
+        if(item.classList.contains("home-calendar__day--has-event")) {
+            item.classList.remove("home-calendar__modal--show")
+            document.querySelector(".home-calendar").style.zIndex = "0";
+
+            document.querySelector('.home-calendar-container').classList.remove('home-calendar-container__modal--show')
+        }
+    }
+
+    let toggleMobileCalendar = () => {
+        let homeCalendar = document.querySelector('.home-calendar-container')
+        if(homeCalendar.classList.contains('home-calendar-container--open')) {
+            homeCalendar.classList.remove('home-calendar-container--open')
+            document.querySelector('.home-calendar__mobile-toggle').innerText = '+'
+        } else {
+            homeCalendar.classList.add('home-calendar-container--open')
+            document.querySelector('.home-calendar__mobile-toggle').innerText = '-'
+        }
+    }
+
+    let changeMonthIndex = (action) => {
+
+        if(action === "prev") {
+            if(currentMonthIndex > 0) {
+                setCurrentMonthIndex(currentMonthIndex -= 1)
+            }
+        } else {
+            if(currentMonthIndex < allMonths.length - 1) {
+                setCurrentMonthIndex(currentMonthIndex += 1)
+            }
+        }
+
+        setTimeout(() => {
+            bindEventListenersToCalendarDays()
+        }, 0)
+    }
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         let high = document.querySelector('.home-calendar__col-right').getBoundingClientRect().bottom
+    //         let low = window.innerHeight
+    
+    //         let modalHeight = low - high
+    
+    //         // if(window.innerWidth > 989) {
+    //         //     document.querySelectorAll('.home-calendar__modal').forEach((item) => {
+    //         //         item.style.maxHeight = `${modalHeight}px`
+    //         //     })
+    //         // }
+    //     }, 500)
+
+    // }, []);
+
+    // useEffect(() => {
+    //     let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    //     setAllBlanks([]);
+
+    //     if(allMonths.length > 1) {
+    //         let monthStartDay = allMonths[currentMonthIndex][0].timestamp.toString().split(' ')[0]
+    //         let monthStartDayIndex = 0;
+
+    //         days.forEach((item, index) => {
+    //             if(item === monthStartDay) {
+    //                 monthStartDayIndex = index
+    //             }
+    //         })
+
+    //         let blanksArray = []
+
+    //         for(let i = 0; i < monthStartDayIndex; i++) {
+    //             blanksArray.push(null)
+    //         }
+
+    //         setAllBlanks(blanksArray);
+
+    //     }
+    // }, [currentMonthIndex])
+    
+
+    useEffect(() => {
+        // console.log(currentMonth)
+    }, [currentMonth])
+
+    return (
+        <Container className='home-calendar-container'>
+            {/* <div className="home-calendar">
+
+  <h2
+    className="home-calendar__main-title"
+    onClick={toggleMobileCalendar}
+  >
+    {format(viewDate, 'MMMM yyyy')}
+  </h2>
+
+  <div className="home-calendar__days">
+    {currentMonth.map((day) => (
+      <div
+        key={day.timestamp.toISOString()}
+        className="home-calendar__day"
+      >
+        <span className="home-calendar__day-number">
+          {format(day.timestamp, 'd')}
+        </span>
+
+        {day.hasSingleEvent && (
+          <span className="home-calendar__event home-calendar__event--single" />
+        )}
+
+        {day.hasRecurringEvent && (
+          <span className="home-calendar__event home-calendar__event--recurring" />
+        )}
+      </div>
+    ))}
+  </div>
+
+</div> */}
+            <div class="home-calendar">
+                <div class="home-calendar__col-left">
+                <span className='home-calendar__main-title p'>Calendrier</span>
+                <div className='home-calendar__mobile-toggle p'>+</div>
+                <div class="home-calendar__month">
+                    <div class="arrow-prev" onClick={goToPrevMonth}></div>
+                    <div class="arrow-next" onClick={goToNextMonth}></div>
+                    <span>
+                        <Link href={`/${router.query.language}/saison#${viewDate && sanitizeTag(format(parseISO(viewDate.toISOString()), 'LLLL-yyyy', {locale: router.query.language === "fr" ? fr : enGB}))}`}>
+                            {
+                                viewDate && 
+                                format(parseISO(viewDate.toISOString()), 'LLLL yyyy', {locale: router.query.language === "fr" ? fr : enGB})
+                            }
+                        </Link>                      
+                    </span>
+                </div>
+                </div>
+                <div class="home-calendar__col-right">
+                    {
+                        allBlanks.map(item => <Blank />)
+                    }
+                    
+                    {currentMonth.map((day) => {
+                        return (
+                            <div 
+                                key={day.timestamp.toISOString()}
+                                class={`h5 home-calendar__day 
+                                ${day.events.length > 0 &&'home-calendar__day--has-event'} 
+                                ${day.events.length > 1 && 'home-calendar__day--has-two-events'}
+                                ${((day.hasRecurringEvent === true && day.hasSingleEvent === false)) ? 'home-calendar__day--has-recurring-event' : ''}
+                                `}>
+                                <div className='home-calendar__day__hitzone' onMouseOver={toggleModalVisible(day)}></div>
+                                <span className='home-calendar__day__number'>{format(day.timestamp, 'd')}</span>
+                                <div class="home-calendar__modal-overlay"></div>
+                                <div className="home-calendar__modal">
+                                    <div className="home-calendar__events">
+                                        {
+                                            day.events.map((item, index) => (
+                                                <Tile data={item} />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            {/* <div class="home-calendar">
+                <div class="home-calendar__col-left">
+                <span className='home-calendar__main-title p'>Calendrier</span>
+                <div className='home-calendar__mobile-toggle p'>+</div>
+                <div class="home-calendar__month">
+                    <div class="arrow-prev" onClick={goToPrevMonth}></div>
+                    <div class="arrow-next" onClick={goToNextMonth}></div>
+                    <span>
+                        <Link href={`/${router.query.language}/saison#${allMonths[currentMonthIndex][0] && sanitizeTag(format(parseISO(allMonths[currentMonthIndex][0].timestamp.toISOString()), 'LLLL-yyyy', {locale: router.query.language === "fr" ? fr : enGB}))}`}>
+                            {
+                                allMonths[currentMonthIndex][0] && 
+                                format(parseISO(allMonths[currentMonthIndex][0].timestamp.toISOString()), 'LLLL yyyy', {locale: router.query.language === "fr" ? fr : enGB})
+                            }
+                        </Link>
+                    </span>
+                </div>
+                </div>
+                <div class="home-calendar__col-right">
+                    {
+                        allBlanks.map(item => <Blank />)
+                    }
+                    
+                    {allMonths[currentMonthIndex].map((item, index) => {
+                        return (
+                            <div 
+                                key={item.timestamp}
+                                class={`h5 home-calendar__day 
+                                ${item.events.length > 0 &&'home-calendar__day--has-event'} 
+                                ${item.events.length > 1 && 'home-calendar__day--has-two-events'}
+                                ${((item.hasRecurringEvent === true && item.hasSingleEvent === false)) ? 'home-calendar__day--has-recurring-event' : ''}
+                                `}>
+                                <div className='home-calendar__day__hitzone'></div>
+                                <span className='home-calendar__day__number'>{index + 1}</span>
+                                <div class="home-calendar__modal-overlay"></div>
+                                <div className="home-calendar__modal">
+                                    <div className="home-calendar__events">
+                                        {
+                                            item.events.map((item, index) => (
+                                                <Tile data={item} />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div> */}
+        </Container>
+    )
+}

@@ -85,6 +85,7 @@ const BackButton = styled.div`
         right: calc(var(--margin) * 1);
         left: auto;
         margin: 0px;
+        z-index: 0;
     }
 `
 

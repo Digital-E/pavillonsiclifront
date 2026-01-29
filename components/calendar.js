@@ -1,14 +1,15 @@
-import { use, useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/router";
+import styled from "styled-components";
+import { parseISO, format, eachDayOfInterval, startOfMonth, endOfMonth, getDay, isSameDay } from 'date-fns';
+import { enGB, fr } from 'date-fns/locale';
+import { createPortal } from "react-dom";
 
-import styled from "styled-components"
-import Link from "./link"
-import Tile from './home/tiles/tile'
+import Link from "./link";
+import Tile from './home/tiles/tile';
+import sanitizeTag from "../lib/sanitizeTag";
 
-import sanitizeTag from "../lib/sanitizeTag"
 
-import { parseISO, format } from 'date-fns'
-import { enGB, fr } from 'date-fns/locale'
 
 let Container = styled.div`
     position: fixed;
@@ -340,7 +341,9 @@ let Container = styled.div`
     }
 
     .home-calendar__modal {
-        display: none;
+    display: block;
+    pointer-events: auto; /* Ensure we can hover/click inside the modal */
+    z-index: 10;
         position: absolute;
         // width: 350px;
         width: 33.3333vw;
@@ -354,6 +357,7 @@ let Container = styled.div`
         transform: translateY(-100%);
         box-shadow: -5px -5px 20px rgba(0,0,0,0.5);
     }
+
 
     .home-calendar__modal-overlay {
         display: none;
@@ -478,321 +482,179 @@ let Container = styled.div`
 
 const Blank = styled.div``
 
+export default function Calendar({ data = [] }) {
+    const router = useRouter();
+    const { language = 'fr' } = router.query;
+    const locale = language === "fr" ? fr : enGB;
 
+    // 1. State Management
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [activeModalDay, setActiveModalDay] = useState(null);
 
-export default function Component({ data }) {
-
-    let router = useRouter();
-
-    let [allMonths, setAllMonths ] = useState( [ [] ] );
-
-    let [currentMonthIndex, setCurrentMonthIndex] = useState(0);
-
-    let [allBlanks, setAllBlanks] = useState([]);
-
-    let months = [];
-
-    let startIndex = 0;
-    let startIndexHasBeenSet = false;
-
-    let endYear = new Date().getFullYear() + 2;
-    let yearIncrement = 2022;
-
-    useEffect(() => {
-        let currentYear = new Date().getFullYear();
-        let currentMonth = new Date().getMonth();
-
-
-        setCurrentMonthIndex(currentMonth);
-
-        function getDaysInMonth(month, year) {
-            var date = new Date(year, month, 1);
-
-            if(
-                format(parseISO(date.toISOString()), 'yyyy-LL-dd') 
-                === 
-                format(parseISO(new Date(currentYear, currentMonth, 1).toISOString()), 'yyyy-LL-dd')
-                ) {
-                startIndexHasBeenSet = true;
-            }
-
-            var days = [];
-            while (date.getMonth() === month) {
-              let obj = {
-                  timestamp: new Date(date),
-                  events: []
-              }
-              days.push(obj);
-              date.setDate(date.getDate() + 1);
-            }
-            return days;
-        }
+    // 2. Generate Calendar Grid (Memoized for performance)
+    const { days, blanks, monthLabel, anchorId } = useMemo(() => {
+        const start = startOfMonth(currentDate);
+        const end = endOfMonth(currentDate);
         
-        let getMonthsInYear = (year) => {
-            let i = 0;
+        // Calculate empty slots at start of month (Monday start)
+        // date-fns getDay: 0 (Sun) to 6 (Sat). Adjust for Mon start:
+        const dayIdx = getDay(start);
+        const prefixCount = dayIdx === 0 ? 6 : dayIdx - 1; 
 
-            while(i < 12) {
-                months.push(getDaysInMonth(i, year));
-                i++;
+        const monthDays = eachDayOfInterval({ start, end }).map(date => {
+            const dayEvents = data.filter(event => {
+                if (!event.dateAndTime) return false;
+                const eventStart = parseISO(event.dateAndTime);
+                const eventEnd = event.endDateAndTime ? parseISO(event.endDateAndTime) : null;
+                
+                const isSingle = isSameDay(date, eventStart);
+                const isOngoing = eventEnd && date > eventStart && date <= eventEnd;
+                return isSingle || isOngoing;
+            });
 
-                if(!startIndexHasBeenSet) {
-                    startIndex++;
-                }
-            }
-        }
+            return {
+                date,
+                events: dayEvents,
+                hasSingle: dayEvents.some(e => !e.endDateAndTime || isSameDay(date, parseISO(e.dateAndTime))),
+                hasRecurring: dayEvents.some(e => e.endDateAndTime && !isSameDay(date, parseISO(e.dateAndTime)))
+            };
+        });
 
+        return {
+            days: monthDays,
+            blanks: Array(prefixCount).fill(null),
+            monthLabel: format(start, 'LLLL yyyy', { locale }),
+            anchorId: sanitizeTag(format(start, 'LLLL-yyyy', { locale }))
+        };
+    }, [currentDate, data, locale]);
 
-        while(yearIncrement <= endYear) {
-            getMonthsInYear(yearIncrement);
+    // 3. Handlers
+    const changeMonth = (offset) => {
+        const newDate = new Date(currentDate.setMonth(currentDate.getMonth() + offset));
+        setCurrentDate(new Date(newDate));
+        setActiveModalDay(null); // Close modals on change
+    };
 
-            yearIncrement ++;
-        }
-
-        months.forEach((itemOne, indexOne) => {
-
-            itemOne.forEach((itemTwo, indexTwo) => {
-                let hasRecurringEvent = false;
-                let hasSingleEvent = false;
-
-                let singleEvents = [];
-                let recurringEvents = [];
-
-                data.forEach((itemThree, indexThree) => {
-
-                    let date = parseISO(itemTwo.timestamp.toISOString())
-
-                    let parsedStartDate = null
-                    let parsedEndDate = null
-
-                    if(itemThree.dateAndTime !== null && itemThree.dateAndTime !== "") {
-                        parsedStartDate = format(parseISO(itemThree.dateAndTime), 'yyyy-LL-dd')
-                    }       
-                    
-                    if(itemThree.endDateAndTime !== null && itemThree.endDateAndTime !== "") {
-                        parsedEndDate = format(parseISO(itemThree.endDateAndTime), 'yyyy-LL-dd')
-                    }
-
-                    if(parsedStartDate === format(date, 'yyyy-LL-dd')) {
-                        let newItemThree = Object.assign({}, itemThree);
-                        newItemThree.index = indexThree;
-                        hasSingleEvent = true
-
-                        singleEvents.push(newItemThree)
-                    }
-
-                    if(parsedStartDate < format(date, 'yyyy-LL-dd') && format(date, 'yyyy-LL-dd') <= parsedEndDate) {
-                        let newItemThree = Object.assign({}, itemThree);
-                        newItemThree.index = indexThree;
-                        hasRecurringEvent = true
-
-                        recurringEvents.push(newItemThree)
-                    }
-                })
-
-                months[indexOne][indexTwo].hasSingleEvent = hasSingleEvent
-                months[indexOne][indexTwo].hasRecurringEvent = hasRecurringEvent
-
-                months[indexOne][indexTwo].events.push(...singleEvents, ...recurringEvents)
-            })
-        })
-
-        // Set All Months
-
-        setAllMonths(months);
-
-
-        setCurrentMonthIndex(startIndex)
-
-
-        // Add Event Listeners to Days
-        setTimeout(() => {
-
-            bindEventListenersToCalendarDays()
-
-        }, 300)
-
-
-        // Add toggle to mobile calendar
-        document.querySelector('.home-calendar__main-title').addEventListener('click', toggleMobileCalendar)
-
-    },[])
-
-    function bindEventListenersToCalendarDays() {
-        let allHomeCalendarDays = document.querySelector(".home-calendar__col-right").children;
-
-        Array.from(allHomeCalendarDays).forEach(item => {
-
-            function toggleModalVisibleVar() {
-                toggleModalVisible(item)
-            }
-            
-            if(window.innerWidth > 768) {
-                item.addEventListener("mouseenter", toggleModalVisibleVar);
-                item.addEventListener("mouseleave", toggleModalVisibleVar);
-            } else {
-                item.addEventListener("touchstart", (e) => toggleModalVisibleOn(e, item));
-            }
-        })
-        
-        Array.from(allHomeCalendarDays).forEach(item => {
-            item.children[2]?.addEventListener("touchstart", (e) => toggleModalVisibleOff(e, item));
-            item.children[3]?.addEventListener("click", (e) => toggleModalVisibleOff(e, item));
-        })  
-    }
-
-    let toggleModalVisible = (item) => {
-        if(item.classList.contains("home-calendar__day--has-event")) {
-            if(item.classList.contains("home-calendar__modal--show")) {
-            item.classList.remove("home-calendar__modal--show")
-            document.querySelector(".home-calendar").style.zIndex = "0";
-            } else {
-                item.classList.add("home-calendar__modal--show")
-                document.querySelector(".home-calendar").style.zIndex = "999";
-            }
-        }
-    }
-
-    let toggleModalVisibleOn = (e, item) => {
-        if(!e.target.classList.contains('home-calendar__day__number')) return
-        if(item.classList.contains("home-calendar__day--has-event")) {
-            item.classList.add("home-calendar__modal--show")
-            document.querySelector(".home-calendar").style.zIndex = "999";
-
-            document.querySelector('.home-calendar-container').classList.add('home-calendar-container__modal--show');
-        }
-    }
-
-    let toggleModalVisibleOff = (e, item) => {
-        console.log(e, item)
-        if(window.innerWidth > 990) return
-        if(item.classList.contains("home-calendar__day--has-event")) {
-            item.classList.remove("home-calendar__modal--show")
-            document.querySelector(".home-calendar").style.zIndex = "0";
-
-            document.querySelector('.home-calendar-container').classList.remove('home-calendar-container__modal--show')
-        }
-    }
-
-    let toggleMobileCalendar = () => {
-        let homeCalendar = document.querySelector('.home-calendar-container')
-        if(homeCalendar.classList.contains('home-calendar-container--open')) {
-            homeCalendar.classList.remove('home-calendar-container--open')
-            document.querySelector('.home-calendar__mobile-toggle').innerText = '+'
-        } else {
-            homeCalendar.classList.add('home-calendar-container--open')
-            document.querySelector('.home-calendar__mobile-toggle').innerText = '-'
-        }
-    }
-
-    let changeMonthIndex = (action) => {
-
-        if(action === "prev") {
-            if(currentMonthIndex > 0) {
-                setCurrentMonthIndex(currentMonthIndex -= 1)
-            }
-        } else {
-            if(currentMonthIndex < allMonths.length - 1) {
-                setCurrentMonthIndex(currentMonthIndex += 1)
-            }
-        }
-
-        setTimeout(() => {
-            bindEventListenersToCalendarDays()
-        }, 0)
-    }
-
+    // Lock body scroll when full-screen modal is open on mobile
     useEffect(() => {
-        setTimeout(() => {
-            let high = document.querySelector('.home-calendar__col-right').getBoundingClientRect().bottom
-            let low = window.innerHeight
-    
-            let modalHeight = low - high
-    
-            // if(window.innerWidth > 989) {
-            //     document.querySelectorAll('.home-calendar__modal').forEach((item) => {
-            //         item.style.maxHeight = `${modalHeight}px`
-            //     })
-            // }
-        }, 500)
-
-    }, []);
-
-    useEffect(() => {
-        let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        setAllBlanks([]);
-
-        if(allMonths.length > 1) {
-            let monthStartDay = allMonths[currentMonthIndex][0].timestamp.toString().split(' ')[0]
-            let monthStartDayIndex = 0;
-
-            days.forEach((item, index) => {
-                if(item === monthStartDay) {
-                    monthStartDayIndex = index
-                }
-            })
-
-            let blanksArray = []
-
-            for(let i = 0; i < monthStartDayIndex; i++) {
-                blanksArray.push(null)
-            }
-
-            setAllBlanks(blanksArray);
-
+        if (activeModalDay !== null && window.innerWidth <= 767) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
         }
-    }, [currentMonthIndex])
-    
-
+    }, [activeModalDay]);
 
     return (
-        <Container className='home-calendar-container'>
-            <div class="home-calendar">
-                <div class="home-calendar__col-left">
-                <span className='home-calendar__main-title p'>Calendrier</span>
-                <div className='home-calendar__mobile-toggle p'>+</div>
-                <div class="home-calendar__month">
-                    <div class="arrow-prev" onClick={() => changeMonthIndex("prev")}></div>
-                    <div class="arrow-next" onClick={() => changeMonthIndex("next")}></div>
-                    <span>
-                        <Link href={`/${router.query.language}/saison#${allMonths[currentMonthIndex][0] && sanitizeTag(format(parseISO(allMonths[currentMonthIndex][0].timestamp.toISOString()), 'LLLL-yyyy', {locale: router.query.language === "fr" ? fr : enGB}))}`}>
-                            {
-                                allMonths[currentMonthIndex][0] && 
-                                format(parseISO(allMonths[currentMonthIndex][0].timestamp.toISOString()), 'LLLL yyyy', {locale: router.query.language === "fr" ? fr : enGB})
-                            }
-                        </Link>
+        <Container className={`home-calendar-container ${isMobileOpen ? 'home-calendar-container--open' : ''}`}>
+            <div className="home-calendar">
+                <div className="home-calendar__col-left">
+                    <span 
+                        className='home-calendar__main-title p' 
+                        onClick={() => setIsMobileOpen(!isMobileOpen)}
+                    >
+                        Calendrier
                     </span>
+                    <div className='home-calendar__mobile-toggle p' onClick={() => setIsMobileOpen(!isMobileOpen)}>
+                        {isMobileOpen ? '-' : '+'}
+                    </div>
+                    
+                    <div className="home-calendar__month">
+                        <div className="arrow-prev" onClick={() => changeMonth(-1)}></div>
+                        <div className="arrow-next" onClick={() => changeMonth(1)}></div>
+                        <span>
+                            <Link href={`/${language}/saison#${anchorId}`}>
+                                {monthLabel}
+                            </Link>
+                        </span>
+                    </div>
                 </div>
-                </div>
-                <div class="home-calendar__col-right">
-                    {
-                        allBlanks.map(item => <Blank />)
-                    }
-                    {allMonths[currentMonthIndex].map((item, index) => {
+
+                <div className="home-calendar__col-right">
+                    {blanks.map((_, i) => <Blank key={`blank-${i}`} />)}
+                
+                    {days.map((day, index) => {
+                        const isSelected = activeModalDay === index;
+                        const hasEvents = day.events.length > 0;
+
                         return (
                             <div 
-                                key={item.timestamp}
-                                class={`h5 home-calendar__day 
-                                ${item.events.length > 0 &&'home-calendar__day--has-event'} 
-                                ${item.events.length > 1 && 'home-calendar__day--has-two-events'}
-                                ${((item.hasRecurringEvent === true && item.hasSingleEvent === false)) ? 'home-calendar__day--has-recurring-event' : ''}
-                                `}>
-                                <div className='home-calendar__day__hitzone'></div>
-                                <span className='home-calendar__day__number'>{index + 1}</span>
-                                <div class="home-calendar__modal-overlay"></div>
-                                <div className="home-calendar__modal">
+                                key={day.date.toISOString()}
+                                className={`h5 home-calendar__day
+                                    ${hasEvents ? 'home-calendar__day--has-event' : ''} 
+                                    ${day.events.length > 1 ? 'home-calendar__day--has-two-events' : ''}
+                                    ${(day.hasRecurring && !day.hasSingle) ? 'home-calendar__day--has-recurring-event' : ''}
+                                    ${isSelected ? 'active' : ''}
+                                    `}
+
+                            // DESKTOP HOVER LOGIC
+                                        onMouseEnter={() => {
+                                            if (window.innerWidth > 768 && hasEvents) {
+                                                setActiveModalDay(index);
+                                            }
+                                        }}
+                                        onMouseLeave={() => {
+                                            if (window.innerWidth > 768) {
+                                                setActiveModalDay(null);
+                                            }
+                                        }}                                    
+                            >
+                        {/* MOBILE CLICK TRIGGER */}
+                        <span 
+                            className="home-calendar__day__number"
+                            onClick={(e) => {
+                                if (window.innerWidth <= 768 && hasEvents) {
+                                    e.stopPropagation();
+                                    setActiveModalDay(index);
+                                }
+                            }}
+                        >
+                            {index + 1}
+                        </span>
+
+                        {hasEvents && isSelected && (
+                            window.innerWidth <= 767 ? (
+                                // MOBILE PORTAL (Full Screen)
+                                createPortal(
+                                    <div className="mobile-modal-root" onClick={(e) => e.stopPropagation()}>
+                                        <div className="home-calendar__modal-overlay" onClick={() => setActiveModalDay(null)} />
+                                        <div className="home-calendar__modal full-screen">
+                                            <button 
+                                                className="close-btn" 
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    setActiveModalDay(null);
+                                                }}
+                                            >
+                                                ✕
+                                            </button>
+                                            <div className="home-calendar__events">
+                                                {day.events.map((event, i) => <Tile key={i} data={event} />)}
+                                            </div>
+                                        </div>
+                                    </div>,
+                                    document.body
+                                )
+                            ) : (
+                                // DESKTOP MODAL (Inline Hover)
+                                <div 
+                                    className="home-calendar__modal" 
+                                    onClick={(e) => e.stopPropagation()}
+                                >
                                     <div className="home-calendar__events">
-                                        {
-                                            item.events.map((item, index) => (
-                                                <Tile data={item} />
-                                            ))
-                                        }
+                                        {day.events.map((event, i) => <Tile key={i} data={event} />)}
                                     </div>
                                 </div>
+                            )
+                        )}                      
+                                
+
                             </div>
-                        )
-                    })}
+                        );
+                    })}                    
                 </div>
             </div>
         </Container>
-    )
+    );
 }

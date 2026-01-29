@@ -55,6 +55,7 @@ function MyApp({ Component, pageProps, router }) {
       language: language
     })
 
+
     setCalendarData(calendarData)
 
     setTimeout(() => {
