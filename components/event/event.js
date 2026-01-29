@@ -73,7 +73,7 @@ const BackButton = styled.div`
     left: calc(var(--margin) * 2);
     margin-left: calc(var(--margin) * 2);
     margin-bottom: calc(var(--margin) * 2);
-    z-index: 0;
+    z-index: -1;
 
     > a:hover > button {
         color: var(--black) !important;
