@@ -224,7 +224,15 @@ const SignupForm = ({ dataProp }) => {
       })
       .then((response) => response.json())
       .then(data => {
-        if(data.status !== 400) {
+        // Mailchimp returns a 400 with title "Member Exists" when the address is
+        // already on the list. That's not a real error for the user, so we show
+        // a friendly message and treat it as a successful sign-up.
+        const alreadySubscribed = data.status === 400 && data.title === "Member Exists"
+
+        if(alreadySubscribed) {
+          dispatch({type: "update notification message", value: `Il semblerait que vous êtes déjà inscrit·e à la newsletter, merci pour votre intérêt !`})
+          resetForm();
+        } else if(data.status !== 400) {
           dispatch({type: "update notification message", value: dataProp.newsletterConfirmationMessage})
           resetForm();
         } else {
