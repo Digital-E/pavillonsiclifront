@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import Plyr from 'plyr'
 import styled from 'styled-components'
 
 import Image from '../image'
@@ -161,15 +160,17 @@ export default function Component ({ data }) {
         init();
 
         setTimeout(() => {
-            players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+            import('plyr').then(({ default: Plyr }) => {
+                players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
 
-            players.current?.forEach(item => {
-                // Remove double click for fullscreen
-                item.eventListeners.forEach(function(eventListener) {
-                    if(eventListener.type === 'dblclick') {
-                        eventListener.element.removeEventListener(eventListener.type, eventListener.callback, eventListener.options);
-                    }
-                });
+                players.current?.forEach(item => {
+                    // Remove double click for fullscreen
+                    item.eventListeners.forEach(function(eventListener) {
+                        if(eventListener.type === 'dblclick') {
+                            eventListener.element.removeEventListener(eventListener.type, eventListener.callback, eventListener.options);
+                        }
+                    });
+                })
             })
         }, 300)
 

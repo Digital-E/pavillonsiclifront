@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
-import Plyr from 'plyr'
 
 import { SITE_NAME } from '../../lib/constants'
 
@@ -68,7 +67,9 @@ export default function Component ({ data = {}, footerData, preview = false }) {
     }
 
     useEffect(() => {
-        players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+        import('plyr').then(({ default: Plyr }) => {
+            players.current = Plyr.setup('.player', {clickToPlay: false, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+        })
     }, [])
 
     return (

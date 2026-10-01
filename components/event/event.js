@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Custom404 from '../../pages/404'
 
 import styled from 'styled-components'
-import Plyr from 'plyr'
 
 import splitSlug from '../../lib/splitSlug'
 
@@ -147,15 +146,17 @@ export default function Component ({ data = {}, footerData, preview = false }) {
 
     useEffect(() => {
         // 'play-large'
-        players.current = Plyr.setup('.player', {clickToPlay: false, quality: {default: 1080}, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
+        import('plyr').then(({ default: Plyr }) => {
+            players.current = Plyr.setup('.player', {clickToPlay: false, quality: {default: 1080}, controls: ['play', 'progress', 'mute', 'fullscreen'], fullscreen: {iosNative: true}});
 
-        players.current?.forEach(item => {
-            // Remove double click for fullscreen
-            item.eventListeners.forEach(function(eventListener) {
-                if(eventListener.type === 'dblclick') {
-                    eventListener.element.removeEventListener(eventListener.type, eventListener.callback, eventListener.options);
-                }
-            });
+            players.current?.forEach(item => {
+                // Remove double click for fullscreen
+                item.eventListeners.forEach(function(eventListener) {
+                    if(eventListener.type === 'dblclick') {
+                        eventListener.element.removeEventListener(eventListener.type, eventListener.callback, eventListener.options);
+                    }
+                });
+            })
         })
 
         // Create calendar events:
