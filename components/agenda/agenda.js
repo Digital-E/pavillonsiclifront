@@ -214,6 +214,8 @@ export default function Component ({ data = {}, filters, isDark, anchor, footerD
             }
         })
 
+        filterEvents.sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime))
+
         setEventsArray(filterEvents)
 
     }, [filtersArray])
